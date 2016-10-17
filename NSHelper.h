@@ -28,8 +28,6 @@
 #define _sel_(obj, sel, arg) { __typeof__(obj) __obj = (obj); id __arg= (arg); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg]; } }
 #define _sel__(obj, sel, arg1, arg2) { __typeof__(obj) __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2]; } }
 
-#define _nil(obj, init) ({ __typeof__(obj) __obj = (obj); __obj ? __obj : init; })
-
 #define NOW(var) NSDate *var = [NSDate date]
 
 #define __property(type, name, init) - (type)name { if (!_##name) { _##name = init; } return _##name; }

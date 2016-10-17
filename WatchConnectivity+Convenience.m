@@ -38,6 +38,20 @@
 
 @implementation WCSessionDelegate
 
+- (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(NSError *)error {
+	[error log:@"activationDidCompleteWithState:"];
+}
+
+- (void)sessionDidBecomeInactive:(WCSession *)session {
+
+}
+
+- (void)sessionDidDeactivate:(WCSession *)session {
+	
+}
+
+
+
 - (void)session:(WCSession *)session didReceiveMessage:(NSDictionary<NSString *,id> *)message {
 	if (self.didReceiveMessage)
 		self.didReceiveMessage(message, Nil);

@@ -7,6 +7,7 @@
 //
 
 #import <CoreMedia/CoreMedia.h>
+#import <Foundation/Foundation.h>
 
 #define CMTimeScale 1000
 
