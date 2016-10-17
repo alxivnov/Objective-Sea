@@ -23,8 +23,6 @@
 - (BOOL)wait:(NSTimeInterval)time;
 - (BOOL)wait;
 
-+ (instancetype)create;
-
 + (void)sync:(void (^)(GCD *sema))sync wait:(NSTimeInterval)time;
 + (void)sync:(void (^)(GCD *sema))sync;
 
