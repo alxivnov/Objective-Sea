@@ -186,7 +186,7 @@
 
 @implementation UNNotificationContent (Convenience)
 
-+ (instancetype)contentWithTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body badge:(NSNumber *)badge sound:(NSString *)sound attachments:(NSArray<NSURL *> *)attachments categoryIdentifier:(NSString *)categoryIdentifier {
++ (instancetype)contentWithTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body badge:(NSNumber *)badge sound:(NSString *)sound attachments:(NSArray<NSURL *> *)attachments userInfo:(NSDictionary *)userInfo categoryIdentifier:(NSString *)categoryIdentifier {
 	if (!body && !badge && !sound)
 		return Nil;
 
@@ -203,13 +203,18 @@
 	content.attachments = [attachments map:^id(NSURL *obj) {
 		return [UNNotificationAttachment attachmentWithURL:obj];
 	}];
+	content.userInfo = userInfo;
 	content.categoryIdentifier = categoryIdentifier;
 
 	return content;
 }
 
 + (instancetype)contentWithTitle:(NSString *)title body:(NSString *)body badge:(NSNumber *)badge sound:(NSString *)sound attachments:(NSArray<NSURL *> *)attachments {
-	return [self contentWithTitle:title subtitle:Nil body:body badge:badge sound:sound attachments:attachments categoryIdentifier:Nil];
+	return [self contentWithTitle:title subtitle:Nil body:body badge:badge sound:sound attachments:attachments userInfo:Nil categoryIdentifier:Nil];
+}
+
+- (void)scheduleWithIdentifier:(NSString *)identifier {
+	[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:Nil];
 }
 
 - (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval repeats:(BOOL)repeats {
