@@ -105,3 +105,16 @@
 - (void)log;
 
 @end
+
+@interface NSObject (Convenience)
+
+- (id)performSelector:(SEL)aSelector withObjects:(NSArray *)objects;
+- (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 withObject:(id)object3;
+
+- (id)forwardSelector:(SEL)aSelector withObjects:(NSArray *)objects nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 withObject:(id)object3 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object1 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
+- (id)forwardSelector:(SEL)aSelector nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
+
+@end
