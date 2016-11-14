@@ -86,4 +86,17 @@
 	dispatch_once(&predicate, block);
 }
 
+
+
++ (BOOL)wait:(NSTimeInterval)interval flag:(BOOL *)flag step:(NSTimeInterval)step {
+	for (; interval > 0.0 && !*flag; interval -= step)
+		[NSThread sleepForTimeInterval:step];
+
+	return *flag;
+}
+
++ (BOOL)wait:(NSTimeInterval)interval flag:(BOOL *)flag {
+	return [self wait:interval flag:flag step:1.0];
+}
+
 @end

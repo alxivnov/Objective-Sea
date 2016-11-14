@@ -8,7 +8,7 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-#import "NSHelper.h"
+#import "NSObject+Convenience.h"
 
 @interface CLLocationManager (Convenience)
 

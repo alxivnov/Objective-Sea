@@ -8,7 +8,7 @@
 
 #import <ClockKit/ClockKit.h>
 
-#import "NSHelper.h"
+#import "NSObject+Convenience.h"
 
 typedef enum : NSUInteger {
 	CLKComplicationFamilyMemberRingImage,

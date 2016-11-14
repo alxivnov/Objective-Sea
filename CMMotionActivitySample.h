@@ -10,7 +10,7 @@
 
 #import "CoreMotion+Convenience.h"
 #import "NSArray+Convenience.h"
-#import "NSHelper.h"
+#import "NSObject+Convenience.h"
 
 #define HKMetadataKeyActivities @"HKMetadataKeyActivities"
 #define HKMetadataKeySampleActivities @"HKMetadataKeySampleActivities"

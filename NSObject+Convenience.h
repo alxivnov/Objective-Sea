@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "Dispatch+Convenience.h"
-
 #define cls(cls, obj) ({ __typeof__(obj) __obj = (obj); [__obj isKindOfClass:[cls class]] ? (cls *)__obj : Nil; })
 
 #define arr_(obj) ({ __typeof__(obj) __obj = (obj); __obj ? @[ __obj ] : Nil; })
@@ -78,35 +76,9 @@
 
 #define DEG_360 (2.0 * M_PI)
 
-@interface NSHelper : NSObject
-
-+ (BOOL)wait:(NSTimeInterval)interval flag:(BOOL *)flag step:(NSTimeInterval)step;
-+ (BOOL)wait:(NSTimeInterval)interval flag:(BOOL *)flag;
-
-+ (BOOL)string:(NSString *)value1 isEqualTo:(NSString *)value2;
-+ (BOOL)number:(NSNumber *)value1 isEqualTo:(NSNumber *)value2;
-+ (BOOL)date:(NSDate *)value1 isEqualTo:(NSDate *)value2;
-+ (BOOL)data:(NSData *)value1 isEqualTo:(NSData *)value2;
-+ (NSComparisonResult)string:(NSString *)value1 compare:(NSString *)value2;
-+ (NSComparisonResult)number:(NSNumber *)value1 compare:(NSNumber *)value2;
-+ (NSComparisonResult)date:(NSDate *)value1 compare:(NSDate *)value2;
-
-@end
-
-@interface NSString (Log)
-
-- (void)log:(NSString *)message;
-
-@end
-
-@interface NSError (Log)
-
-- (void)log:(NSString *)message;
-- (void)log;
-
-@end
-
 @interface NSObject (Convenience)
+
+- (void)log:(NSString *)message;
 
 - (id)performSelector:(SEL)aSelector withObjects:(NSArray *)objects;
 - (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 withObject:(id)object3;
@@ -116,5 +88,23 @@
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
 - (id)forwardSelector:(SEL)aSelector nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
+
+- (BOOL)isKindOfAnyClass:(NSArray<Class> *)classes;
+- (BOOL)isMemberOfAnyClass:(NSArray<Class> *)classes;
+
+- (NSData *)archivedData;
++ (instancetype)createFromArchivedData:(NSData *)data;
+
+@end
+
+@interface NSMethodSignature (Convenience)
+
+- (BOOL)methodReturnTypeIs:(char *)methodReturnType;
+
+@end
+
+@interface NSInvocation (Convenience)
+
+- (id)getReturnValue;
 
 @end

@@ -33,4 +33,9 @@
 + (void)main:(void (^)())block;
 + (void)once:(void (^)())block;
 
+
+
++ (BOOL)wait:(NSTimeInterval)interval flag:(BOOL *)flag step:(NSTimeInterval)step;
++ (BOOL)wait:(NSTimeInterval)interval flag:(BOOL *)flag;
+
 @end

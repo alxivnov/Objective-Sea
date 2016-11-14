@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "NSHelper.h"
+#import "NSObject+Convenience.h"
 
 @interface NSDateFormatter (Convenience)
 

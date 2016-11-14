@@ -9,7 +9,7 @@
 @import UserNotifications;
 
 #import "NSArray+Convenience.h"
-#import "NSHelper.h"
+#import "NSObject+Convenience.h"
 
 #define UNAuthorizationOptionAll (UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound)
 

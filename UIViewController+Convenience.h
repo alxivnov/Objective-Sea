@@ -12,6 +12,17 @@
 
 @interface UIViewController (Convenience)
 
-@property (strong, nonatomic, readonly) UIViewController *nextViewController;
+@property (strong, nonatomic, readonly) __kindof UIViewController *previousViewController;
+@property (strong, nonatomic, readonly) __kindof UIViewController *firstViewController;
+
+@property (strong, nonatomic, readonly) __kindof UIViewController *nextViewController;
+@property (strong, nonatomic, readonly) __kindof UIViewController *lastViewController;
+
+- (__kindof UIViewController *)presentRootViewControllerAnimated:(BOOL)animated;
+- (__kindof UIViewController *)presentRootViewController;
+
+- (void)setToolbar;
+- (void)setToolbar:(NSArray<UIBarButtonItem *> *)toolbarItems animated:(BOOL)animated;
+- (void)setToolbar:(NSArray<UIBarButtonItem *> *)toolbarItems;
 
 @end

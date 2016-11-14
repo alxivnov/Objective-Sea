@@ -8,7 +8,7 @@
 
 #import <CoreMotion/CoreMotion.h>
 
-#import "NSHelper.h"
+#import "NSObject+Convenience.h"
 
 @interface CMAltimeter (Convenience)
 
