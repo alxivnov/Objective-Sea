@@ -32,6 +32,8 @@
 #define __synthesize(type, name, init) @synthesize name = _##name; - (type)name { if (!_##name) { _##name = init; } return _##name; }
 #define __static(type, name, init) static type _##name; + (type)name { @synchronized(self) { if (!_##name) _##name = init; } return _##name; }
 
+#define __class(type, get, set) static type _##get; + (type)get { return _##get; } + (void)set:(type)get { _##get = get; }
+
 #define LNG_RU @"ru"
 
 #define STR_ASTERISK @"*"

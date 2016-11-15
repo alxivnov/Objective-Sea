@@ -54,6 +54,14 @@
 	[self rootWindow].rootViewController = viewController;
 }
 
+- (BOOL)iPad {
+	return [self rootWindow].traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular && [self rootWindow].traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular;
+}
+
+- (BOOL)iPhone {
+	return !self.iPad;
+}
+
 
 
 - (BOOL)isActive {

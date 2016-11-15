@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CoreMotion+Convenience.h"
+#import "Dispatch+Convenience.h"
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 

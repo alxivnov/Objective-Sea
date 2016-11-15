@@ -23,6 +23,9 @@
 
 @property (strong, nonatomic) __kindof UIViewController *rootViewController;
 
+@property (assign, nonatomic, readonly) BOOL iPad;
+@property (assign, nonatomic, readonly) BOOL iPhone;
+
 - (BOOL)isActive;
 - (BOOL)isBackground;
 - (BOOL)isInactive;
