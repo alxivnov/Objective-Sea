@@ -170,6 +170,7 @@ static id _instance = Nil;
 #define PARAM_1 @"&%@=%@"
 
 #define STR_AMPERSAND_CODE @"%26"
+#define STR_SPACE_CODE @"%20"
 
 @implementation NSURL (Parse)
 

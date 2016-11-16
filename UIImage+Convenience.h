@@ -40,6 +40,9 @@ typedef enum : NSUInteger {
 - (UIImage *)imageWithSize:(CGSize)size mode:(UIImageScale)mode;
 - (UIImage *)imageWithSize:(CGSize)size;
 
++ (UIImage *)imageWithImages:(NSArray<UIImage *> *)images;
+
+#if TARGET_OS_IPHONE
 - (NSData *)jpegRepresentation:(CGFloat)quality;
 - (NSData *)pngRepresentation;
 
@@ -49,6 +52,6 @@ typedef enum : NSUInteger {
 - (BOOL)writePNGToURL:(NSURL *)url;
 
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url;
-+ (UIImage *)imageWithImages:(NSArray<UIImage *> *)images;
+#endif
 
 @end

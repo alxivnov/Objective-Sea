@@ -47,6 +47,7 @@
 #define STR_NEW_LINE @"\n"
 #define STR_NUMBER @"#"
 #define STR_PLUS @"+"
+#define STR_SEMICOLON @";"
 #define STR_SLASH @"/"
 #define STR_SPACE @" "
 #define STR_UNDERSCORE @"_"

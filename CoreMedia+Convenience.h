@@ -7,15 +7,7 @@
 //
 
 #import <CoreMedia/CoreMedia.h>
-#import <Foundation/Foundation.h>
 
-#define CMTimeScale 1000
-
-@interface CMHelper : NSObject
-
-+ (NSTimeInterval)secondsWithTime:(CMTime)time;
-+ (CMTime)timeWithSeconds:(NSTimeInterval)seconds;
-
-+ (CMTimeRange)timeRangeFromTime:(NSTimeInterval)start toTime:(NSTimeInterval)end;
-
-@end
+#define CMTimeGetTimeInterval(time) CMTimeGetSeconds(time)
+#define CMTimeMakeWithTimeInterval(seconds) CMTimeMakeWithSeconds(seconds, 1000)
+#define CMTimeRangeFromTimeIntervalToTimeInterval(start, end) CMTimeRangeFromTimeToTime(CMTimeMakeWithSeconds(start, 1000), CMTimeMakeWithSeconds(end, 1000))

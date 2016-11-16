@@ -193,7 +193,8 @@
 	UNMutableNotificationContent *content = [UNMutableNotificationContent new];
 	content.title = title;
 	content.subtitle = subtitle;
-	content.body = body;
+	if (body)
+		content.body = body;
 	content.badge = badge;
 	content.sound = sound ?
 #if !(TARGET_OS_WATCH)

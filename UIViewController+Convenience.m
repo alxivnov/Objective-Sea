@@ -91,6 +91,15 @@
 	[self setToolbar:toolbarItems animated:NO];
 }
 
++ (CGFloat)statusBarHeight {
+	UIApplication *application = [[UIApplication class] sharedApplication];
+	return application.statusBarHidden ? 0.0 : fminf(application.statusBarFrame.size.height, application.statusBarFrame.size.width);
+}
+
++ (BOOL)inCallingStatusBar {
+	return [self statusBarHeight] > GUI_STATUS_BAR_HEIGHT;
+}
+
 @end
 
 @implementation UIViewController (UIPopoverPresentationController)

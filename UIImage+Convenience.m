@@ -84,6 +84,20 @@
 	return [self imageWithSize:size mode:UIImageScaleAspectFit];
 }
 
++ (UIImage *)imageWithImages:(NSArray<UIImage *> *)images {
+	if (!images.count)
+		return Nil;
+
+	CGRect rect = CGRectMakeWithSize(images.firstObject.size);
+
+	return [UIImage imageWithSize:rect.size opaque:YES scale:0.0 draw:^(CGContextRef context) {
+		for (UIImage *image in images)
+			[image drawInRect:CGSizeCenterInRect(image.size, rect)];
+
+	}];
+}
+
+#if TARGET_OS_IPHONE
 - (NSData *)jpegRepresentation:(CGFloat)quality {
 	quality = fmax(quality, 0.0);
 	quality = fmin(quality, 1.0);
@@ -115,18 +129,6 @@
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url {
 	return [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
 }
-
-+ (UIImage *)imageWithImages:(NSArray<UIImage *> *)images {
-	if (!images.count)
-		return Nil;
-
-	CGRect rect = CGRectMakeWithSize(images.firstObject.size);
-
-	return [UIImage imageWithSize:rect.size opaque:YES scale:0.0 draw:^(CGContextRef context) {
-		for (UIImage *image in images)
-			[image drawInRect:CGSizeCenterInRect(image.size, rect)];
-
-	}];
-}
+#endif
 
 @end

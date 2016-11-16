@@ -8,141 +8,89 @@
 
 #import "UIActivityViewController+Convenience.h"
 
-@implementation UIActivityViewController (Create)
+@implementation UIActivityViewController (Convenience)
 
-+ (instancetype)createWithActivityItems:(NSArray *)items andApplicationActivities:(NSArray *)activities completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	UIActivityViewController *instance = [[self alloc] initWithActivityItems:items applicationActivities:activities];
-		[instance performSelector:@selector(setCompletionHandler:) withObject:^(NSString *activityType, BOOL completed) {
-			completion(activityType, completed, Nil, Nil);
-		}];
-	//	instance.excludedActivityTypes = types;
++ (instancetype)activityWithActivityItems:(NSArray *)activityItems applicationActivities:(NSArray<__kindof UIActivity *> *)applicationActivities excludedActivityTypes:(NSArray<UIActivityType> *)excludedActivityTypes completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)completionHandler {
+	UIActivityViewController *instance = [[self alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+	instance.excludedActivityTypes = excludedActivityTypes;
+	instance.completionWithItemsHandler = completionHandler;
 	return instance;
 }
 
-+ (instancetype)createWithActivityItems:(NSArray *)items completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	return [self createWithActivityItems:items andApplicationActivities:Nil completion:completion];
-}
 
-+ (instancetype)createWithActivityItems:(NSArray *)items {
-	return [self createWithActivityItems:items andApplicationActivities:Nil completion:Nil];
-}
-
-+ (instancetype)createWithActivityItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	UIActivityViewController *instance = [[self alloc] initWithActivityItems:items applicationActivities:Nil];
-	instance.completionWithItemsHandler = completion;
-	instance.excludedActivityTypes = types;
-	return instance;
-}
-
-+ (instancetype)createWebActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	NSArray<__kindof UIActivity *> *activities = [[UIWebActivity webActivities:Nil] query:^BOOL(__kindof UIWebActivity *obj) {
-		return ![types any:^BOOL(id type) {
++ (instancetype)webActivityWithActivityItems:(NSArray *)activityItems excludedActivityTypes:(NSArray<UIActivityType> *)excludedActivityTypes completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)completionHandler {
+	NSArray<__kindof UIActivity *> *applicationActivities = [[UIWebActivity webActivities:Nil] query:^BOOL(__kindof UIWebActivity *obj) {
+		return ![excludedActivityTypes any:^BOOL(id type) {
 			return [obj.activityType isEqualToString:type];
 		}];
 	}];
 
-	if (![types any:^BOOL(id item) {
+	if (![excludedActivityTypes any:^BOOL(id item) {
 		return [UIDocumentExportActivityType isEqualToString:item];
 	}])
-		[activities arrayByAddingObject:[UIDocumentExportActivity new]];
+		[applicationActivities arrayByAddingObject:[UIDocumentExportActivity new]];
 
-	UIActivityViewController *activity = [self createWithActivityItems:items andApplicationActivities:activities completion:completion];
-	activity.excludedActivityTypes = types;
-	return activity;
-}
-
-+ (instancetype)createWebActivityWithItems:(NSArray *)items completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	return [self createWebActivityWithItems:items andExcludedTypes:Nil completion:completion];
-}
-
-+ (instancetype)createWebActivityWithItems:(NSArray *)items {
-	return [self createWebActivityWithItems:items andExcludedTypes:Nil completion:Nil];
+	return [self activityWithActivityItems:activityItems applicationActivities:applicationActivities excludedActivityTypes:excludedActivityTypes completionHandler:completionHandler];
 }
 
 @end
 
 @implementation UIViewController (Activity)
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items applicationActivities:(NSArray *)activities excludedActivityTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion source:(id)source {
+- (UIActivityViewController *)presentActivityWithActivityItems:(NSArray *)items applicationActivities:(NSArray<__kindof UIActivity *> *)activities excludedActivityTypes:(NSArray *)excluded completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler source:(id)source {
 	if (!items.count)
 		return Nil;
 
-	UIActivityViewController *activity = [UIActivityViewController createWithActivityItems:items andApplicationActivities:activities completion:completion];
-	activity.excludedActivityTypes = types;
+	UIActivityViewController *activity = [UIActivityViewController activityWithActivityItems:items applicationActivities:activities excludedActivityTypes:excluded completionHandler:handler];
 
 	[self popoverViewController:activity from:source];
 
 	return activity;
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items andApplicationActivities:(NSArray *)activities completion:(UIActivityViewControllerCompletionWithItemsHandler)completion sourceView:(UIView *)view {
-	return [self presentActivityWithItems:items applicationActivities:activities excludedActivityTypes:Nil completion:completion source:view];
+- (UIActivityViewController *)presentActivityWithActivityItems:(NSArray *)items applicationActivities:(NSArray<__kindof UIActivity *> *)activities completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler sourceView:(UIView *)view {
+	return [self presentActivityWithActivityItems:items applicationActivities:activities excludedActivityTypes:Nil completionHandler:handler source:view];
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items andApplicationActivities:(NSArray *)activities completion:(UIActivityViewControllerCompletionWithItemsHandler)completion sourceBarButton:(UIBarButtonItem *)button {
-	return [self presentActivityWithItems:items applicationActivities:activities excludedActivityTypes:Nil completion:completion source:button];
+- (UIActivityViewController *)presentActivityWithActivityItems:(NSArray *)items applicationActivities:(NSArray<__kindof UIActivity *> *)activities completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler sourceBarButton:(UIBarButtonItem *)button {
+	return [self presentActivityWithActivityItems:items applicationActivities:activities excludedActivityTypes:Nil completionHandler:handler source:button];
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items andApplicationActivities:(NSArray *)activities completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	return [self presentActivityWithItems:items applicationActivities:activities excludedActivityTypes:Nil completion:completion source:Nil];
+- (UIActivityViewController *)presentActivityWithActivityItems:(NSArray *)items applicationActivities:(NSArray<__kindof UIActivity *> *)activities completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler {
+	return [self presentActivityWithActivityItems:items applicationActivities:activities excludedActivityTypes:Nil completionHandler:handler source:Nil];
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	return [self presentActivityWithItems:items applicationActivities:Nil excludedActivityTypes:Nil completion:completion source:Nil];
+- (UIActivityViewController *)presentActivityWithActivityItems:(NSArray *)items {
+	return [self presentActivityWithActivityItems:items applicationActivities:Nil excludedActivityTypes:Nil completionHandler:Nil source:Nil];
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items {
-	return [self presentActivityWithItems:items applicationActivities:Nil excludedActivityTypes:Nil completion:Nil source:Nil];
-}
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion source:(id)source {
+
+- (UIActivityViewController *)presentWebActivityWithActivityItems:(NSArray *)items excludedTypes:(NSArray *)types completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)completion source:(id)source {
 	if (!items.count)
 		return Nil;
 
-	UIActivityViewController *activity = [UIActivityViewController createWithActivityItems:items andExcludedTypes:types completion:completion];
+	UIActivityViewController *activity = [UIActivityViewController webActivityWithActivityItems:items excludedActivityTypes:types completionHandler:completion];
 
 	[self popoverViewController:activity from:source];
 
 	return activity;
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion sourceView:(UIView *)view {
-	return [self presentActivityWithItems:items andExcludedTypes:types completion:completion source:view];
+- (UIActivityViewController *)presentWebActivityWithActivityItems:(NSArray *)items excludedTypes:(NSArray *)types completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler sourceView:(UIView *)view {
+	return [self presentWebActivityWithActivityItems:items excludedTypes:types completionHandler:handler source:view];
 }
 
-- (UIActivityViewController *)presentActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion sourceBarButton:(UIBarButtonItem *)button {
-	return [self presentActivityWithItems:items andExcludedTypes:types completion:completion source:button];
+- (UIActivityViewController *)presentWebActivityWithActivityItems:(NSArray *)items excludedTypes:(NSArray *)types completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler sourceBarButton:(UIBarButtonItem *)button {
+	return [self presentWebActivityWithActivityItems:items excludedTypes:types completionHandler:handler source:button];
 }
 
-- (UIActivityViewController *)presentWebActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion source:(id)source {
-	if (!items.count)
-		return Nil;
-
-	UIActivityViewController *activity = [UIActivityViewController createWebActivityWithItems:items andExcludedTypes:types completion:completion];
-
-	[self popoverViewController:activity from:source];
-
-	return activity;
+- (UIActivityViewController *)presentWebActivityWithActivityItems:(NSArray *)items excludedTypes:(NSArray *)types completionHandler:(UIActivityViewControllerCompletionWithItemsHandler)handler {
+	return [self presentWebActivityWithActivityItems:items excludedTypes:types completionHandler:handler source:Nil];
 }
 
-- (UIActivityViewController *)presentWebActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion sourceView:(UIView *)view {
-	return [self presentWebActivityWithItems:items andExcludedTypes:types completion:completion source:view];
-}
-
-- (UIActivityViewController *)presentWebActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion sourceBarButton:(UIBarButtonItem *)button {
-	return [self presentWebActivityWithItems:items andExcludedTypes:types completion:completion source:button];
-}
-
-- (UIActivityViewController *)presentWebActivityWithItems:(NSArray *)items andExcludedTypes:(NSArray *)types completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	return [self presentWebActivityWithItems:items andExcludedTypes:types completion:completion sourceView:Nil];
-}
-
-- (UIActivityViewController *)presentWebActivityWithItems:(NSArray *)items completion:(UIActivityViewControllerCompletionWithItemsHandler)completion {
-	return [self presentWebActivityWithItems:items andExcludedTypes:Nil completion:completion sourceView:Nil];
-}
-
-- (UIActivityViewController *)presentWebActivityWithItems:(NSArray *)items {
-	return [self presentWebActivityWithItems:items andExcludedTypes:Nil completion:Nil sourceView:Nil];
+- (UIActivityViewController *)presentWebActivityWithActivityItems:(NSArray *)items {
+	return [self presentWebActivityWithActivityItems:items excludedTypes:Nil completionHandler:Nil sourceView:Nil];
 }
 
 @end

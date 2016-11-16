@@ -19,6 +19,7 @@
 
 - (NSArray *)arrayWithRange:(NSRange)range;
 - (NSArray *)arrayWithCount:(NSUInteger)count;
+- (NSArray *)arrayWithIndex:(NSUInteger)index;
 
 - (NSArray *)arrayByAddingObjectsFromNullableArray:(NSArray *)otherArray;
 - (NSArray *)arrayByAddingNullableObject:(id)anObject;

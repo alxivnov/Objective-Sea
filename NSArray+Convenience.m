@@ -50,7 +50,11 @@
 }
 
 - (NSArray *)arrayWithCount:(NSUInteger)count {
-	return [self arrayWithRange:NSMakeRange(0, count)];
+	return [self arrayWithRange:NSMakeRange(0, count > self.count ? self.count : count)];
+}
+
+- (NSArray *)arrayWithIndex:(NSUInteger)index {
+	return index < self.count ? [self arrayWithRange:NSMakeRange(index, self.count - index)] : Nil;
 }
 
 - (NSArray *)arrayByAddingObjectsFromNullableArray:(NSArray *)otherArray {

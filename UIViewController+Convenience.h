@@ -10,6 +10,11 @@
 
 #import "NSObject+Convenience.h"
 
+#define GUI_MARGIN_COMPACT 16.0
+#define GUI_MARGIN_REGULAR 20.0
+
+#define GUI_STATUS_BAR_HEIGHT 20.0
+
 #define UIViewControllerNextTarget(break) ^id(id target, BOOL responds, id returnValue) { return break && responds ? Nil : [target nextViewController]; }
 
 @interface UIViewController (Convenience)
@@ -29,6 +34,9 @@
 - (void)setToolbar;
 - (void)setToolbar:(NSArray<UIBarButtonItem *> *)toolbarItems animated:(BOOL)animated;
 - (void)setToolbar:(NSArray<UIBarButtonItem *> *)toolbarItems;
+
++ (CGFloat)statusBarHeight;
++ (BOOL)inCallingStatusBar;
 
 @end
 

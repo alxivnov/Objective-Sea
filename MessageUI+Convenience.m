@@ -8,36 +8,18 @@
 
 #import "MessageUI+Convenience.h"
 
-@interface MFMailCompose ()
-@property (copy, nonatomic) void(^completion)(MFMailComposeResult result, NSError *error);
-@end
-
-@implementation MFMailCompose
-
-- (instancetype)init {
-	self = [super init];
-
-	if (self)
-		self.mailComposeDelegate = self;
-
-	return self;
-}
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
-	[controller dismissViewControllerAnimated:YES completion:Nil];
-
-	if (self.completion)
-		self.completion(result, error);
-}
+@implementation MFMailComposeViewController (Convenience)
 
 + (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body {
-	if (![MFMailComposeViewController canSendMail])
+	if (![self canSendMail])
 		return Nil;
 
-	MFMailCompose *instance = [self new];
+	MFMailComposeViewController *instance = [self new];
 	[instance setToRecipients:recipients];
-	[instance setSubject:subject];
-	[instance setMessageBody:body isHTML:NO];
+	if (subject)
+		[instance setSubject:subject];
+	if (body)
+		[instance setMessageBody:body isHTML:NO];
 	return instance;
 }
 
@@ -57,38 +39,73 @@
 	return [self createWithRecipients:arr_(recipient) subject:subject body:Nil];
 }
 
-+ (instancetype)createWithRecipientNSString:(NSString *)recipient {
++ (instancetype)createWithRecipient:(NSString *)recipient {
 	return [self createWithRecipients:arr_(recipient) subject:Nil body:Nil];
 }
 
 @end
 
-@implementation UIViewController (MessageUI)
+@implementation MFMailCompose
 
-- (void)presentMailWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body {
-	MFMailCompose *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body];
+- (instancetype)init {
+	self = [super init];
 
-	[self presentViewController:vc animated:YES completion:Nil];
+	if (self)
+		self.mailComposeDelegate = self;
+
+	return self;
 }
 
-- (void)presentMailWithRecipients:(NSArray *)recipients subject:(NSString *)subject {
-	[self presentMailWithRecipients:recipients subject:subject body:Nil];
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+	[controller dismissViewControllerAnimated:YES completion:Nil];
+
+	[error log:@"mailComposeController:didFinishWithResult:error:"];
 }
 
-- (void)presentMailWithRecipients:(NSArray *)recipients {
-	[self presentMailWithRecipients:recipients subject:Nil body:Nil];
+@end
+
+@implementation NSURL (MessageUI)
+
++ (NSURL *)URLWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body {
+	NSMutableDictionary *parameters = [NSMutableDictionary new];
+	parameters[@"subject"] = subject;
+	parameters[@"body"] = body;
+	return [[NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", [recipients componentsJoinedByString:STR_SEMICOLON]]] URLByAppendingQueryDictionary:parameters];
 }
 
-- (void)presentMailWithRecipient:(NSString *)recipient subject:(NSString *)subject body:(NSString *)body {
-	[self presentMailWithRecipients:arr_(recipient) subject:subject body:body];
+@end
+
+@implementation UIViewController (MFMailComposeViewController)
+
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body {
+	MFMailComposeViewController *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body];
+
+//	if (vc)
+//		[self presentViewController:vc animated:YES completion:Nil];
+//	else
+		[UIApplication openURL:[NSURL URLWithRecipients:recipients subject:subject body:body]];
+
+	return vc;
 }
 
-- (void)presentMailWithRecipient:(NSString *)recipient subject:(NSString *)subject {
-	[self presentMailWithRecipients:arr_(recipient) subject:subject body:Nil];
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject {
+	return [self presentMailComposeWithRecipients:recipients subject:subject body:Nil];
 }
 
-- (void)presentMailWithRecipient:(NSString *)recipient {
-	[self presentMailWithRecipients:arr_(recipient) subject:Nil body:Nil];
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients {
+	return [self presentMailComposeWithRecipients:recipients subject:Nil body:Nil];
+}
+
+- (MFMailComposeViewController *)presentMailComposeWithRecipient:(NSString *)recipient subject:(NSString *)subject body:(NSString *)body {
+	return [self presentMailComposeWithRecipients:arr_(recipient) subject:subject body:body];
+}
+
+- (MFMailComposeViewController *)presentMailComposeWithRecipient:(NSString *)recipient subject:(NSString *)subject {
+	return [self presentMailComposeWithRecipients:arr_(recipient) subject:subject body:Nil];
+}
+
+- (MFMailComposeViewController *)presentMailComposeWithRecipient:(NSString *)recipient {
+	return [self presentMailComposeWithRecipients:arr_(recipient) subject:Nil body:Nil];
 }
 
 @end
