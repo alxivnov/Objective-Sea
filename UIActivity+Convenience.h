@@ -11,7 +11,7 @@
 @import Social;
 
 #import "NSBundle+Convenience.h"
-#import "NSURLSession+Convenience.h"
+#import "NSURL+Convenience.h"
 #import "UIApplication+Convenience.h"
 
 @interface UIWebActivity : UIActivity

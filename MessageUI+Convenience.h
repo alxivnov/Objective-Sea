@@ -10,7 +10,7 @@
 
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
-#import "NSURLSession+Convenience.h"
+#import "NSURL+Convenience.h"
 #import "UIApplication+Convenience.h"
 
 @import MessageUI;

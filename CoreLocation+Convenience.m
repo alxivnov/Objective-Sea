@@ -23,6 +23,35 @@
 		[self requestWhenInUseAuthorization];
 }
 
-__static(CLLocationManager *, defaultManager, [CLLocationManager new])
+__static(CLLocationManager *, defaultManager, [self new])
+
+@end
+
+@implementation CLGeocoder (Convenience)
+
+__static(CLGeocoder *, defaultGeocoder, [self new])
+
+@end
+
+@implementation CLPlacemark (Convenience)
+
+- (NSArray *)formattedAddressLines {
+	return self.addressDictionary[@"FormattedAddressLines"];
+}
+
+- (NSString *)formattedAddress {
+	return [self.formattedAddressLines componentsJoinedByString:@", "];
+}
+
+@end
+
+@implementation NSURL (CoreLocation)
+
++ (NSURL *)URLWithLocation:(CLLocation *)location query:(NSString *)query {
+	NSMutableDictionary *parameters = [NSMutableDictionary new];
+	parameters[@"ll"] = [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
+	parameters[@"q"] = query;
+	return [[NSURL URLWithString:@"http://maps.apple.com/"] URLByAppendingQueryDictionary:parameters];
+}
 
 @end

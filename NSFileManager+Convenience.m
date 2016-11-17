@@ -237,29 +237,3 @@
 }
 
 @end
-
-@implementation NSURL (Path)
-
-- (NSURL *)URLByAppendingPathComponents:(NSArray<NSString *> *)pathComponents {
-	NSURL *url = self;
-	for (NSString *pathComponent in pathComponents)
-		url = [url URLByAppendingPathComponent:pathComponent];
-	return url;
-}
-
-- (NSURL *)URLByChangingPathExtension:(NSString *)extension {
-	return [[self URLByDeletingPathExtension] URLByAppendingPathExtension:extension];
-}
-
-- (NSURL *)URLByChangingPath:(NSURL *)path {
-	return path ? [path URLByAppendingPathComponent:[self lastPathComponent]] : self;
-}
-
-- (NSString *)lastPathComponentWithoutExtension {
-	NSString *lastPathComponent = self.lastPathComponent;
-	if (self.pathExtension.length)
-		lastPathComponent = [lastPathComponent substringToIndex:lastPathComponent.length - (self.pathExtension.length + 1)];
-	return lastPathComponent;
-}
-
-@end

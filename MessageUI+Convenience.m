@@ -80,9 +80,9 @@
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body {
 	MFMailComposeViewController *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body];
 
-//	if (vc)
-//		[self presentViewController:vc animated:YES completion:Nil];
-//	else
+	if (vc)
+		[self presentViewController:vc animated:YES completion:Nil];
+	else
 		[UIApplication openURL:[NSURL URLWithRecipients:recipients subject:subject body:body]];
 
 	return vc;

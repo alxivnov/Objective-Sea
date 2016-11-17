@@ -11,6 +11,7 @@
 #import "Dispatch+Convenience.h"
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
+#import "NSURL+Convenience.h"
 
 @interface NSFileManager (Convenience)
 
@@ -64,17 +65,5 @@
 
 - (void)clearDirectory:(BOOL)directories;
 - (void)clearDirectory;
-
-@end
-
-@interface NSURL (Path)
-
-- (NSURL *)URLByAppendingPathComponents:(NSArray<NSString *> *)pathComponents;
-
-- (NSURL *)URLByChangingPathExtension:(NSString *)extension;
-
-- (NSURL *)URLByChangingPath:(NSURL *)path;
-
-- (NSString *)lastPathComponentWithoutExtension;
 
 @end

@@ -13,6 +13,7 @@
 #import "NSFileManager+Convenience.h"
 #import "NSObject+Convenience.h"
 #import "NSString+Convenience.h"
+#import "NSURL+Convenience.h"
 
 @interface NSURLSession (Convenience)
 
@@ -45,24 +46,5 @@
 
 - (BOOL)download:(NSURL *)url;
 - (NSURL *)cache;
-
-@end
-
-#define URL_SCHEME_HTTP @"http"
-#define URL_SCHEME_HTTPS @"https"
-
-#define URL_SCHEME_IPOD_LIBRARY @"ipod-library"
-
-@interface NSURL (Parse)
-
-+ (NSURL *)urlWithScheme:(NSString *)scheme andParameters:(NSDictionary *)parameters;
-
-- (NSDictionary *)queryDictionary;
-
-- (NSURL *)URLByAppendingQueryDictionary:(NSDictionary *)dictionary allowedCharacters:(NSCharacterSet *)allowedCharacters;
-- (NSURL *)URLByAppendingQueryDictionary:(NSDictionary *)dictionary;
-
-@property (assign, nonatomic, readonly) BOOL isWebAddress;
-@property (assign, nonatomic, readonly) BOOL isMediaItem;
 
 @end
