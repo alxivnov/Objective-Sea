@@ -19,7 +19,7 @@
 	[_fromSnapshot removeFromSuperview];
 
 	[super fromView].hidden = fromSnapshot != Nil;
-	if ([super fromView].hidden)
+	if ([super fromView].hidden && fromSnapshot != Nil)
 		[self.containerView insertSubview:fromSnapshot aboveSubview:self.fromView];
 
 	_fromSnapshot = fromSnapshot;
@@ -29,7 +29,7 @@
 	[_toSnapshot removeFromSuperview];
 
 	[super toView].hidden = toSnapshot != Nil;
-	if ([super toView].hidden)
+	if ([super toView].hidden && toSnapshot != Nil)
 		[self.containerView insertSubview:toSnapshot aboveSubview:self.toView];
 
 	_toSnapshot = toSnapshot;
