@@ -15,7 +15,7 @@
 
 #define GUI_STATUS_BAR_HEIGHT 20.0
 
-#define UIViewControllerNextTarget(break) ^id(id target, BOOL responds, id returnValue) { return break && responds ? Nil : [target nextViewController]; }
+#define UIViewControllerNextTarget(break) ^id(id __target, BOOL __responds, id __returnValue) { return break && __responds ? Nil : [__target nextViewController]; }
 
 @interface UIViewController (Convenience)
 

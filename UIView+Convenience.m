@@ -20,12 +20,10 @@
 		subview.hidden = NO;
 }
 
-- (__kindof UIView *)root {
+- (__kindof UIView *)rootview {
 	UIView *rootview = self;
-
 	while (rootview.superview && ![rootview.superview isKindOfClass:[UIWindow class]])
 		rootview = rootview.superview;
-
 	return rootview;
 }
 
@@ -35,132 +33,25 @@
 		if (subview)
 			return subview;
 	}
-
 	return Nil;
 }
 
-- (__kindof UIView *)subviewKindOfClass:(Class)aClass {
-	return [self subview:^BOOL(UIView *subview) {
-		return [subview isKindOfClass:aClass];
-	}];
-}
-
-- (__kindof UIView *)subviewMemberOfClass:(Class)aClass {
-	return [self subview:^BOOL(UIView *subview) {
-		return [subview isMemberOfClass:aClass];
-	}];
-}
-
-- (UIViewController *)embedInViewController {
-	UIViewController *vc = [UIViewController new];
-	vc.view = self;
-	return vc;
-}
-
-- (UIColor *)calculatedBackgroundColor {
-	UIColor *clear = [UIColor clearColor];
+- (UIColor *)rootBackgroundColor {
 	UIView *view = self;
-	while (view.backgroundColor == Nil || view.backgroundColor == clear)
+	while (view.backgroundColor == Nil || view.backgroundColor == [UIColor clearColor])
 		view = view.superview;
 	return view.backgroundColor;
 }
 
-@end
-
-@implementation UIView (Position)
-
-+ (UIPosition)invertPosition:(UIPosition)position {
-	switch (position) {
-		case UIPositionBottom:
-			return UIPositionTop;
-		case UIPositionLeft:
-			return UIPositionRight;
-		case UIPositionRight:
-			return UIPositionLeft;
-		case UIPositionTop:
-			return UIPositionBottom;
-	}
-}
-
-- (void)setOriginWithX:(CGFloat)x andY:(CGFloat)y {
-	if (self.frame.origin.x != x || self.frame.origin.y != y)
-		self.frame = CGRectMake(x, y, self.frame.size.width, self.frame.size.height);
-}
-
-- (void)setOffsetWithX:(CGFloat)x andY:(CGFloat)y {
-	[self setOriginWithX:self.frame.origin.x + x andY:self.frame.origin.y + y];
-}
-
-- (void)setOrigin:(CGPoint)origin {
-	[self setOriginWithX:origin.x andY:origin.y];
-}
-
-- (void)setOffset:(CGPoint)offset {
-	[self setOffsetWithX:offset.x andY:offset.y];
-}
-
-- (void)setOriginX:(CGFloat)x {
-	if (self.frame.origin.x != x)
-		self.frame = CGRectMake(x, self.frame.origin.y, self.frame.size.width, self.frame.size.height);
-}
-
-- (void)setOriginY:(CGFloat)y {
-	if (self.frame.origin.y != y)
-		self.frame = CGRectMake(self.frame.origin.x, y, self.frame.size.width, self.frame.size.height);
-}
-
-- (void)setSizeWithWidth:(CGFloat)width andHeight:(CGFloat)height {
-	if (self.frame.size.width != width || self.frame.size.height != height)
-		self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, width < 0 ? self.frame.size.width : width, height < 0 ? self.frame.size.height : height);
-}
-
-- (void)setSize:(CGSize)size {
-	[self setSizeWithWidth:size.width andHeight:size.height];
-}
-
-- (void)setWidth:(CGFloat)width {
-	[self setSizeWithWidth:width andHeight:self.frame.size.height];
-}
-
-- (void)setHeight:(CGFloat)height {
-	[self setSizeWithWidth:self.frame.size.width andHeight:height];
-}
-
-- (void)setCenterX:(CGFloat)x {
-	if (self.center.x != x)
-		self.center = CGPointMake(x, self.center.y);
-}
-
-- (void)setCenterY:(CGFloat)y {
-	if (self.center.y != y)
-		self.center = CGPointMake(self.center.x, y);
-}
-
-- (void)offsetByX:(CGFloat)x {
-	[self setCenterX:self.center.x + x];
-}
-
-- (void)offsetByY:(CGFloat)y {
-	[self setCenterY:self.center.y + y];
-}
-
-- (CGRect)centerRectWithWidth:(CGFloat)width andHeight:(CGFloat)height {
-	return CGRectMake((self.bounds.size.width - width) / 2.0, (self.bounds.size.height - height) / 2.0, width, height);
-}
-
-- (CGRect)centerRectWithSize:(CGSize)size {
-	return [self centerRectWithWidth:size.width andHeight:size.height];
-}
-
-- (CGPoint)boundsCenter {
-	return CGPointMake(self.bounds.size.width / 2.0, self.bounds.size.height / 2.0);
+- (void)bringToFront {
+	[self.superview bringSubviewToFront:self];
 }
 
 - (BOOL)centerSubview:(UIView *)subview {
 	if (subview == nil)
 		return NO;
 
-	CGRect frame = [self centerRectWithSize:subview.frame.size];
+	CGRect frame = CGRectCenterInRect(subview.frame, self.bounds);
 	if (CGRectEqualToRect(subview.frame, frame))
 		return NO;
 
@@ -170,42 +61,24 @@
 }
 
 - (BOOL)centerInSuperview:(UIView *)superview {
-	if (superview == nil)
-		superview = self.superview;
-
-	if (superview == nil)
-		return NO;
-
-	CGRect frame = [superview centerRectWithSize:self.frame.size];
-	if (CGRectEqualToRect(self.frame, frame))
-		return NO;
-
-	self.frame = frame;
-
-	return YES;
+	return [superview centerSubview:self];
 }
 
 - (BOOL)centerInSuperview {
-	return [self centerInSuperview:nil];
+	return [self.superview centerInSuperview];
 }
 
 - (void)dock:(UIPosition)position inside:(BOOL)inside margin:(CGFloat)margin view:(UIView *)view {
 	CGRect rect = view ? view.frame : self.superview.bounds;
 
-	switch (position) {
-		case UIPositionBottom:
-			[self setOriginWithX:self.frame.origin.x andY:rect.origin.y + rect.size.height + (inside ? -(self.frame.size.height + margin) : margin)];
-			break;
-		case UIPositionLeft:
-			[self setOriginWithX:rect.origin.x + (inside ? margin : -(self.frame.size.width + margin)) andY:self.frame.origin.y];
-			break;
-		case UIPositionRight:
-			[self setOriginWithX:rect.origin.x + rect.size.width + (inside ? -(self.frame.size.width + margin) : margin) andY:self.frame.origin.y];
-			break;
-		case UIPositionTop:
-			[self setOriginWithX:self.frame.origin.x andY:rect.origin.y + (inside ? margin : -(self.frame.size.height + margin))];
-			break;
-	}
+	if (position == UIPositionBottom)
+		self.frame = CGRectSetY(self.frame, rect.origin.y + rect.size.height + (inside ? -(self.frame.size.height + margin) : margin));
+	else if (position == UIPositionLeft)
+		self.frame = CGRectSetX(self.frame, rect.origin.x + (inside ? margin : -(self.frame.size.width + margin)));
+	else if (position == UIPositionRight)
+		self.frame = CGRectSetX(self.frame, rect.origin.x + rect.size.width + (inside ? -(self.frame.size.width + margin) : margin));
+	else if (position == UIPositionTop)
+		self.frame = CGRectSetY(self.frame, rect.origin.y + (inside ? margin : -(self.frame.size.height + margin)));
 }
 
 - (void)dock:(UIPosition)position inside:(BOOL)inside margin:(CGFloat)margin {
@@ -220,8 +93,152 @@
 	[self dock:position inside:NO margin:0.0 view:Nil];
 }
 
-- (void)bringToFront {
-	[self.superview bringSubviewToFront:self];
+- (UIImage *)snapshotImageAfterScreenUpdates:(BOOL)afterUpdates {
+	return [UIImage imageWithSize:self.bounds.size opaque:YES scale:0.0 draw:^(CGContextRef context) {
+		[self drawViewHierarchyInRect:self.bounds afterScreenUpdates:afterUpdates];
+	}];
+}
+
+- (UIImage *)snapshotImage {
+	return [self snapshotImageAfterScreenUpdates:NO];
+}
+
+- (UIView *)snapshotView {
+	return [self snapshotViewAfterScreenUpdates:NO];
+}
+
+- (UIViewController *)embedInViewController {
+	UIViewController *vc = [UIViewController new];
+	vc.view = self;
+	return vc;
+}
+
+- (void)setHidden:(BOOL)hidden duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
+	if (self.hidden == hidden)
+		return;
+
+	CGFloat alpha = self.alpha;
+	if (!hidden) {
+		self.alpha = 0.0;
+		self.hidden = NO;
+	}
+
+	[UIView animateWithDuration:duration delay:delay usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+		self.alpha = hidden ? 0.0 : alpha;
+
+		if (animations)
+			animations();
+	} completion:^(BOOL finished) {
+		if (hidden) {
+			self.hidden = YES;
+			self.alpha = alpha;
+		}
+
+		if (completion)
+			completion(finished);
+	}];
+}
+
+- (void)setHidden:(BOOL)hidden duration:(NSTimeInterval)duration completion:(void (^)(BOOL))completion {
+	[self setHidden:hidden duration:duration delay:0.0 animations:Nil completion:completion];
+}
+
+#define CGPointWithDirection(direction, offset) CGPointMake(direction == UIDirectionLeft ? -offset : direction == UIDirectionRight ? offset : 0.0, direction == UIDirectionUp ? offset : direction == UIDirectionDown ? -offset : 0.0)
+
+- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion {
+	if (self.hidden)
+		return;
+
+	CGFloat offset = self.frame.size.height < 512 && self.frame.size.width < 512 ? 1.0 : self.frame.size.height < 1024 && self.frame.size.width < 1024 ? 2.0 : 3.0;
+
+	duration = duration / 5.0;
+	[UIView animateWithDuration:duration delay:delay usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+		CGPoint origin = CGPointWithDirection(direction, 10.0 * offset);
+		self.frame = CGRectOffsetOrigin(self.frame, origin);
+	} completion:^(BOOL finished) {
+		[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+			CGPoint origin = CGPointWithDirection(direction, -17.0 * offset);
+			self.frame = CGRectOffsetOrigin(self.frame, origin);
+		} completion:^(BOOL finished) {
+			[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+				CGPoint origin = CGPointWithDirection(direction, 13.0 * offset);
+				self.frame = CGRectOffsetOrigin(self.frame, origin);
+
+				if (animation)
+					animation();
+			} completion:^(BOOL finished) {
+				[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+					CGPoint origin = CGPointWithDirection(direction, -8.0 * offset);
+					self.frame = CGRectOffsetOrigin(self.frame, origin);
+				} completion:^(BOOL finished) {
+					[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+						CGPoint origin = CGPointWithDirection(direction, 2.0 * offset);
+						self.frame = CGRectOffsetOrigin(self.frame, origin);
+					} completion:completion];
+				}];
+			}];
+		}];
+	}];
+}
+
+- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
+	[self shake:direction duration:duration delay:0.0 animation:Nil completion:completion];
+}
+
+- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion {
+	if (self.hidden)
+		return;
+
+	CGAffineTransform transform = self.transform;
+
+	duration = duration / 2.0;
+	[UIView animateWithDuration:duration delay:delay usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+		self.transform = CGAffineTransformMakeScale(scale, scale);
+	} completion:^(BOOL finished) {
+		[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+			self.transform = transform;
+
+			if (animation)
+				animation();
+		} completion:completion];
+	}];
+}
+
+- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
+	[self burst:scale duration:duration delay:0.0 animation:Nil completion:completion];
+}
+
+- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion {
+	if (self.hidden)
+		return;
+
+	UIColor *backgroundColor = self.backgroundColor;
+	[UIView animateWithDuration:duration < 0.0 ? 0.0 : duration / 2.0 delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+		self.backgroundColor = color;
+	} completion:^(BOOL finished) {
+		[UIView animateWithDuration:duration < 0.0 ? 1.0 - duration : duration / 2.0 delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
+			self.backgroundColor = backgroundColor;
+
+			if (animation)
+				animation();
+		} completion:completion];
+	}];
+}
+
+- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
+	[self blink:color duration:duration delay:0.0 animation:Nil completion:completion];
+}
+
+- (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration damping:(CGFloat)damping velocity:(CGFloat)velocity options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion {
+	self.transform = transform;
+
+	[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:damping initialSpringVelocity:velocity options:options animations:^{
+		self.transform = CGAffineTransformIdentity;
+	} completion:completion];
+}
+
+- (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion {
+	[self animate:transform duration:duration damping:ANIMATION_DAMPING velocity:ANIMATION_VELOCITY options:options completion:completion];
 }
 
 @end

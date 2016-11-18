@@ -55,9 +55,7 @@
 }
 
 - (void)stopActivityIndication:(void (^)())completion {
-	UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[self subview:^BOOL(UIView *subview) {
-		return [subview isKindOfClass:[UIActivityIndicatorView class]];
-	}];
+	UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[self subview:UISubviewKindOfClass(UIActivityIndicatorView)];
 	[indicator stopAnimating];
 
 	[UIView animateWithDuration:ANIMATION_DURATION delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{

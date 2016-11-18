@@ -8,30 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+#import "UIImage+Convenience.h"
+
 #define ANIMATION_DURATION 0.6
 #define ANIMATION_VELOCITY 0.0
 #define ANIMATION_DAMPING 1.0
 #define ANIMATION_OPTIONS UIViewAnimationOptionCurveEaseInOut
 
-@interface UIView (Convenience)
-
-- (void)hideSubviews;
-- (void)showSubviews;
-
-- (__kindof UIView *)root;
-
-- (__kindof UIView *)subview:(BOOL (^)(UIView *subview))block;
-- (__kindof UIView *)subviewKindOfClass:(Class)aClass;
-- (__kindof UIView *)subviewMemberOfClass:(Class)aClass;
-
-- (UIViewController *)embedInViewController;
-
-- (UIColor *)calculatedBackgroundColor;
-
-@end
-
-#define UIPositionHorizontal(a) (a & (UIPositionLeft | UIPositionRight))
-#define UIPositionVertical(a) (a & (UIPositionBottom | UIPositionTop))
+#define UISubviewKindOfClass(cls) ^BOOL(UIView *__subview) { return [__subview isKindOfClass:[cls class]]; }
+#define UISubviewMemberOfClass(cls) ^BOOL(UIView *__subview) { return [__subview isMemberOfClass:[cls class]]; }
 
 typedef NS_OPTIONS(NSUInteger, UIDirection) {
 	UIDirectionDown = (1 << 0),
@@ -47,42 +32,53 @@ typedef NS_OPTIONS(NSUInteger, UIPosition) {
 	UIPositionRight = (1 << 3),
 };
 
-@interface UIView (Position)
+#define UIDirectionInvert(direction) (direction == UIDirectionDown ? UIDirectionUp : direction == UIDirectionUp ? UIDirectionDown : direction == UIDirectionLeft ? UIDirectionRight : UIDirectionLeft)
+#define UIPositionInvert(position) (position == UIPositionBottom ? UIPositionTop : position == UIPositionTop ? UIPositionBottom : position == UIPositionLeft ? UIPositionRight : UIPositionLeft)
 
-+ (UIPosition)invertPosition:(UIPosition)position;
+#define UIPositionHorizontal(a) (a & (UIPositionLeft | UIPositionRight))
+#define UIPositionVertical(a) (a & (UIPositionBottom | UIPositionTop))
 
-- (void)setOriginWithX:(CGFloat)x andY:(CGFloat)y;
-- (void)setOffsetWithX:(CGFloat)x andY:(CGFloat)y;
-- (void)setOrigin:(CGPoint)origin;
-- (void)setOffset:(CGPoint)offset;
+@interface UIView (Convenience)
 
-- (void)setOriginX:(CGFloat)x;
-- (void)setOriginY:(CGFloat)y;
+- (void)hideSubviews;
+- (void)showSubviews;
 
-- (void)setSizeWithWidth:(CGFloat)width andHeight:(CGFloat)height;
-- (void)setSize:(CGSize)size;
-- (void)setWidth:(CGFloat)width;
-- (void)setHeight:(CGFloat)height;
+- (__kindof UIView *)rootview;
 
-- (CGRect)centerRectWithWidth:(CGFloat)width andHeight:(CGFloat)height;
-- (CGRect)centerRectWithSize:(CGSize)size;
+- (__kindof UIView *)subview:(BOOL (^)(UIView *subview))block;
 
-- (void)setCenterX:(CGFloat)x;
-- (void)setCenterY:(CGFloat)y;
-- (void)offsetByX:(CGFloat)x;
-- (void)offsetByY:(CGFloat)y;
-
-- (CGPoint)boundsCenter;
+- (UIColor *)rootBackgroundColor;
 
 - (BOOL)centerSubview:(UIView *)subview;
 - (BOOL)centerInSuperview:(UIView *)superview;
 - (BOOL)centerInSuperview;
+
+- (void)bringToFront;
 
 - (void)dock:(UIPosition)position inside:(BOOL)inside margin:(CGFloat)margin view:(UIView *)view;
 - (void)dock:(UIPosition)position inside:(BOOL)inside margin:(CGFloat)margin;
 - (void)dock:(UIPosition)position inside:(BOOL)inside;
 - (void)dock:(UIPosition)position;
 
-- (void)bringToFront;
+- (UIImage *)snapshotImageAfterScreenUpdates:(BOOL)afterUpdates;
+- (UIImage *)snapshotImage;
+- (UIView *)snapshotView;
+
+- (UIViewController *)embedInViewController;
+
+- (void)setHidden:(BOOL)hidden duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
+- (void)setHidden:(BOOL)hidden duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
+
+- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion;
+- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
+
+- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion;
+- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
+
+- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion;
+- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
+
+- (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration damping:(CGFloat)damping velocity:(CGFloat)velocity options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
+- (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
 
 @end
