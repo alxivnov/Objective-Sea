@@ -39,6 +39,8 @@
 
 @interface UIViewController (MFMailComposeViewController)
 
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body completionHandler:(void (^)(MFMailComposeResult result, NSError *error))completionHandler;
+
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body;
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject;
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients;

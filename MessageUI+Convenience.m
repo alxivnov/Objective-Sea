@@ -45,6 +45,10 @@
 
 @end
 
+@interface MFMailCompose ()
+@property (copy, nonatomic) void(^completionHandler)(MFMailComposeResult result, NSError *error);
+@end
+
 @implementation MFMailCompose
 
 - (instancetype)init {
@@ -57,6 +61,9 @@
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+	if (self.completionHandler)
+		self.completionHandler(result, error);
+
 	[controller dismissViewControllerAnimated:YES completion:Nil];
 
 	[error log:@"mailComposeController:didFinishWithResult:error:"];
@@ -77,15 +84,23 @@
 
 @implementation UIViewController (MFMailComposeViewController)
 
-- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body {
-	MFMailComposeViewController *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body];
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body completionHandler:(void (^)(MFMailComposeResult result, NSError *error))completionHandler {
+	MFMailCompose *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body];
+	vc.completionHandler = completionHandler;
 
 	if (vc)
 		[self presentViewController:vc animated:YES completion:Nil];
 	else
-		[UIApplication openURL:[NSURL URLWithRecipients:recipients subject:subject body:body]];
+		[UIApplication openURL:[NSURL URLWithRecipients:recipients subject:subject body:body] options:Nil completionHandler:^(BOOL success) {
+			if (completionHandler)
+				completionHandler(MFMailComposeResultFailed, Nil);
+		}];
 
 	return vc;
+}
+
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body {
+	return [self presentMailComposeWithRecipients:recipients subject:subject body:body completionHandler:Nil];
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject {
