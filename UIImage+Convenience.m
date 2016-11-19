@@ -79,9 +79,8 @@
 	}];
 }
 
-#warning Refactor to 0!
 - (UIImage *)imageWithSize:(CGSize)size {
-	return [self imageWithSize:size mode:UIImageScaleAspectFit];
+	return [self imageWithSize:size mode:UIImageScaleNone];
 }
 
 + (UIImage *)imageWithImages:(NSArray<UIImage *> *)images {

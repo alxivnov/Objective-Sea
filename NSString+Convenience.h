@@ -43,4 +43,12 @@
 
 - (NSString *)fileSystemString;
 
+- (NSString *)stringByAppendingExtension:(NSString *)extension;
+
+- (NSString *)fileName:(NSString *)extension;
+- (NSString *)fileName;
+
+- (NSString *)stringByAppendingNewLine;
+- (NSString *)stringByAppendingNewLineWithString:(NSString *)aString;
+
 @end

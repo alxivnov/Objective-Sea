@@ -117,4 +117,28 @@
 	return [[self stringByReplacingOccurrencesOfString:STR_COLON withString:STR_HYPHEN] stringByReplacingOccurrencesOfString:STR_SLASH withString:STR_UNDERSCORE];
 }
 
+- (NSString *)stringByAppendingExtension:(NSString *)extension {
+	return extension.length ? [self stringByAppendingFormat:[extension hasPrefix:STR_DOT] ? extension : @".%@", extension] : self;
+}
+
+- (NSString *)fileName:(NSString *)extension {
+	NSString *fileName = [self stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+	fileName = [fileName stringByReplacingOccurrencesOfString:@":" withString:@"_"];
+	fileName = [fileName stringByReplacingOccurrencesOfString:@"\\" withString:@"_"];
+	fileName = [fileName stringByAppendingExtension:extension];
+	return fileName;
+}
+
+- (NSString *)fileName {
+	return [self fileName:Nil];
+}
+
+- (NSString *)stringByAppendingNewLine {
+	return [self stringByAppendingString:STR_NEW_LINE];
+}
+
+- (NSString *)stringByAppendingNewLineWithString:(NSString *)aString {
+	return aString.length ? [[self stringByAppendingNewLine] stringByAppendingString:aString] : self;
+}
+
 @end

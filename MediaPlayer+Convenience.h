@@ -24,8 +24,6 @@
 
 - (UIImage *)image;
 
-- (UIImage *)imageWithExactSize:(CGSize)size;
-
 - (void)fetchImage:(void(^)(UIImage *image))handler;
 
 @end

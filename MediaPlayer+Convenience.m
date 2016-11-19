@@ -26,10 +26,6 @@
 	return [self imageWithSize:CGSizeMake(size, size)];
 }
 
-- (UIImage *)imageWithExactSize:(CGSize)size {
-	return [[self imageWithSize:size] imageWithSize:size];
-}
-
 - (void)fetchImage:(void(^)(UIImage *image))handler {
 	if (!handler)
 		return;
