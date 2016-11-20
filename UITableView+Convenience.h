@@ -32,6 +32,12 @@
 
 @end
 
+@interface UITableViewCell (Convenience)
+
+- (UITableView *)tableView;
+
+@end
+
 @interface UITableView (Sections)
 
 - (void)insertSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation;

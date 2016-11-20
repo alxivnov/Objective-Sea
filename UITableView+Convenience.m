@@ -67,6 +67,20 @@
 
 @end
 
+@implementation UITableViewCell (Convenience)
+
+- (UITableView *)tableView {
+	UIView *superview = self.superview;
+	while (superview)
+		if ([superview isKindOfClass:[UITableView class]])
+			return (UITableView *)superview;
+		else
+			superview = superview.superview;
+	return Nil;
+}
+
+@end
+
 @implementation UITableView (Sections)
 
 - (void)insertSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation {
