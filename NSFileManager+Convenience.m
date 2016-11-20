@@ -18,23 +18,6 @@
 	return [self containerURLForSecurityApplicationGroupIdentifier:groupIdentifier];
 }
 
-- (BOOL)isUbiquityAvailable {
-	return self.ubiquityIdentityToken ? YES : NO;
-}
-
-- (BOOL)URLForUbiquityContainerIdentifier:(NSString *)containerIdentifier handler:(void(^)(NSURL *))handler {
-	if (![self ubiquityIdentityToken])
-		return NO;
-
-	[GCD global:^{
-		NSURL *url = [self URLForUbiquityContainerIdentifier:containerIdentifier];
-
-		if (handler)
-			handler(url);
-	}];
-	return YES;
-}
-
 + (NSURL *)URLForDirectory:(NSSearchPathDirectory)directory {
 	return [[self defaultManager] URLForDirectory:directory];
 }
@@ -43,17 +26,9 @@
 	return [[self defaultManager] URLForGroupIdentifier:groupIdentifier];
 }
 
-+ (BOOL)isUbiquityAvailable {
-	return [[self defaultManager] isUbiquityAvailable];
-}
-
-+ (BOOL)URLForUbiquityContainerIdentifier:(NSString *)containerIdentifier handler:(void (^)(NSURL *))handler {
-	return [[self defaultManager] URLForUbiquityContainerIdentifier:containerIdentifier handler:handler];
-}
-
 @end
 
-@implementation NSURL (File)
+@implementation NSURL (NSFileManager)
 
 - (NSDictionary *)fileAttributes {
 	NSError *error = Nil;

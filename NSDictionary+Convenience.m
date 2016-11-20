@@ -33,10 +33,6 @@
 	return dictionary;
 }
 
-@end
-
-@implementation NSDictionary (Query)
-
 - (NSDictionary *)castKeys:(id (^)(id item))keyBlock andValues:(id (^)(id item))valueBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 

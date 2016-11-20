@@ -21,15 +21,9 @@
 - (NSURL *)URLForGroupIdentifier:(NSString *)groupIdentifier;
 + (NSURL *)URLForGroupIdentifier:(NSString *)groupIdentifier;
 
-- (BOOL)isUbiquityAvailable;
-+ (BOOL)isUbiquityAvailable;
-
-- (BOOL)URLForUbiquityContainerIdentifier:(NSString *)containerIdentifier handler:(void(^)(NSURL *url))handler;
-+ (BOOL)URLForUbiquityContainerIdentifier:(NSString *)containerIdentifier handler:(void(^)(NSURL *url))handler;
-
 @end
 
-@interface NSURL (File)
+@interface NSURL (NSFileManager)
 
 - (NSDate *)fileCreationDate;
 - (NSDate *)fileModificationDate;
