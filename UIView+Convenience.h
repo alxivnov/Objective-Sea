@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+#define UIStepperWidth 94.0
+#define UIStepperHeight 29.0
+#define UISwitchWidth 51.0
+#define UISwitchHeight 31.0
+
 #import "UIImage+Convenience.h"
 
 #define ANIMATION_DURATION 0.6
