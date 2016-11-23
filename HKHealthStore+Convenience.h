@@ -15,10 +15,10 @@
 
 + (HKHealthStore *)defaultStore;
 
-- (void)saveObject:(HKObject *)object completion:(void (^)(BOOL success))completion;
-- (void)saveObjects:(NSArray<HKObject *> *)objects completion:(void (^)(BOOL success))completion;
-- (void)deleteObject:(HKObject *)object completion:(void (^)(BOOL success))completion;
-- (void)deleteObjects:(NSArray<HKObject *> *)objects completion:(void (^)(BOOL success))completion;
+- (BOOL)saveObject:(HKObject *)object completion:(void (^)(BOOL success))completion;
+- (BOOL)saveObjects:(NSArray<HKObject *> *)objects completion:(void (^)(BOOL success))completion;
+- (BOOL)deleteObject:(HKObject *)object completion:(void (^)(BOOL success))completion;
+- (BOOL)deleteObjects:(NSArray<HKObject *> *)objects completion:(void (^)(BOOL success))completion;
 
 - (HKAuthorizationStatus)authorizationStatusForIdentifier:(NSString *)identifier;
 - (HKAuthorizationStatus)authorizationStatusForIdentifiers:(NSArray<NSString *> *)identifiers;
@@ -29,8 +29,8 @@
 - (HKCategorySample *)categotySampleWithIdentifier:(NSString *)identifier value:(NSInteger)value startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata;
 - (HKQuantitySample *)quantitySampleWithIdentifier:(NSString *)identifier quantity:(HKQuantity *)quantity startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata;
 
-- (void)saveCategorySampleWithIdentifier:(NSString *)identifier value:(NSInteger)value startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void(^)(BOOL success))completion;
-- (void)saveQuantitySampleWithIdentifier:(NSString *)identifier quantity:(HKQuantity *)quantity startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void(^)(BOOL success))completion;
+- (BOOL)saveCategorySampleWithIdentifier:(NSString *)identifier value:(NSInteger)value startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void(^)(BOOL success))completion;
+- (BOOL)saveQuantitySampleWithIdentifier:(NSString *)identifier quantity:(HKQuantity *)quantity startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void(^)(BOOL success))completion;
 
 - (HKSampleQuery *)querySamplesWithIdentifier:(NSString *)identifier predicate:(NSPredicate *)predicate limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort completion:(void(^)(NSArray *samples))completion;
 - (HKSampleQuery *)querySamplesWithIdentifier:(NSString *)identifier predicate:(NSPredicate *)predicate limit:(NSUInteger)limit completion:(void(^)(NSArray *samples))completion;

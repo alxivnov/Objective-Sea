@@ -42,8 +42,8 @@
 
 + (HKCategorySample *)sampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata;
 
-+ (void)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata completion:(void(^)(BOOL success))completion;
-+ (void)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata;
++ (BOOL)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata completion:(void(^)(BOOL success))completion;
++ (BOOL)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata;
 
 @end
 

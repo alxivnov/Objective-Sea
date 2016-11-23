@@ -12,9 +12,9 @@
 
 __static(HKHealthStore *, defaultStore, [HKHealthStore isHealthDataAvailable] ? [HKHealthStore new] : Nil)
 
-- (void)saveObject:(HKObject *)object completion:(void(^)(BOOL success))completion {
+- (BOOL)saveObject:(HKObject *)object completion:(void(^)(BOOL success))completion {
 	if (!object)
-		return;
+		return NO;
 	
 	[self saveObject:object withCompletion:^(BOOL success, NSError *error) {
 		[error log:@"saveObject:"];
@@ -22,11 +22,13 @@ __static(HKHealthStore *, defaultStore, [HKHealthStore isHealthDataAvailable] ? 
 		if (completion)
 			completion(success);
 	}];
+
+	return YES;
 }
 
-- (void)saveObjects:(NSArray *)objects completion:(void(^)(BOOL success))completion {
+- (BOOL)saveObjects:(NSArray *)objects completion:(void(^)(BOOL success))completion {
 	if (!objects.count)
-		return;
+		return NO;
 	
 	[self saveObjects:objects withCompletion:^(BOOL success, NSError *error) {
 		[error log:@"saveObjects:"];
@@ -34,11 +36,13 @@ __static(HKHealthStore *, defaultStore, [HKHealthStore isHealthDataAvailable] ? 
 		if (completion)
 			completion(success);
 	}];
+
+	return YES;
 }
 
-- (void)deleteObject:(HKObject *)object completion:(void(^)(BOOL success))completion {
+- (BOOL)deleteObject:(HKObject *)object completion:(void(^)(BOOL success))completion {
 	if (!object)
-		return;
+		return NO;
 	
 	[self deleteObject:object withCompletion:^(BOOL success, NSError *error) {
 		[error log:@"deleteObject:"];
@@ -46,31 +50,22 @@ __static(HKHealthStore *, defaultStore, [HKHealthStore isHealthDataAvailable] ? 
 		if (completion)
 			completion(success);
 	}];
+
+	return YES;
 }
 
-- (void)deleteObjects:(NSArray<HKObject *> *)objects completion:(void (^)(BOOL))completion {
+- (BOOL)deleteObjects:(NSArray<HKObject *> *)objects completion:(void (^)(BOOL))completion {
 	if (!objects.count)
-		return;
+		return NO;
 
-	if ([self respondsToSelector:@selector(deleteObjects:withCompletion:)])
-		[self deleteObjects:objects withCompletion:^(BOOL success, NSError *error) {
-			[error log:@"deleteObjects:"];
-
-			if (completion)
-				completion(success);
-		}];
-	else {
-		__block NSUInteger count = 0;
-
-		for (HKObject *object in objects)
-			[self deleteObject:object completion:^(BOOL success) {
-				if (success)
-					count++;
-			}];
+	[self deleteObjects:objects withCompletion:^(BOOL success, NSError *error) {
+		[error log:@"deleteObjects:"];
 
 		if (completion)
-			completion(count >= objects.count);
-	}
+			completion(success);
+	}];
+
+	return YES;
 }
 
 static NSMutableDictionary *_types;
@@ -162,16 +157,16 @@ static NSMutableDictionary *_types;
 	return sample;
 }
 
-- (void)saveCategorySampleWithIdentifier:(NSString *)identifier value:(NSInteger)value startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void (^)(BOOL))completion {
+- (BOOL)saveCategorySampleWithIdentifier:(NSString *)identifier value:(NSInteger)value startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void (^)(BOOL))completion {
 	HKCategorySample *sample = [self categotySampleWithIdentifier:identifier value:value startDate:startDate endDate:endDate metadata:metadata];
 	
-	[self saveObject:sample completion:completion];
+	return [self saveObject:sample completion:completion];
 }
 
-- (void)saveQuantitySampleWithIdentifier:(NSString *)identifier quantity:(HKQuantity *)quantity startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void (^)(BOOL))completion {
+- (BOOL)saveQuantitySampleWithIdentifier:(NSString *)identifier quantity:(HKQuantity *)quantity startDate:(NSDate *)startDate endDate:(NSDate *)endDate metadata:(NSDictionary *)metadata completion:(void (^)(BOOL))completion {
 	HKQuantitySample *sample = [self quantitySampleWithIdentifier:identifier quantity:quantity startDate:startDate endDate:endDate metadata:metadata];
 	
-	[self saveObject:sample completion:completion];
+	return [self saveObject:sample completion:completion];
 }
 
 - (HKSampleQuery *)querySamplesWithIdentifier:(NSString *)identifier predicate:(NSPredicate *)predicate limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort completion:(void(^)(NSArray *samples))completion {

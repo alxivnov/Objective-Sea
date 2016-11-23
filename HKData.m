@@ -116,12 +116,12 @@
 
 
 
-+ (void)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata completion:(void (^)(BOOL))completion {
-	[[HKHealthStore defaultStore] saveCategorySampleWithIdentifier:[self identifier] value:value startDate:start endDate:end metadata:metadata completion:completion];
++ (BOOL)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata completion:(void (^)(BOOL))completion {
+	return [[HKHealthStore defaultStore] saveCategorySampleWithIdentifier:[self identifier] value:value startDate:start endDate:end metadata:metadata completion:completion];
 }
 
-+ (void)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata {
-	[[HKHealthStore defaultStore] saveCategorySampleWithIdentifier:[self identifier] value:value startDate:start endDate:end metadata:metadata completion:Nil];
++ (BOOL)saveSampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata {
+	return [[HKHealthStore defaultStore] saveCategorySampleWithIdentifier:[self identifier] value:value startDate:start endDate:end metadata:metadata completion:Nil];
 }
 
 @end
