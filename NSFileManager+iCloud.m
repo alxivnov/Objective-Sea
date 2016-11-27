@@ -48,13 +48,13 @@
 		__block NSError *error = Nil;
 		BOOL success = YES;
 #if TARGET_OS_IPHONE
-		success = [[UIApplication sharedApplication] performBackgroundTask:^{
+		success = [UIApplication performBackgroundTaskWithName:@"coordinateWriting" handler:^{
 #endif
 			[[[NSFileCoordinator alloc] initWithFilePresenter:Nil] coordinateWritingItemAtURL:self options:options error:&error byAccessor:writer];
 
 			[error log:@"coordinateWritingItemAtURL:"];
 #if TARGET_OS_IPHONE
-		}];
+		} expirationHandler:Nil];
 #endif
 		if (handler)
 			handler(success && !error);
@@ -66,13 +66,13 @@
 		__block NSError *error = Nil;
 		BOOL success = YES;
 #if TARGET_OS_IPHONE
-		success = [[UIApplication sharedApplication] performBackgroundTask:^{
+		success = [UIApplication performBackgroundTaskWithName:@"coordinateReading" handler:^{
 #endif
 			[[[NSFileCoordinator alloc] initWithFilePresenter:Nil] coordinateReadingItemAtURL:self options:options error:&error byAccessor:reader];
 
 			[error log:@"coordinateWritingItemAtURL:"];
 #if TARGET_OS_IPHONE
-		}];
+		} expirationHandler:Nil];
 #endif
 		if (handler)
 			handler(success && !error);

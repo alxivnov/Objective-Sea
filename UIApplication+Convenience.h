@@ -26,12 +26,10 @@
 @property (assign, nonatomic, readonly) BOOL iPad;
 @property (assign, nonatomic, readonly) BOOL iPhone;
 
-- (BOOL)isActive;
-- (BOOL)isBackground;
-- (BOOL)isInactive;
+@property (assign, nonatomic, readonly) BOOL isActive;
+@property (assign, nonatomic, readonly) BOOL isBackground;
+@property (assign, nonatomic, readonly) BOOL isInactive;
 
-- (BOOL)performBackgroundTask:(void (^)(void))task withName:(NSString *)name expirationHandler:(void(^)(void))handler;
-- (BOOL)performBackgroundTask:(void (^)(void))task expirationHandler:(void(^)(void))handler;
-- (BOOL)performBackgroundTask:(void (^)(void))task;
++ (BOOL)performBackgroundTaskWithName:(NSString *)taskName handler:(void (^)(void))taskHandler expirationHandler:(void (^)(void))expirationHandler;
 
 @end

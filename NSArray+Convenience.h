@@ -17,13 +17,13 @@
 + (instancetype)arrayWithObject:(id)object1 withObject:(id)object2;
 + (instancetype)arrayWithObject:(id)object1 withObject:(id)object2 withObject:(id)object3;
 
-- (NSArray *)arrayWithRange:(NSRange)range;
-- (NSArray *)arrayWithCount:(NSUInteger)count;
-- (NSArray *)arrayWithIndex:(NSUInteger)index;
+- (NSArray<ObjectType> *)arrayWithRange:(NSRange)range;
+- (NSArray<ObjectType> *)arrayWithCount:(NSUInteger)count;
+- (NSArray<ObjectType> *)arrayWithIndex:(NSUInteger)index;
 
-- (NSArray *)arrayByAddingObjectsFromNullableArray:(NSArray *)otherArray;
-- (NSArray *)arrayByAddingNullableObject:(id)anObject;
-- (NSArray *)arrayByRemovingObjectAtIndex:(NSUInteger)index;
+- (NSArray<ObjectType> *)arrayByAddingObjectsFromNullableArray:(NSArray<ObjectType> *)otherArray;
+- (NSArray<ObjectType> *)arrayByAddingNullableObject:(id)anObject;
+- (NSArray<ObjectType> *)arrayByRemovingObjectAtIndex:(NSUInteger)index;
 
 
 

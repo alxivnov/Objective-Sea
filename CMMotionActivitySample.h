@@ -13,9 +13,6 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
-#define HKMetadataKeyActivities @"HKMetadataKeyActivities"
-#define HKMetadataKeySampleActivities @"HKMetadataKeySampleActivities"
-
 @interface CMMotionActivitySample : NSObject
 
 @property (strong, nonatomic, readonly) NSDate *startDate;

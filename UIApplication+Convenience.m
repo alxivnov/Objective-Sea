@@ -76,23 +76,16 @@
 	return self.applicationState == UIApplicationStateInactive;
 }
 
-- (BOOL)performBackgroundTask:(void (^)(void))task withName:(NSString *)name expirationHandler:(void(^)(void))handler {
-	UIBackgroundTaskIdentifier identifier = [self beginBackgroundTaskWithName:name expirationHandler:handler];
++ (BOOL)performBackgroundTaskWithName:(NSString *)taskName handler:(void (^)(void))taskHandler expirationHandler:(void (^)(void))expirationHandler {
+	UIBackgroundTaskIdentifier identifier = [[self sharedApplication] beginBackgroundTaskWithName:taskName expirationHandler:expirationHandler];
 	if (identifier == UIBackgroundTaskInvalid)
 		return NO;
 
-	task();
-	[self endBackgroundTask:identifier];
+	taskHandler();
+
+	[[self sharedApplication] endBackgroundTask:identifier];
 
 	return YES;
-}
-
-- (BOOL)performBackgroundTask:(void (^)(void))task expirationHandler:(void (^)(void))handler {
-	return [self performBackgroundTask:task withName:Nil expirationHandler:handler];
-}
-
-- (BOOL)performBackgroundTask:(void (^)(void))task {
-	return [self performBackgroundTask:task withName:Nil expirationHandler:Nil];
 }
 
 @end
