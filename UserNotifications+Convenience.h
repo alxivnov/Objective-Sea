@@ -25,20 +25,21 @@
 
 + (void)getNotificationSettings:(void (^)(UNNotificationSettings *settings))completionHandler;
 
++ (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger completion:(void (^)(BOOL success))completion;
 + (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger;
 
 + (void)getPendingNotificationRequestsWithCompletionHandler:(void(^)(NSArray<UNNotificationRequest *> *requests))completionHandler;
 + (void)getPendingNotificationRequestsWithIdentifier:(NSString *)identifier completionHandler:(void(^)(NSArray<UNNotificationRequest *> *requests))completionHandler;
 + (void)getPendingNotificationRequestWithIdentifier:(NSString *)identifier completionHandler:(void(^)(UNNotificationRequest *request))completionHandler;
 + (void)removePendingNotificationRequestsWithIdentifiers:(NSArray<NSString *> *)identifiers;
-+ (void)removePendingNotificationRequestsWithIdentifier:(NSString *)identifier;
++ (void)removePendingNotificationRequestWithIdentifier:(NSString *)identifier;
 + (void)removeAllPendingNotificationRequests;
 
 + (void)getDeliveredNotificationsWithCompletionHandler:(void(^)(NSArray<UNNotification *> *notifications))completionHandler;
 + (void)getDeliveredNotificationsWithIdentifier:(NSString *)identifier completionHandler:(void(^)(NSArray<UNNotification *> *notifications))completionHandler;
 + (void)getDeliveredNotificationWithIdentifier:(NSString *)identifier completionHandler:(void(^)(UNNotification *notification))completionHandler;
 + (void)removeDeliveredNotificationsWithIdentifiers:(NSArray<NSString *> *)identifiers;
-+ (void)removeDeliveredNotificationsWithIdentifier:(NSString *)identifier;
++ (void)removeDeliveredNotificationWithIdentifier:(NSString *)identifier;
 + (void)removeAllDeliveredNotifications;
 
 + (void)removeNotificationsWithIdentifiers:(NSArray<NSString *> *)identifiers;
@@ -78,14 +79,18 @@
 + (instancetype)contentWithTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body badge:(NSNumber *)badge sound:(NSString *)sound attachments:(NSArray<NSURL *> *)attachments userInfo:(NSDictionary *)userInfo categoryIdentifier:(NSString *)categoryIdentifier;
 + (instancetype)contentWithTitle:(NSString *)title body:(NSString *)body badge:(NSNumber *)badge sound:(NSString *)sound attachments:(NSArray<NSURL *> *)attachments;
 
+- (void)scheduleWithIdentifier:(NSString *)identifier completion:(void (^)(BOOL success))completion;
 - (void)scheduleWithIdentifier:(NSString *)identifier;
 
+- (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion;
 - (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval repeats:(BOOL)repeats;
 - (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval;
 
+- (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion;
 - (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents repeats:(BOOL)repeats;
 - (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents;
 
+- (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion;
 - (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats;
 - (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date;
 

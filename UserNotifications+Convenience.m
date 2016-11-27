@@ -32,11 +32,18 @@
 	[[self currentNotificationCenter] getNotificationSettingsWithCompletionHandler:completionHandler];
 }
 
-+ (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger {
++ (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger completion:(void (^)(BOOL success))completion {
 	if (identifier && content)
 		[[self currentNotificationCenter] addNotificationRequest:[UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger] withCompletionHandler:^(NSError * _Nullable error) {
+			if (completion)
+				completion(error == Nil);
+
 			[error log:@"addNotificationRequest:"];
 		}];
+}
+
++ (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger {
+	[self addNotificationRequestWithIdentifier:identifier content:content trigger:trigger completion:Nil];
 }
 
 + (void)getPendingNotificationRequestsWithCompletionHandler:(void(^)(NSArray<UNNotificationRequest *> *requests))completionHandler {
@@ -64,7 +71,7 @@
 		[[self currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:identifiers];
 }
 
-+ (void)removePendingNotificationRequestsWithIdentifier:(NSString *)identifier {
++ (void)removePendingNotificationRequestWithIdentifier:(NSString *)identifier {
 	if (identifier)
 		[[self currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:@[ identifier ]];
 }
@@ -95,12 +102,12 @@
 
 + (void)removeDeliveredNotificationsWithIdentifiers:(NSArray<NSString *> *)identifiers {
 	if (identifiers)
-		[[self currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:identifiers];
+		[[self currentNotificationCenter] removeDeliveredNotificationsWithIdentifiers:identifiers];
 }
 
-+ (void)removeDeliveredNotificationsWithIdentifier:(NSString *)identifier {
++ (void)removeDeliveredNotificationWithIdentifier:(NSString *)identifier {
 	if (identifier)
-		[[self currentNotificationCenter] removePendingNotificationRequestsWithIdentifiers:@[ identifier ]];
+		[[self currentNotificationCenter] removeDeliveredNotificationsWithIdentifiers:@[ identifier ]];
 }
 
 + (void)removeAllDeliveredNotifications {
@@ -113,8 +120,8 @@
 }
 
 + (void)removeNotificationsWithIdentifier:(NSString *)identifier {
-	[self removePendingNotificationRequestsWithIdentifier:identifier];
-	[self removeDeliveredNotificationsWithIdentifier:identifier];
+	[self removePendingNotificationRequestWithIdentifier:identifier];
+	[self removeDeliveredNotificationWithIdentifier:identifier];
 }
 
 + (void)removeAllNotifications {
@@ -214,31 +221,47 @@
 	return [self contentWithTitle:title subtitle:Nil body:body badge:badge sound:sound attachments:attachments userInfo:Nil categoryIdentifier:Nil];
 }
 
+- (void)scheduleWithIdentifier:(NSString *)identifier completion:(void (^)(BOOL success))completion {
+	[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:Nil completion:completion];
+}
+
 - (void)scheduleWithIdentifier:(NSString *)identifier {
-	[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:Nil];
+	[self scheduleWithIdentifier:identifier completion:Nil];
+}
+
+- (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion {
+	if (timeInterval >= 0.0)
+		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNTimeIntervalNotificationTrigger triggerWithTimeInterval:timeInterval repeats:repeats] completion:completion];
 }
 
 - (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval repeats:(BOOL)repeats {
-	if (timeInterval >= 0.0)
-		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNTimeIntervalNotificationTrigger triggerWithTimeInterval:timeInterval repeats:repeats]];
+	[self scheduleWithIdentifier:identifier timeInterval:timeInterval repeats:repeats completion:Nil];
 }
 
 - (void)scheduleWithIdentifier:(NSString *)identifier timeInterval:(NSTimeInterval)timeInterval {
 	[self scheduleWithIdentifier:identifier timeInterval:timeInterval repeats:NO];
 }
 
-- (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents repeats:(BOOL)repeats {
+- (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion {
 	if (dateComponents)
-		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:dateComponents repeats:repeats]];
+		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:dateComponents repeats:repeats] completion:completion];
+}
+
+- (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents repeats:(BOOL)repeats {
+	[self scheduleWithIdentifier:identifier dateComponents:dateComponents repeats:repeats completion:Nil];
 }
 
 - (void)scheduleWithIdentifier:(NSString *)identifier dateComponents:(NSDateComponents *)dateComponents {
 	[self scheduleWithIdentifier:identifier dateComponents:dateComponents repeats:NO];
 }
 
-- (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats {
+- (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion {
 	if (date)
-		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:[[NSCalendar currentCalendar] components:NSCalendarUnitDateAndTime fromDate:date] repeats:repeats]];
+		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:[[NSCalendar currentCalendar] components:NSCalendarUnitDateAndTime fromDate:date] repeats:repeats] completion:completion];
+}
+
+- (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats {
+	[self scheduleWithIdentifier:identifier date:date repeats:repeats completion:Nil];
 }
 
 - (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date {
