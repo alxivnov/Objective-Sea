@@ -22,7 +22,8 @@
 - (NSArray<ObjectType> *)arrayWithIndex:(NSUInteger)index;
 
 - (NSArray<ObjectType> *)arrayByAddingObjectsFromNullableArray:(NSArray<ObjectType> *)otherArray;
-- (NSArray<ObjectType> *)arrayByAddingNullableObject:(id)anObject;
+- (NSArray<ObjectType> *)arrayByAddingNullableObject:(ObjectType)anObject;
+- (NSArray<ObjectType> *)arrayByRemovingObject:(ObjectType)anObject;
 - (NSArray<ObjectType> *)arrayByRemovingObjectAtIndex:(NSUInteger)index;
 
 
