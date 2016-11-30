@@ -34,11 +34,11 @@ __static(NSDateFormatter *, RFC3339Formatter, ({
 }
 
 - (NSString *)weekdaySymbol:(NSUInteger)weekday {
-	return weekday > self.standaloneWeekdaySymbols.count ? Nil : self.standaloneWeekdaySymbols[weekday - 1];
+	return idx(self.standaloneWeekdaySymbols, weekday - 1);
 }
 
 - (NSString *)monthSymbol:(NSUInteger)month {
-	return month > self.standaloneMonthSymbols.count ? Nil : self.standaloneMonthSymbols[month - 1];
+	return idx(self.standaloneMonthSymbols, month - 1);
 }
 
 - (NSString *)weekdaySymbolForDate:(NSDate *)date {
