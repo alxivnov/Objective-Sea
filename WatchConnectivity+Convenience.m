@@ -22,8 +22,11 @@
 
 @implementation WCSession (Convenience)
 
-- (void)sendMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler {
+- (void)sendMessage:(NSDictionary<NSString *,id> *)message replyHandler:(void (^)(NSDictionary<NSString *,id> *))replyHandler {
 	[self sendMessage:message replyHandler:replyHandler errorHandler:^(NSError * _Nonnull error) {
+		if (replyHandler)
+			replyHandler(Nil);
+
 		[error log:@"sendMessage:"];
 	}];
 }

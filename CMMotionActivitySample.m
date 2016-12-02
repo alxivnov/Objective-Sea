@@ -138,6 +138,9 @@
 }
 
 + (NSData *)samplesToData:(NSArray<CMMotionActivitySample *> *)samples date:(NSDate *)date {
+	if (!samples)
+		return Nil;
+
 	NSUInteger length = date ? 10 : 18;
 
 	NSMutableData *data = [NSMutableData dataWithCapacity:samples.count * length];
@@ -147,6 +150,9 @@
 }
 
 + (NSArray<CMMotionActivitySample *> *)samplesFromData:(NSData *)data date:(NSDate *)date {
+	if (!data)
+		return Nil;
+
 	NSUInteger length = date ? 10 : 18;
 
 	NSUInteger count = data.length / length;
@@ -158,7 +164,7 @@
 }
 
 + (NSString *)samplesToString:(NSArray<CMMotionActivitySample *> *)samples date:(NSDate *)date {
-	return samples.count ? [[self samplesToData:samples date:date] base64EncodedStringWithOptions:0] : Nil;
+	return samples ? [[self samplesToData:samples date:date] base64EncodedStringWithOptions:0] : Nil;
 }
 
 + (NSArray<CMMotionActivitySample *> *)samplesFromString:(NSString *)string date:(NSDate *)date {
