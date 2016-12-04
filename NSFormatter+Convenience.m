@@ -42,11 +42,11 @@ __static(NSDateFormatter *, RFC3339Formatter, ({
 }
 
 - (NSString *)weekdaySymbolForDate:(NSDate *)date {
-	return [self weekdaySymbol:[[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:date]];
+	return date ? [self weekdaySymbol:[[NSCalendar currentCalendar] component:NSCalendarUnitWeekday fromDate:date]] : Nil;
 }
 
 - (NSString *)monthSymbolForDate:(NSDate *)date {
-	return [self monthSymbol:[[NSCalendar currentCalendar] component:NSCalendarUnitMonth fromDate:date]];
+	return date ? [self monthSymbol:[[NSCalendar currentCalendar] component:NSCalendarUnitMonth fromDate:date]] : Nil;
 }
 
 @end

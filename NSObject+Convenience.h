@@ -92,6 +92,8 @@
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
 - (id)forwardSelector:(SEL)aSelector nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
 
+- (BOOL)isEqualToAnyObject:(NSArray *)objects;
+
 - (BOOL)isKindOfAnyClass:(NSArray<Class> *)classes;
 - (BOOL)isMemberOfAnyClass:(NSArray<Class> *)classes;
 

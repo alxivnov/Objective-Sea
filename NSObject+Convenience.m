@@ -67,6 +67,14 @@
 	return [self forwardSelector:aSelector withObjects:Nil nextTarget:block];
 }
 
+- (BOOL)isEqualToAnyObject:(NSArray *)objects {
+	for (id object in objects)
+		if ([self isEqual:object])
+			return YES;
+
+	return NO;
+}
+
 - (BOOL)isKindOfAnyClass:(NSArray *)classes {
 	for (Class class in classes)
 		if ([self isKindOfClass:class])
