@@ -100,6 +100,9 @@
 - (NSData *)archivedData;
 + (instancetype)createFromArchivedData:(NSData *)data;
 
+- (id)tryGetValueForKey:(NSString *)key;
+- (BOOL)trySetValue:(id)value forKey:(NSString *)key;
+
 @end
 
 @interface NSMethodSignature (Convenience)

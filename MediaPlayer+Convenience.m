@@ -30,9 +30,9 @@
 	if (!handler)
 		return;
 
-	id catalog = sel_(self, valueForKey:, @"_catalog");
-	id token = sel_(catalog, valueForKey:, @"_token");
-	id url = sel_(token, valueForKey:, @"_fetchableArtworkToken");
+	id catalog = sel_(self, tryGetValueForKey:, @"_catalog");
+	id token = sel_(catalog, tryGetValueForKey:, @"_token");
+	id url = sel_(token, tryGetValueForKey:, @"_fetchableArtworkToken");
 
 	[[NSURL URLWithString:url] cache:^(NSURL *cachedURL) {
 		handler([UIImage imageWithContentsOfURL:cachedURL]);

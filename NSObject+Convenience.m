@@ -99,6 +99,28 @@
 	return [NSKeyedUnarchiver unarchiveObjectWithData:data];
 }
 
+- (id)tryGetValueForKey:(NSString *)key {
+	id value = Nil;
+	@try {
+		value = [self valueForKey:key];
+	}
+	@finally {
+		return value;
+	}
+}
+
+- (BOOL)trySetValue:(id)value forKey:(NSString *)key {
+	BOOL success = NO;
+	@try {
+		[self setValue:value forKey:key];
+
+		success = YES;
+	}
+	@finally {
+		return success;
+	}
+}
+
 @end
 
 #define NSMethodReturnTypeChar "c"

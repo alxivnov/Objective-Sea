@@ -8,6 +8,19 @@
 
 #import "UIAlertController+Convenience.h"
 
+@implementation UIAlertAction (Convenience)
+
+- (void)setActionImage:(UIImage *)image {
+	[self trySetValue:image forKey:@"_image"];
+}
+
+- (void)setActionColor:(UIColor *)color {
+	[self trySetValue:color forKey:@"_imageTintColor"];
+	[self trySetValue:color forKey:@"_titleTextColor"];
+}
+
+@end
+
 @implementation UIAlertController (Convenience)
 
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
@@ -44,11 +57,14 @@
 
 @implementation UIViewController (UIAlertController)
 
-- (UIAlertController *)presentAlertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
+- (UIAlertController *)presentAlertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
 	if (!title && !message && !completion)
 		return Nil;
 
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles completion:completion];
+
+	if (configuration)
+		configuration(alert);
 
 	if (alert) {
 		if (preferredStyle == UIAlertControllerStyleActionSheet)
@@ -61,7 +77,7 @@
 }
 
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
-	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:Nil completion:completion];
+	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:Nil configuration:Nil completion:completion];
 }
 
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title cancelActionTitle:(NSString *)cancelActionTitle {
@@ -73,7 +89,7 @@
 }
 
 - (UIAlertController *)presentSheetWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
-	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:from completion:completion];
+	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:from configuration:Nil completion:completion];
 }
 
 - (UIAlertController *)presentSheetWithTitle:(NSString *)title cancelActionTitle:(NSString *)cancelActionTitle from:(id)from {
