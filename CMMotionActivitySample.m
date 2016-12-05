@@ -20,9 +20,13 @@
 - (NSTimeInterval)duration {
 	return [self.endDate timeIntervalSinceDate:self.startDate];
 }
-
+/*
 - (NSString *)description {
 	return [NSString stringWithFormat:@"{ startDate : %@, endDate : %@, type : %lu, confidence : %ld }", self.startDate, self.endDate, (unsigned long)self.type, (long)self.confidence];
+}
+*/
+- (NSString *)debugDescription {
+	return [NSString stringWithFormat:@"{ startDate : %@, endDate : %@, duration : %f, type : %@, confidence : %@ }", self.startDate, self.endDate, self.duration, self.type == CMMotionActivityTypeUnknown ? @"Unknown" : self.type == CMMotionActivityTypeStationary ? @"Stationary" : self.type == CMMotionActivityTypeWalking ? @"Walking" : self.type == CMMotionActivityTypeRunning ? @"Running" : self.type == CMMotionActivityTypeAutomotive ? @"Automotive" : self.type == CMMotionActivityTypeCycling ? @"Cycling" : @"None", self.confidence == CMMotionActivityConfidenceLow ? @"Low" : self.confidence == CMMotionActivityConfidenceMedium ? @"Medium" : self.confidence == CMMotionActivityConfidenceHigh ? @"High" : @"None"];
 }
 
 + (instancetype)sampleWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate type:(CMMotionActivityType)type confidence:(CMMotionActivityConfidence)confidence {
