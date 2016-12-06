@@ -35,7 +35,7 @@
 }
 
 + (void)openURL:(NSURL *)url inApp:(NSString *)app {
-	[self openURL:app ? [url URLByAppendingPathComponent:[NSString stringWithFormat:@"%@app=%@", [url.absoluteString containsString:@"?"] ? @"&" : @"?", app]] : url options:Nil completionHandler:Nil];
+	[self openURL:app ? [NSURL URLWithString:[NSString stringWithFormat:@"%@%@app=%@", url.absoluteString, [url.absoluteString containsString:@"?"] ? @"&" : @"?", app]] : url options:Nil completionHandler:Nil];
 }
 
 
