@@ -76,6 +76,10 @@
 	return alert;
 }
 
+- (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
+	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:Nil configuration:configuration completion:completion];
+}
+
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
 	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:Nil configuration:Nil completion:completion];
 }
@@ -86,6 +90,10 @@
 
 - (UIAlertController *)presentAlertWithError:(NSError *)error cancelActionTitle:(NSString *)cancelActionTitle {
 	return [self presentAlertWithTitle:error.localizedDescription message:error.localizedFailureReason cancelActionTitle:cancelActionTitle destructiveActionTitle:Nil otherActionTitles:Nil completion:Nil];
+}
+
+- (UIAlertController *)presentSheetWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
+	return [self presentAlertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet cancelActionTitle:cancelActionTitle destructiveActionTitle:destructiveActionTitle otherActionTitles:otherActionTitles from:from configuration:configuration completion:completion];
 }
 
 - (UIAlertController *)presentSheetWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from completion:(void (^)(UIAlertController *instance, NSInteger index))completion {

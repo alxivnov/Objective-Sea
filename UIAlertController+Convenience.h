@@ -32,12 +32,12 @@
 
 @interface UIViewController (UIAlertController)
 
-- (UIAlertController *)presentAlertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
-
+- (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title cancelActionTitle:(NSString *)cancelActionTitle;
 - (UIAlertController *)presentAlertWithError:(NSError *)error cancelActionTitle:(NSString *)cancelActionTitle;
 
+- (UIAlertController *)presentSheetWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
 - (UIAlertController *)presentSheetWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
 - (UIAlertController *)presentSheetWithTitle:(NSString *)title cancelActionTitle:(NSString *)cancelActionTitle from:(id)from;
 - (UIAlertController *)presentSheetWithError:(NSError *)error cancelActionTitle:(NSString *)cancelActionTitle from:(id)from;
