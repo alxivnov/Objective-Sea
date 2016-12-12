@@ -13,6 +13,8 @@
 #define kAppITunes @"itunes"
 #define kAppMusic @"music"
 
+#define UIApplicationStateString(applicationState) (applicationState) == UIApplicationStateActive ? @"Active" : (applicationState) == UIApplicationStateInactive ? @"Inactive" : (applicationState) == UIApplicationStateBackground ? @"Background" : Nil
+
 @interface UIApplication (Convenience)
 
 + (void)openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion;
