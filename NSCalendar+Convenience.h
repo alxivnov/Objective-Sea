@@ -67,9 +67,9 @@
 - (NSString *)descriptionForTime:(NSDateFormatterStyle)timeStyle;
 
 - (NSString *)weekdayDescription;
-/*
+
 - (NSString *)filenameDescription;
-*/
+
 @end
 
 @interface NSDateComponents (Convenience)

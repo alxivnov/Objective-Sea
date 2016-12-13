@@ -100,6 +100,20 @@
 	return [self statusBarHeight] > GUI_STATUS_BAR_HEIGHT;
 }
 
+- (void)presentViewControllerWithIdentifier:(NSString *)viewControllerIdentifier animated:(BOOL)flag completion:(void (^)(UIViewController *))completion {
+	if (!viewControllerIdentifier)
+		return;
+
+	UIViewController *viewController = [[UIStoryboard mainStoryboard] instantiateViewControllerWithIdentifier:viewControllerIdentifier];
+
+	if (!viewController)
+		return;
+
+	[self presentViewController:viewController animated:flag completion:completion ? ^{
+		completion(viewController);
+	} : Nil];
+}
+
 @end
 
 @implementation UIViewController (UIPopoverPresentationController)

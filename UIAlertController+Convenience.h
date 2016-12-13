@@ -32,6 +32,8 @@
 
 @interface UIViewController (UIAlertController)
 
+- (UIAlertController *)presentAlertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles from:(id)from configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
+
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles configuration:(void (^)(UIAlertController *instance))configuration completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title message:(NSString *)message cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles completion:(void (^)(UIAlertController *instance, NSInteger index))completion;
 - (UIAlertController *)presentAlertWithTitle:(NSString *)title cancelActionTitle:(NSString *)cancelActionTitle;

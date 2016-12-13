@@ -177,11 +177,11 @@
 - (NSString *)weekdayDescription {
 	return [self descriptionWithFormat:@"EEEE" andCalendar:Nil];
 }
-/*
+
 - (NSString *)filenameDescription {
 	return [self descriptionWithFormat:@"yyyy-MM-dd-HH-mm-ss" andCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
 }
-*/
+
 @end
 
 @implementation NSDateComponents (Convenience)

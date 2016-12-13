@@ -38,6 +38,8 @@
 + (CGFloat)statusBarHeight;
 + (BOOL)inCallingStatusBar;
 
+- (void)presentViewControllerWithIdentifier:(NSString *)viewControllerIdentifier animated:(BOOL)flag completion:(void (^)(UIViewController *viewController))completion;
+
 @end
 
 @interface UIViewController (UIPopoverPresentationController)
