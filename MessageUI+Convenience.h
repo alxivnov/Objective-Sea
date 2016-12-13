@@ -14,12 +14,15 @@
 #import "UIApplication+Convenience.h"
 
 @import MessageUI;
+@import MobileCoreServices;
 
 @interface MFMailComposeViewController (Convenience)
 
-+ (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body;
-+ (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject;
-+ (instancetype)createWithRecipients:(NSArray *)recipients;
++ (instancetype)createWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body attachments:(NSDictionary<NSString *, NSData *> *)attachments;
+
++ (instancetype)createWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body;
++ (instancetype)createWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject;
++ (instancetype)createWithRecipients:(NSArray<NSString *> *)recipients;
 
 + (instancetype)createWithRecipient:(NSString *)recipient subject:(NSString *)subject body:(NSString *)body;
 + (instancetype)createWithRecipient:(NSString *)recipient subject:(NSString *)subject;
@@ -39,7 +42,7 @@
 
 @interface UIViewController (MFMailComposeViewController)
 
-- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body completionHandler:(void (^)(MFMailComposeResult result, NSError *error))completionHandler;
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body attachments:(NSDictionary<NSString *, NSData *> *)attachments completionHandler:(void (^)(MFMailComposeResult result, NSError *error))completionHandler;
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body;
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject;

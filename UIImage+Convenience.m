@@ -103,6 +103,10 @@
 	return UIImageJPEGRepresentation(self, quality);
 }
 
+- (NSData *)jpegRepresentation {
+	return [self jpegRepresentation:0.85];
+}
+
 - (NSData *)pngRepresentation {
 	return UIImagePNGRepresentation(self);
 }

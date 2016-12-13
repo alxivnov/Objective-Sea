@@ -13,7 +13,7 @@
 #define kAppITunes @"itunes"
 #define kAppMusic @"music"
 
-#define UIApplicationStateString(applicationState) (applicationState) == UIApplicationStateActive ? @"Active" : (applicationState) == UIApplicationStateInactive ? @"Inactive" : (applicationState) == UIApplicationStateBackground ? @"Background" : Nil
+#define UIApplicationStateString(applicationState) ((applicationState) == UIApplicationStateActive ? @"Active" : (applicationState) == UIApplicationStateInactive ? @"Inactive" : (applicationState) == UIApplicationStateBackground ? @"Background" : @"")
 
 @interface UIApplication (Convenience)
 

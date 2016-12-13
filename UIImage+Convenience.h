@@ -44,6 +44,7 @@ typedef enum : NSUInteger {
 
 #if TARGET_OS_IPHONE
 - (NSData *)jpegRepresentation:(CGFloat)quality;
+- (NSData *)jpegRepresentation;
 - (NSData *)pngRepresentation;
 
 - (BOOL)writeJPEGToURL:(NSURL *)url quality:(CGFloat)quality;

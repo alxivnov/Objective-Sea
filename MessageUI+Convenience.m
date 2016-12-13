@@ -10,7 +10,17 @@
 
 @implementation MFMailComposeViewController (Convenience)
 
-+ (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body {
++ (NSString *)mimeTypeFromFileExtension:(NSString *)fileExtension {
+	CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, NULL);
+
+	CFStringRef mime = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType);
+
+	CFRelease(uti);
+
+	return (NSString *)CFBridgingRelease(mime);
+}
+
++ (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body attachments:(NSDictionary<NSString *,NSData *> *)attachments {
 	if (![self canSendMail])
 		return Nil;
 
@@ -20,27 +30,34 @@
 		[instance setSubject:subject];
 	if (body)
 		[instance setMessageBody:body isHTML:NO];
+	for (NSString *name in attachments.allKeys)
+		[instance addAttachmentData:attachments[name] mimeType:[self mimeTypeFromFileExtension:name.pathExtension] ?: @"application/octet-stream" fileName:name];
+
 	return instance;
 }
 
++ (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body {
+	return [self createWithRecipients:recipients subject:subject body:body attachments:Nil];
+}
+
 + (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject {
-	return [self createWithRecipients:recipients subject:subject body:Nil];
+	return [self createWithRecipients:recipients subject:subject body:Nil attachments:Nil];
 }
 
 + (instancetype)createWithRecipients:(NSArray *)recipients {
-	return [self createWithRecipients:recipients subject:Nil body:Nil];
+	return [self createWithRecipients:recipients subject:Nil body:Nil attachments:Nil];
 }
 
 + (instancetype)createWithRecipient:(NSString *)recipient subject:(NSString *)subject body:(NSString *)body {
-	return [self createWithRecipients:arr_(recipient) subject:subject body:body];
+	return [self createWithRecipients:arr_(recipient) subject:subject body:body attachments:Nil];
 }
 
 + (instancetype)createWithRecipient:(NSString *)recipient subject:(NSString *)subject {
-	return [self createWithRecipients:arr_(recipient) subject:subject body:Nil];
+	return [self createWithRecipients:arr_(recipient) subject:subject body:Nil attachments:Nil];
 }
 
 + (instancetype)createWithRecipient:(NSString *)recipient {
-	return [self createWithRecipients:arr_(recipient) subject:Nil body:Nil];
+	return [self createWithRecipients:arr_(recipient) subject:Nil body:Nil attachments:Nil];
 }
 
 @end
@@ -84,8 +101,8 @@
 
 @implementation UIViewController (MFMailComposeViewController)
 
-- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body completionHandler:(void (^)(MFMailComposeResult result, NSError *error))completionHandler {
-	MFMailCompose *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body];
+- (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body attachments:(NSDictionary<NSString *,NSData *> *)attachments completionHandler:(void (^)(MFMailComposeResult, NSError *))completionHandler {
+	MFMailCompose *vc = [MFMailCompose createWithRecipients:recipients subject:subject body:body attachments:attachments];
 	vc.completionHandler = completionHandler;
 
 	if (vc)
@@ -100,27 +117,27 @@
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject body:(NSString *)body {
-	return [self presentMailComposeWithRecipients:recipients subject:subject body:body completionHandler:Nil];
+	return [self presentMailComposeWithRecipients:recipients subject:subject body:body attachments:Nil completionHandler:Nil];
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients subject:(NSString *)subject {
-	return [self presentMailComposeWithRecipients:recipients subject:subject body:Nil];
+	return [self presentMailComposeWithRecipients:recipients subject:subject body:Nil attachments:Nil completionHandler:Nil];
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipients:(NSArray<NSString *> *)recipients {
-	return [self presentMailComposeWithRecipients:recipients subject:Nil body:Nil];
+	return [self presentMailComposeWithRecipients:recipients subject:Nil body:Nil attachments:Nil completionHandler:Nil];
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipient:(NSString *)recipient subject:(NSString *)subject body:(NSString *)body {
-	return [self presentMailComposeWithRecipients:arr_(recipient) subject:subject body:body];
+	return [self presentMailComposeWithRecipients:arr_(recipient) subject:subject body:body attachments:Nil completionHandler:Nil];
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipient:(NSString *)recipient subject:(NSString *)subject {
-	return [self presentMailComposeWithRecipients:arr_(recipient) subject:subject body:Nil];
+	return [self presentMailComposeWithRecipients:arr_(recipient) subject:subject body:Nil attachments:Nil completionHandler:Nil];
 }
 
 - (MFMailComposeViewController *)presentMailComposeWithRecipient:(NSString *)recipient {
-	return [self presentMailComposeWithRecipients:arr_(recipient) subject:Nil body:Nil];
+	return [self presentMailComposeWithRecipients:arr_(recipient) subject:Nil body:Nil attachments:Nil completionHandler:Nil];
 }
 
 @end
