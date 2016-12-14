@@ -165,8 +165,8 @@
 	return [NSDateFormatter localizedStringFromDate:self dateStyle:NSDateFormatterNoStyle timeStyle:timeStyle];
 }
 
-- (NSString *)descriptionWithFormat:(NSString *)format andCalendar:(NSCalendar *)calendar {
-	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+- (NSString *)descriptionWithFormat:(NSString *)format calendar:(NSCalendar *)calendar {
+	NSDateFormatter *formatter = [NSDateFormatter new];
 	if (format)
 		formatter.dateFormat = format;
 	if (calendar)
@@ -175,11 +175,11 @@
 }
 
 - (NSString *)weekdayDescription {
-	return [self descriptionWithFormat:@"EEEE" andCalendar:Nil];
+	return [self descriptionWithFormat:@"EEEE" calendar:Nil];
 }
 
 - (NSString *)filenameDescription {
-	return [self descriptionWithFormat:@"yyyy-MM-dd-HH-mm-ss" andCalendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
+	return [self descriptionWithFormat:@"yyyy-MM-dd-HH-mm-ss" calendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
 }
 
 @end
