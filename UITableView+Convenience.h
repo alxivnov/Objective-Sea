@@ -17,6 +17,15 @@
 
 #define NSIndexPathMake(section, row) [NSIndexPath indexPathForRow:row inSection:section]
 
+@protocol UITableViewSwipeAccessoryButton <NSObject>
+
+@optional
+
+- (NSString *)tableView:(UITableView *)tableView titleForSwipeAccessoryButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView swipeAccessoryButtonPushedForRowAtIndexPath:(NSIndexPath *)indexPath;
+
+@end
+
 @interface NSIndexPath (Convenience)
 
 - (BOOL)isEqualToIndexPath:(NSIndexPath *)indexPath;
@@ -96,5 +105,12 @@
 - (void)scrollToRow:(NSInteger)row inSection:(NSInteger)section;
 
 - (NSIndexPath *)indexPathForNullableCell:(UITableViewCell *)cell;
+
+@end
+
+@interface UITableViewRowAction (Category)
+
++ (instancetype)destructiveRowActionWithTitle:(NSString *)title handler:(void (^)(UITableViewRowAction *action, NSIndexPath *indexPath))handler;
++ (instancetype)normalRowActionWithTitle:(NSString *)title handler:(void (^)(UITableViewRowAction *action, NSIndexPath *indexPath))handler;
 
 @end

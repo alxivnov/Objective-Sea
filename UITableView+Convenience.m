@@ -265,3 +265,15 @@
 }
 
 @end
+
+@implementation UITableViewRowAction (Category)
+
++ (instancetype)destructiveRowActionWithTitle:(NSString *)title handler:(void (^)(UITableViewRowAction *, NSIndexPath *))handler {
+	return title && handler ? [self rowActionWithStyle:UITableViewRowActionStyleDestructive title:title handler:handler] : Nil;
+}
+
++ (instancetype)normalRowActionWithTitle:(NSString *)title handler:(void (^)(UITableViewRowAction *, NSIndexPath *))handler {
+	return title && handler ? [self rowActionWithStyle:UITableViewRowActionStyleNormal title:title handler:handler] : Nil;
+}
+
+@end

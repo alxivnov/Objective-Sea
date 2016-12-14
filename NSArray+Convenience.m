@@ -65,6 +65,16 @@
 	return anObject ? [self arrayByAddingObject:anObject] : self;
 }
 
+- (NSArray *)arrayByRemovingObjectsFromArray:(NSArray *)otherArray {
+	if (!otherArray)
+		return self;
+
+	NSMutableArray *array = [self mutableCopy];
+	for (id obj in otherArray)
+		[array removeObject:obj];
+	return array;
+}
+
 - (NSArray *)arrayByRemovingObject:(id)anObject {
 	if (!anObject)
 		return self;
