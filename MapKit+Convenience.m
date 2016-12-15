@@ -28,3 +28,18 @@
 }
 
 @end
+
+@implementation MKDistanceFormatter (Convenience)
+
+static MKDistanceFormatter *_defaultFormatter;
+
++ (instancetype)defaultFormatter {
+	@synchronized (self) {
+		if (!_defaultFormatter)
+			_defaultFormatter = [self new];
+	}
+
+	return _defaultFormatter;
+}
+
+@end

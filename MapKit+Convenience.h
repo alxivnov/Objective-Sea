@@ -14,3 +14,9 @@
 - (void)setRegionDistance:(double)regionDistance;
 
 @end
+
+@interface MKDistanceFormatter (Convenience)
+
++ (instancetype)defaultFormatter;
+
+@end
