@@ -12,6 +12,10 @@
 #define CGSizeIsZero(size) CGSizeEqualToSize(size, CGSizeZero)
 #define CGRectIsZero(rect) CGRectEqualToRect(rect, CGRectZero)
 
+#define CGPointIsNan(point) (isnan(point.x) && isnan(point.y))
+#define CGSizeIsNan(size) (isnan(size.width) && isnan(size.height))
+#define CGRectIsNan(rect) (isnan(rect.origin.x) && isnan(rect.origin.y) && isnan(rect.size.width) && isnan(rect.size.height))
+
 #define CGPointIsFinite(point) (isfinite(point.x) && isfinite(point.y))
 #define CGSizeIsFinite(size) (isfinite(size.width) && isfinite(size.height))
 #define CGRectIsFinite(rect) (isfinite(rect.origin.x) && isfinite(rect.origin.y) && isfinite(rect.size.width) && isfinite(rect.size.height))

@@ -45,6 +45,7 @@
 #define STR_EQUALITY @"="
 #define STR_HYPHEN @"-"
 #define STR_NEW_LINE @"\n"
+#define STR_NULL @"\0"
 #define STR_NUMBER @"#"
 #define STR_PLUS @"+"
 #define STR_SEMICOLON @";"
