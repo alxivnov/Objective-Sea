@@ -240,9 +240,9 @@
 }
 
 - (double)aggregate:(double(^)(double val, double obj))predicate {
-	double val = 0.0;
-	for (NSNumber *obj in self)
-		val = predicate(val, obj.doubleValue);
+	double val = [self.firstObject doubleValue];
+	for (NSUInteger index = 1; index < self.count; index++)
+		val = predicate(val, [self[index] doubleValue]);
 	return val;
 }
 
