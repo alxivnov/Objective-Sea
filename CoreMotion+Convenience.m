@@ -87,8 +87,10 @@ __static(NSOperationQueue *, queue, [NSOperationQueue new])
 }
 
 - (void)queryActivityStartingFromDate:(NSDate *)start toDate:(NSDate *)end withHandler:(void(^)(NSArray<CMMotionActivity *> *activities))handler {
+	BOOL reverse = start && end && start.timeIntervalSinceReferenceDate > end.timeIntervalSinceReferenceDate;
+
 	if (handler)
-		[self queryActivityStartingFromDate:start toDate:end toQueue:[[self class] queue] withHandler:^(NSArray<CMMotionActivity *> * _Nullable activities, NSError * _Nullable error) {
+		[self queryActivityStartingFromDate:reverse ? end : start toDate:reverse ? start : end toQueue:[[self class] queue] withHandler:^(NSArray<CMMotionActivity *> * _Nullable activities, NSError * _Nullable error) {
 			handler(activities);
 
 			[error log:@"queryActivityStartingFromDate:"];
