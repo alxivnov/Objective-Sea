@@ -93,7 +93,7 @@ static id _instance = Nil;
 #define STR_404 @"404"
 #define STR_PHP @"php"
 
-@implementation NSURL (Download)
+@implementation NSURL (NSURLSession)
 
 - (NSURL *)cacheURL {
 	if (!self.isWebAddress)
@@ -162,6 +162,30 @@ static id _instance = Nil;
 	NSURL *url = self.isWebAddress ? URL_CACHE(self) : self;
 
 	return self.isWebAddress && !url.isExistingFile ? [self download:url] ? url : Nil : url;
+}
+
+@end
+
+@implementation NSJSONSerialization (Convenience)
+
++ (id)JSONObjectWithData:(NSData *)data {
+	if (!data)
+		return Nil;
+
+	NSError *error = Nil;
+	id obj = [self JSONObjectWithData:data options:0 error:&error];
+	[error log:@"JSONObjectWithData:"];
+	return obj;
+}
+
++ (NSData *)dataWithJSONObject:(id)obj {
+	if (!obj)
+		return Nil;
+
+	NSError *error = Nil;
+	NSData *data = [self dataWithJSONObject:obj options:0 error:&error];
+	[error log:@"dataWithJSONObject:"];
+	return data;
 }
 
 @end
