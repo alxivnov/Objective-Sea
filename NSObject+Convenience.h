@@ -45,6 +45,7 @@
 #define STR_EQUALITY @"="
 #define STR_HYPHEN @"-"
 #define STR_NEW_LINE @"\n"
+#define STR_NULL @"\0"
 #define STR_NUMBER @"#"
 #define STR_PLUS @"+"
 #define STR_SEMICOLON @";"
@@ -62,6 +63,10 @@
 
 #define NSLocalize(key) NSLocalizedString(key, Nil)
 #define NSLocalizeMethod(method, key) + (NSString *)method { return NSLocalizedString(key, Nil); }
+
+#define NSDataIsEqualToData(d1, d2) ({ NSData *__d1 = (d1); NSData *__d2 = (d2); __d1 == __d2 || [__d1 isEqualToData:__d2]; })
+#define NSNumberIsEqualToNumber(n1, n2) ({ NSNumber *__n1 = (n1); NSNumber *__n2 = (n2); __n1 == __n2 || [__n1 isEqualToNumber:__n2]; })
+#define NSStringIsEqualToString(s1, s2) ({ NSString *__s1 = (s1); NSString *__s2 = (s2); __s1 == __s2 || [__s1 isEqualToString:__s2]; })
 
 #define MEM_PAGE_SIZE 4096
 

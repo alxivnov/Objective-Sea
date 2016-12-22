@@ -36,7 +36,7 @@
 
 #define URL_CACHE(url) [[[NSFileManager URLForDirectory:NSCachesDirectory] URLByAppendingPathComponent:[[url.absoluteString dataUsingEncoding:NSUnicodeStringEncoding] md5].UUIDString] URLByAppendingPathExtension:url.pathExtension]
 
-@interface NSURL (Download)
+@interface NSURL (NSURLSession)
 
 @property (strong, nonatomic, readonly) NSURL *cacheURL;
 
@@ -46,5 +46,13 @@
 
 - (BOOL)download:(NSURL *)url;
 - (NSURL *)cache;
+
+@end
+
+@interface NSJSONSerialization (Convenience)
+
++ (id)JSONObjectWithData:(NSData *)data;
+
++ (NSData *)dataWithJSONObject:(id)obj;
 
 @end
