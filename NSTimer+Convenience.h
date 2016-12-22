@@ -6,7 +6,7 @@
 //  Copyright © 2016 Alexander Ivanov. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 @interface NSSelectorTimer : NSObject
 

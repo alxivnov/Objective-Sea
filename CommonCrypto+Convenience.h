@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import <CommonCrypto/CommonDigest.h>
-
+/*
 @interface NSData (MD5)
 
 - (NSString *)MD5;
@@ -21,7 +21,7 @@
 - (NSString *)MD5;
 
 @end
-
+*/
 @interface NSData (Hash)
 
 - (NSUUID *)md5;
