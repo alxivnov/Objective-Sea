@@ -7,7 +7,7 @@
 //
 
 #import "CommonCrypto+Convenience.h"
-
+/*
 @implementation NSData (MD5)
 
 - (NSString *)MD5 {
@@ -48,7 +48,7 @@
 }
 
 @end
-
+*/
 @implementation NSData (Hash)
 
 - (NSUUID *)md5 {
