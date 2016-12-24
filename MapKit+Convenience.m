@@ -27,6 +27,11 @@
 	[self setRegionDistance:regionDistance animated:NO];
 }
 
+- (void)removeAllAnnotations {
+	if (self.annotations)
+		[self removeAnnotations:self.annotations];
+}
+
 @end
 
 @implementation MKDistanceFormatter (Convenience)
@@ -40,6 +45,34 @@ static MKDistanceFormatter *_defaultFormatter;
 	}
 
 	return _defaultFormatter;
+}
+
+@end
+
+@implementation MKShape (Convenience)
+
+- (instancetype)initWithTitle:(NSString *)title subtitle:(NSString *)subtitle {
+	self = [self init];
+
+	if (self) {
+		self.title = title;
+		self.subtitle = subtitle;
+	}
+
+	return self;
+}
+
+@end
+
+@implementation MKPointAnnotation (Convenience)
+
+- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate title:(NSString *)title subtitle:(NSString *)subtitle {
+	self = [self initWithTitle:title subtitle:subtitle];
+
+	if (self)
+		self.coordinate = coordinate;
+
+	return self;
 }
 
 @end
