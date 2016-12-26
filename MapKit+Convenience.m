@@ -32,6 +32,21 @@
 		[self removeAnnotations:self.annotations];
 }
 
+- (void)removeAllOverlays {
+	if (self.overlays)
+		[self removeOverlays:self.overlays];
+}
+
+- (void)removeAllAnnotationsAndOverlays {
+	[self removeAllAnnotations];
+
+	[self removeAllOverlays];
+}
+
+- (MKAnnotationView *)viewForNullableAnnotation:(id<MKAnnotation>)annotation {
+	return annotation ? [self viewForAnnotation:annotation] : Nil;
+}
+
 @end
 
 @implementation MKDistanceFormatter (Convenience)
@@ -73,6 +88,47 @@ static MKDistanceFormatter *_defaultFormatter;
 		self.coordinate = coordinate;
 
 	return self;
+}
+
+@end
+
+@implementation MKDirectionsRequest (Convenience)
+
+- (instancetype)initWithSource:(MKMapItem *)source destination:(MKMapItem *)destination transportType:(MKDirectionsTransportType)transportType requestsAlternateRoutes:(BOOL)requestsAlternateRoutes {
+	self = [self init];
+
+	if (self) {
+		self.source = source;
+		self.destination = destination;
+		self.transportType = transportType;
+		self.requestsAlternateRoutes = requestsAlternateRoutes;
+	}
+
+	return self;
+}
+
+- (instancetype)initWithSourcePlacemark:(MKPlacemark *)source destinationPlacemark:(MKPlacemark *)destination transportType:(MKDirectionsTransportType)transportType requestsAlternateRoutes:(BOOL)requestsAlternateRoutes {
+	return [self initWithSource:[[MKMapItem alloc] initWithPlacemark:source] destination:[[MKMapItem alloc] initWithPlacemark:destination] transportType:transportType requestsAlternateRoutes:requestsAlternateRoutes];
+}
+
+- (instancetype)initWithSourceCoordinate:(CLLocationCoordinate2D)source destinationCoordinate:(CLLocationCoordinate2D)destination transportType:(MKDirectionsTransportType)transportType requestsAlternateRoutes:(BOOL)requestsAlternateRoutes {
+	return [self initWithSourcePlacemark:[[MKPlacemark alloc] initWithCoordinate:source] destinationPlacemark:[[MKPlacemark alloc] initWithCoordinate:destination] transportType:transportType requestsAlternateRoutes:requestsAlternateRoutes];
+}
+
+- (MKDirections *)calculateDirectionsWithCompletionHandler:(MKDirectionsHandler)completionHandler {
+	MKDirections *directions = [[MKDirections alloc] initWithRequest:self];
+
+	[directions calculateDirectionsWithCompletionHandler:completionHandler];
+
+	return directions;
+}
+
+- (MKDirections *)calculateETAWithCompletionHandler:(MKETAHandler)completionHandler {
+	MKDirections *directions = [[MKDirections alloc] initWithRequest:self];
+
+	[directions calculateETAWithCompletionHandler:completionHandler];
+
+	return directions;
 }
 
 @end
