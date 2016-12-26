@@ -178,7 +178,7 @@
 	return [self descriptionWithFormat:@"EEEE" calendar:Nil];
 }
 
-- (NSString *)filenameDescription {
+- (NSString *)timestampDescription {
 	return [self descriptionWithFormat:@"yyyy-MM-dd-HH-mm-ss" calendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
 }
 

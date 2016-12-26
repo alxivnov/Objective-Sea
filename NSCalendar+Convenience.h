@@ -68,7 +68,7 @@
 
 - (NSString *)descriptionWithFormat:(NSString *)format calendar:(NSCalendar *)calendar;
 - (NSString *)weekdayDescription;
-- (NSString *)filenameDescription;
+- (NSString *)timestampDescription;
 
 @end
 
