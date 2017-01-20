@@ -90,6 +90,10 @@
 	return [self stringWithFormat:format, INDEX(arguments, 0), INDEX(arguments, 1), INDEX(arguments, 2), INDEX(arguments, 3), INDEX(arguments, 4), INDEX(arguments, 5), INDEX(arguments, 6), INDEX(arguments, 7), INDEX(arguments, 8), INDEX(arguments, 9)];
 }
 
++ (instancetype)stringWithLocalizedFormat:(NSString *)format arguments:(NSArray *)arguments {
+	return [self stringWithFormat:NSLocalizedString(format, Nil), INDEX(arguments, 0), INDEX(arguments, 1), INDEX(arguments, 2), INDEX(arguments, 3), INDEX(arguments, 4), INDEX(arguments, 5), INDEX(arguments, 6), INDEX(arguments, 7), INDEX(arguments, 8), INDEX(arguments, 9)];
+}
+
 - (NSString *)stringByApplyingTransform:(NSString *)transform {
 	NSString *string = [self stringByApplyingTransform:transform reverse:NO];
 	return string ? string : self;

@@ -34,6 +34,7 @@
 - (NSString *)uppercaseFirstLetter;
 
 + (instancetype)stringWithFormat:(NSString *)format arguments:(NSArray *)arguments;
++ (instancetype)stringWithLocalizedFormat:(NSString *)format arguments:(NSArray *)arguments;
 
 - (NSString *)stringByApplyingTransform:(NSString *)transform;
 

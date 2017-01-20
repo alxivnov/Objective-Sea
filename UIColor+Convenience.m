@@ -64,4 +64,17 @@
 	return [self getRed:Nil green:Nil blue:Nil alpha:&alpha] ? alpha : 0.0;
 }
 
+__static(NSMutableDictionary *, colors, [NSMutableDictionary new])
+
++ (UIColor *)colorWithHex:(NSUInteger)hex {
+	NSNumber *key = @(hex);
+
+	UIColor *value = [self colors][key];
+
+	if (!value)
+		[self colors][key] = value = HEX(hex);
+
+	return value;
+}
+
 @end

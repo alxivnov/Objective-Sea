@@ -11,7 +11,7 @@
 #define GCD_MAIN dispatch_get_main_queue()
 #define GCD_GLOBAL dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0)
 
-#define GCD_COCURRENT(label) dispatch_queue_create(label, DISPATCH_QUEUE_CONCURRENT)
+#define GCD_CONCURRENT(label) dispatch_queue_create(label, DISPATCH_QUEUE_CONCURRENT)
 #define GCD_SERIAL(label) dispatch_queue_create(label, DISPATCH_QUEUE_SERIAL)
 
 @interface GCD : NSObject
