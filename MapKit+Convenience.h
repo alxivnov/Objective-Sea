@@ -50,3 +50,13 @@
 - (MKDirections *)calculateETAWithCompletionHandler:(MKETAHandler)completionHandler;
 
 @end
+
+@interface MKMapSnapshotOptions (Convenience)
+
+- (instancetype)initWithMapRect:(MKMapRect)mapRect;
+- (instancetype)initWithRegion:(MKCoordinateRegion)region;
+
+- (MKMapSnapshotter *)snapshotWithCompletionHandler:(MKMapSnapshotCompletionHandler)completionHandler;
+- (MKMapSnapshotter *)snapshotWithQueue:(dispatch_queue_t)queue completionHandler:(MKMapSnapshotCompletionHandler)completionHandler;
+
+@end

@@ -132,3 +132,37 @@ static MKDistanceFormatter *_defaultFormatter;
 }
 
 @end
+
+@implementation MKMapSnapshotOptions (Convenience)
+
+- (instancetype)initWithMapRect:(MKMapRect)mapRect {
+	self = [self init];
+
+	if (self)
+		self.mapRect = mapRect;
+
+	return self;
+}
+
+- (instancetype)initWithRegion:(MKCoordinateRegion)region {
+	self = [self init];
+
+	if (self)
+		self.region = region;
+
+	return self;
+}
+
+- (MKMapSnapshotter *)snapshotWithCompletionHandler:(MKMapSnapshotCompletionHandler)completionHandler {
+	MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self];
+	[snapshotter startWithCompletionHandler:completionHandler];
+	return snapshotter;
+}
+
+- (MKMapSnapshotter *)snapshotWithQueue:(dispatch_queue_t)queue completionHandler:(MKMapSnapshotCompletionHandler)completionHandler {
+	MKMapSnapshotter *snapshotter = [[MKMapSnapshotter alloc] initWithOptions:self];
+	[snapshotter startWithQueue:queue completionHandler:completionHandler];
+	return snapshotter;
+}
+
+@end

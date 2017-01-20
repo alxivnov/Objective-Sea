@@ -56,3 +56,5 @@
 
 #define CGSizeAspectFill(size1, size2) ({ CGFloat __h = size1.height / size2.height; CGFloat __w = size1.width / size2.width; __h < __w ? CGSizeMake(size1.width / __h, size2.height) : CGSizeMake(size2.width, size1.height / __w); })
 #define CGSizeAspectFit(size1, size2) ({ CGFloat __h = size1.height / size2.height; CGFloat __w = size1.width / size2.width; __h > __w ? CGSizeMake(size1.width / __h, size2.height) : CGSizeMake(size2.width, size1.height / __w); })
+
+#define CGContextAddCircle(c, x, y, radius) CGContextAddArc(c, x, y, radius, 0.0, 2.0 * M_PI, YES)
