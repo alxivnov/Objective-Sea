@@ -10,21 +10,17 @@
 
 @implementation MKMapView (Convenience)
 
-- (void)setRegionDistance:(double)regionDistance animated:(BOOL)animated {
-	double latitude = regionDistance;
+- (void)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated {
+	double latitude = distance;
 	if (self.bounds.size.height < self.bounds.size.width)
 		latitude *= self.bounds.size.height / self.bounds.size.width;
 
-	double longitude = regionDistance;
+	double longitude = distance;
 	if (self.bounds.size.width < self.bounds.size.height)
 		longitude *= self.bounds.size.width / self.bounds.size.height;
 
-	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(self.userLocation.coordinate, latitude, longitude);
+	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(center, latitude, longitude);
 	[self setRegion:region animated:animated];
-}
-
-- (void)setRegionDistance:(double)regionDistance {
-	[self setRegionDistance:regionDistance animated:NO];
 }
 
 - (void)removeAllAnnotations {

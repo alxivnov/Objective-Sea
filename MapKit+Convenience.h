@@ -10,8 +10,7 @@
 
 @interface MKMapView (Convenience)
 
-- (void)setRegionDistance:(double)regionDistance animated:(BOOL)animated;
-- (void)setRegionDistance:(double)regionDistance;
+- (void)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated;
 
 - (void)removeAllAnnotations;
 - (void)removeAllOverlays;
