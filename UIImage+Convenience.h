@@ -55,4 +55,6 @@ typedef enum : NSUInteger {
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url;
 #endif
 
++ (UIImage *)image:(NSString *)name;
+
 @end

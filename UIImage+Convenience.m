@@ -134,4 +134,18 @@
 }
 #endif
 
+__static(NSMutableDictionary *, images, [NSMutableDictionary new])
+
++ (UIImage *)image:(NSString *)name {
+	if (!name)
+		return Nil;
+
+	UIImage *value = [self images][name];
+
+	if (!value)
+		[self images][name] = value = [UIImage imageNamed:name];
+
+	return value;
+}
+
 @end

@@ -48,10 +48,22 @@ __static(CLGeocoder *, defaultGeocoder, [self new])
 @implementation NSURL (CoreLocation)
 
 + (NSURL *)URLWithLocation:(CLLocation *)location query:(NSString *)query {
-	NSMutableDictionary *parameters = [NSMutableDictionary new];
-	parameters[@"ll"] = [NSString stringWithFormat:@"%f,%f", location.coordinate.latitude, location.coordinate.longitude];
+	NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithCapacity:2];
+	parameters[@"ll"] = CLLocationCoordinate2DDescription(location.coordinate);
 	parameters[@"q"] = query;
-	return [[NSURL URLWithString:@"http://maps.apple.com/"] URLByAppendingQueryDictionary:parameters];
+	return [[NSURL URLWithString:URL_MAPS] URLByAppendingQueryDictionary:parameters];
+}
+
++ (NSURL *)URLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr {
+	NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithCapacity:saddr ? 3 : 2];
+	parameters[@"dirflg"] = @"w";	// by foot
+	parameters[@"daddr"] = daddr;
+	parameters[@"saddr"] = saddr;
+	return [[NSURL URLWithString:URL_MAPS] URLByAppendingQueryDictionary:parameters];
+}
+
++ (NSURL *)URLWithDirectionsToLocation:(CLLocation *)daddr fromLocation:(CLLocation *)saddr {
+	return [self URLWithDirectionsTo:daddr ? CLLocationCoordinate2DDescription(daddr.coordinate) : Nil from:saddr ? CLLocationCoordinate2DDescription(saddr.coordinate) : Nil];
 }
 
 @end

@@ -66,7 +66,7 @@
 
 __static(NSMutableDictionary *, colors, [NSMutableDictionary new])
 
-+ (UIColor *)colorWithHex:(NSUInteger)hex {
++ (UIColor *)color:(NSUInteger)hex {
 	NSNumber *key = @(hex);
 
 	UIColor *value = [self colors][key];

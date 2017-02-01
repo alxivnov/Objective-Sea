@@ -31,6 +31,6 @@
 
 - (CGFloat)alphaComponent;
 
-+ (UIColor *)colorWithHex:(NSUInteger)hex;
++ (UIColor *)color:(NSUInteger)hex;
 
 @end

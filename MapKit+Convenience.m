@@ -24,12 +24,12 @@
 }
 
 - (void)removeAllAnnotations {
-	if (self.annotations)
+	if (self.annotations.count)
 		[self removeAnnotations:self.annotations];
 }
 
 - (void)removeAllOverlays {
-	if (self.overlays)
+	if (self.overlays.count)
 		[self removeOverlays:self.overlays];
 }
 

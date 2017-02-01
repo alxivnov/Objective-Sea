@@ -34,8 +34,15 @@
 
 @end
 
+#define URL_MAPS @"http://maps.apple.com/"
+#define CLLocationCoordinate2DString(coord) [NSString stringWithFormat:@"%.04f, %.04f", coord.latitude, coord.longitude]
+#define CLLocationCoordinate2DDescription(coord) [NSString stringWithFormat:@"%f,%f", coord.latitude, coord.longitude]
+
 @interface NSURL (CoreLocation)
 
 + (NSURL *)URLWithLocation:(CLLocation *)location query:(NSString *)query;
+
++ (NSURL *)URLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr;
++ (NSURL *)URLWithDirectionsToLocation:(CLLocation *)daddr fromLocation:(CLLocation *)saddr;
 
 @end
