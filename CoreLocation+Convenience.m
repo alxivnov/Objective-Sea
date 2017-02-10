@@ -27,6 +27,19 @@ __static(CLLocationManager *, defaultManager, [self new])
 
 @end
 
+@implementation CLLocation (Convenience)
+
+- (void)reverseGeocodeLocation:(void (^)(NSArray<CLPlacemark *> *placemarks))completionHandler {
+	[[CLGeocoder defaultGeocoder] reverseGeocodeLocation:self completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(placemarks);
+
+		[error log:@"reverseGeocodeLocation:"];
+	}];
+}
+
+@end
+
 @implementation CLGeocoder (Convenience)
 
 __static(CLGeocoder *, defaultGeocoder, [self new])

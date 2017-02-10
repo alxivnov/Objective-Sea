@@ -21,6 +21,12 @@
 
 @end
 
+@interface CLLocation (Convenience)
+
+- (void)reverseGeocodeLocation:(void (^)(NSArray<CLPlacemark *> *placemarks))completionHandler;
+
+@end
+
 @interface CLGeocoder (Convenience)
 
 @property (strong, nonatomic, readonly, class) CLGeocoder *defaultGeocoder;
