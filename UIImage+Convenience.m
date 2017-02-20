@@ -130,20 +130,20 @@
 }
 
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url {
-	return [UIImage imageWithData:[NSData dataWithContentsOfURL:url]];
+	return [UIImage imageWithData:[NSData dataWithContentsOfURL:url] scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : 1.0];
 }
 #endif
 
 __static(NSMutableDictionary *, images, [NSMutableDictionary new])
 
-+ (UIImage *)image:(NSString *)name {
-	if (!name)
++ (UIImage *)image:(id)key {
+	if (!key)
 		return Nil;
 
-	UIImage *value = [self images][name];
+	UIImage *value = [self images][key];
 
 	if (!value)
-		[self images][name] = value = [UIImage imageNamed:name];
+		[self images][key] = value = [key isKindOfClass:[NSString class]] ? [UIImage imageNamed:key] : [key isKindOfClass:[NSURL class]] ? [UIImage imageWithContentsOfURL:key] : Nil;
 
 	return value;
 }
