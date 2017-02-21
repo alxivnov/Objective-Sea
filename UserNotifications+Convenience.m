@@ -28,6 +28,13 @@
 		[[self currentNotificationCenter] setNotificationCategories:[NSSet setWithArray:categories]];
 }
 
++ (void)getNotificationCategories:(void (^)(NSArray<UNNotificationCategory *> *))completionHandler {
+	if (completionHandler)
+		[[self currentNotificationCenter] getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
+			completionHandler(categories.allObjects);
+		}];
+}
+
 + (void)getNotificationSettings:(void (^)(UNNotificationSettings *))completionHandler {
 	[[self currentNotificationCenter] getNotificationSettingsWithCompletionHandler:completionHandler];
 }

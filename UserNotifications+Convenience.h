@@ -22,6 +22,7 @@
 + (void)requestAuthorizationWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted))completionHandler;
 
 + (void)setNotificationCategories:(NSArray<UNNotificationCategory *> *)categories;
++ (void)getNotificationCategories:(void (^)(NSArray<UNNotificationCategory *> *))completionHandler;
 
 + (void)getNotificationSettings:(void (^)(UNNotificationSettings *settings))completionHandler;
 
