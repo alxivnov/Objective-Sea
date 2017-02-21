@@ -17,10 +17,8 @@
 
 @interface NSURLSession (Convenience)
 
-- (NSURLSessionDataTask *)dataTaskWithURL:(NSURL *)url priority:(float)priority;
 - (NSURLSessionDataTask *)dataTaskWithURL:(NSURL *)url priority:(float)priority completionHandler:(void (^)(NSData *data, NSURLResponse *response, NSError *error))completionHandler;
 
-- (NSURLSessionDownloadTask *)downloadTaskWithURL:(NSURL *)url priority:(float)priority;
 - (NSURLSessionDownloadTask *)downloadTaskWithURL:(NSURL *)url priority:(float)priority completionHandler:(void (^)(NSURL *location, NSURLResponse *response, NSError *error))completionHandler;
 
 @end
@@ -39,6 +37,8 @@
 @interface NSURL (NSURLSession)
 
 @property (strong, nonatomic, readonly) NSURL *cacheURL;
+
+- (void)downloadData:(void (^)(NSData *data))handler;
 
 - (void)download:(NSURL *)url priority:(float)priority handler:(void (^)(NSURL *))handler;
 - (void)download:(NSURL *)url handler:(void (^)(NSURL *url))handler;

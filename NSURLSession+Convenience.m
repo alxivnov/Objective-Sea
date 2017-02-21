@@ -10,31 +10,11 @@
 
 @implementation NSURLSession (Convenience)
 
-- (NSURLSessionDataTask *)dataTaskWithURL:(NSURL *)url priority:(float)priority {
-	if (!url)
-		return Nil;
-
-	NSURLSessionDataTask *task = [self dataTaskWithURL:url];
-	task.priority = priority;
-	[task resume];
-	return task;
-}
-
 - (NSURLSessionDataTask *)dataTaskWithURL:(NSURL *)url priority:(float)priority completionHandler:(void (^)(NSData * _Nullable, NSURLResponse * _Nullable, NSError * _Nullable))completionHandler {
 	if (!url)
 		return Nil;
 
 	NSURLSessionDataTask *task = [self dataTaskWithURL:url completionHandler:completionHandler];
-	task.priority = priority;
-	[task resume];
-	return task;
-}
-
-- (NSURLSessionDownloadTask *)downloadTaskWithURL:(NSURL *)url priority:(float)priority {
-	if (!url)
-		return Nil;
-
-	NSURLSessionDownloadTask *task = [self downloadTaskWithURL:url];
 	task.priority = priority;
 	[task resume];
 	return task;
@@ -103,11 +83,23 @@ static id _instance = Nil;
 	return url.isExistingFile ? url : Nil;
 }
 
+- (void)downloadData:(void (^)(NSData *))handler {
+	if (self.isWebAddress)
+		[[[NSURLSessionRedirection instance] defaultSession] dataTaskWithURL:self priority:NSURLSessionTaskPriorityDefault completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+			if (handler)
+				handler(data);
+
+			[error log:@"dataTaskWithURL:"];
+		}];
+	else if (handler)
+		[GCD global:^{
+			handler(Nil);
+		}];
+}
+
 - (void)download:(NSURL *)url priority:(float)priority handler:(void (^)(NSURL *))handler {
 	if (self.isWebAddress)
 		[[[NSURLSessionRedirection instance] defaultSession] downloadTaskWithURL:self priority:priority completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-			[error log:@"downloadTaskWithURL:"];
-
 			BOOL err404 = [[response description] caseInsensitiveContainsAllStrings:@[ STR_404, STR_PHP ]];
 			if (err404)
 				NSLog(@"err404: %@", response);
@@ -116,17 +108,20 @@ static id _instance = Nil;
 
 			if (handler)
 				handler(written);
-		}];
-	/*		[DSHelper dispatchToGlobal:^{
-	 NSError *error = Nil;
-	 NSData *data = [NSData dataWithContentsOfURL:self options:0 error:&error];
-	 [error log:@"dataWithContentsOfURL:"];
-	 BOOL written = [data writeToURL:url ? url : URL_CACHE(self) atomically:YES];
 
-	 if (handler)
-	 handler(written ? url : Nil);
+			[error log:@"downloadTaskWithURL:"];
 		}];
-	 */	else if (handler)
+/*		[DSHelper dispatchToGlobal:^{
+			NSError *error = Nil;
+			NSData *data = [NSData dataWithContentsOfURL:self options:0 error:&error];
+			BOOL written = [data writeToURL:url ? url : URL_CACHE(self) atomically:YES];
+
+			if (handler)
+				handler(written ? url : Nil);
+
+			[error log:@"dataWithContentsOfURL:"];
+		}];
+*/	else if (handler)
 		 [GCD global:^{
 			 handler(Nil);
 		 }];
