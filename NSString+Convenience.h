@@ -52,4 +52,7 @@
 - (NSString *)stringByAppendingNewLine;
 - (NSString *)stringByAppendingNewLineWithString:(NSString *)aString;
 
++ (instancetype)stringWithData:(NSData *)data encoding:(NSStringEncoding *)encodingInOut;
++ (instancetype)stringWithData:(NSData *)data;
+
 @end

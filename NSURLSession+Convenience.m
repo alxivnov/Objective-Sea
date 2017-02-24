@@ -42,7 +42,19 @@
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task willPerformHTTPRedirection:(NSHTTPURLResponse *)response newRequest:(NSURLRequest *)request completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler {
 	completionHandler(request);
 }
-
+/*
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+	if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+		SecTrustResultType result = [SecHelper evaluate:challenge.protectionSpace.serverTrust];
+		if (result == kSecTrustResultUnspecified || result == kSecTrustResultProceed || (result == kSecTrustResultRecoverableTrustFailure && [SecHelper setExceptions:challenge.protectionSpace.serverTrust]))
+			completionHandler(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust]);
+		else
+			completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, Nil);
+	} else {
+		completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, Nil);
+	}
+}
+*/
 static id _instance = Nil;
 
 + (instancetype)instance {
@@ -168,7 +180,7 @@ static id _instance = Nil;
 		return Nil;
 
 	NSError *error = Nil;
-	id obj = [self JSONObjectWithData:data options:0 error:&error];
+	id obj = [self JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
 	[error log:@"JSONObjectWithData:"];
 	return obj;
 }
@@ -188,7 +200,7 @@ static id _instance = Nil;
 @implementation NSURL (NSURLRequest)
 
 - (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *))completion {
-	if (!method || !header || !body)
+	if (!method/* || !header || !body*/)
 		return;
 
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self];
@@ -206,9 +218,17 @@ static id _instance = Nil;
 }
 
 - (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id))completion {
+	if (!header[@"Content-Type"]) {
+		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
+		dictionary[@"Content-Type"] = @"application/json";
+		header = dictionary;
+	}
+
 	[self sendRequestWithMethod:method header:header body:[NSJSONSerialization dataWithJSONObject:json] completion:^(NSData *data) {
+		id object = [NSJSONSerialization JSONObjectWithData:data];
+
 		if (completion)
-			completion([NSJSONSerialization JSONObjectWithData:data]);
+			completion(object);
 	}];
 }
 

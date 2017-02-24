@@ -43,6 +43,9 @@
 }
 
 - (NSURL *)URLByAppendingQueryDictionary:(NSDictionary *)dictionary allowedCharacters:(NSCharacterSet *)allowedCharacters {
+	if (!dictionary)
+		return self;
+
 	NSMutableString *url = [[self description] mutableCopy];
 
 	NSMutableCharacterSet *urlQueryAllowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];

@@ -10,16 +10,6 @@
 
 @implementation MFMailComposeViewController (Convenience)
 
-+ (NSString *)mimeTypeFromFileExtension:(NSString *)fileExtension {
-	CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, NULL);
-
-	CFStringRef mime = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType);
-
-	CFRelease(uti);
-
-	return (NSString *)CFBridgingRelease(mime);
-}
-
 + (instancetype)createWithRecipients:(NSArray *)recipients subject:(NSString *)subject body:(NSString *)body attachments:(NSDictionary<NSString *,NSData *> *)attachments {
 	if (![self canSendMail])
 		return Nil;
@@ -31,7 +21,7 @@
 	if (body)
 		[instance setMessageBody:body isHTML:NO];
 	for (NSString *name in attachments.allKeys)
-		[instance addAttachmentData:attachments[name] mimeType:[self mimeTypeFromFileExtension:name.pathExtension] ?: @"application/octet-stream" fileName:name];
+		[instance addAttachmentData:attachments[name] mimeType:[UTType mimeTypeFromFilenameExtension:name.pathExtension] ?: @"application/octet-stream" fileName:name];
 
 	return instance;
 }

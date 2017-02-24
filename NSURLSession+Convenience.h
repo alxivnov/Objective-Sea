@@ -10,6 +10,7 @@
 
 #import "CommonCrypto+Convenience.h"
 #import "Dispatch+Convenience.h"
+//#import "LocalAuthentication+Convenience.h"
 #import "NSFileManager+Convenience.h"
 #import "NSObject+Convenience.h"
 #import "NSString+Convenience.h"

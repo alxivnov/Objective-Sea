@@ -145,4 +145,16 @@
 	return aString.length ? [[self stringByAppendingNewLine] stringByAppendingString:aString] : self;
 }
 
++ (instancetype)stringWithData:(NSData *)data encoding:(NSStringEncoding *)encodingInOut {
+	NSString *string = Nil;
+	NSStringEncoding encoding = [NSString stringEncodingForData:data encodingOptions:encodingInOut && *encodingInOut ? @{ NSStringEncodingDetectionSuggestedEncodingsKey : @[ @(*encodingInOut) ] } : Nil convertedString:&string usedLossyConversion:Nil];
+	if (encodingInOut)
+		*encodingInOut = encoding;
+	return string;
+}
+
++ (instancetype)stringWithData:(NSData *)data {
+	return [self stringWithData:data encoding:Nil];
+}
+
 @end

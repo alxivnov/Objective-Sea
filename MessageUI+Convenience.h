@@ -8,13 +8,13 @@
 
 #import <MessageUI/MessageUI.h>
 
+#import "MobileCoreServices+Convenience.h"
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 #import "NSURL+Convenience.h"
 #import "UIApplication+Convenience.h"
 
 @import MessageUI;
-@import MobileCoreServices;
 
 @interface MFMailComposeViewController (Convenience)
 
