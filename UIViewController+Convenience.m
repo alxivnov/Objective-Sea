@@ -114,6 +114,10 @@
 	} : Nil];
 }
 
+- (void)performSegueWithIdentifier:(NSString *)identifier {
+	[self performSegueWithIdentifier:identifier sender:Nil];
+}
+
 @end
 
 @implementation UIViewController (UIPopoverPresentationController)

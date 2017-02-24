@@ -40,6 +40,8 @@
 
 - (void)presentViewControllerWithIdentifier:(NSString *)viewControllerIdentifier animated:(BOOL)flag completion:(void (^)(UIViewController *viewController))completion;
 
+- (void)performSegueWithIdentifier:(NSString *)identifier;
+
 @end
 
 @interface UIViewController (UIPopoverPresentationController)
