@@ -11,11 +11,21 @@
 #import "NSObject+Convenience.h"
 #import "NSURL+Convenience.h"
 
+#if TARGET_OS_IPHONE
+@import UIKit;
+
+#import "UIApplication+Convenience.h"
+#endif
+
 @interface CLLocationManager (Convenience)
 
 + (NSNumber *)authorization:(BOOL)always;
 
 - (void)requestAuthorization:(BOOL)always;
+
+#if TARGET_OS_IPHONE
+- (NSNumber *)requestAuthorizationIfNeeded:(BOOL)always;
+#endif
 
 @property (strong, nonatomic, readonly, class) CLLocationManager *defaultManager;
 

@@ -23,6 +23,27 @@
 	}];
 }
 
+#if TARGET_OS_IPHONE
++ (void)requestAuthorizationIfNeededWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(NSNumber *granted))completionHandler {
+	[UNUserNotificationCenter getNotificationSettings:^(UNNotificationSettings *settings) {
+		if (settings.authorization.boolValue) {
+			if (completionHandler)
+				completionHandler(@YES);
+		} else if (settings.authorization == Nil) {
+			[UNUserNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(BOOL granted) {
+				if (completionHandler)
+					completionHandler(@(granted));
+			}];
+		} else {
+			[UIApplication openSettings];
+
+			if (completionHandler)
+				completionHandler(Nil);
+		}
+	}];
+}
+#endif
+
 + (void)setNotificationCategories:(NSArray<UNNotificationCategory *> *)categories {
 	if (categories)
 		[[self currentNotificationCenter] setNotificationCategories:[NSSet setWithArray:categories]];

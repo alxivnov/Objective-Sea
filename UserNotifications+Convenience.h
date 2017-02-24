@@ -11,6 +11,12 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
+#if TARGET_OS_IPHONE
+@import UIKit;
+
+#import "UIApplication+Convenience.h"
+#endif
+
 #define UNAuthorizationOptionAll (UNAuthorizationOptionAlert | UNAuthorizationOptionBadge | UNAuthorizationOptionSound)
 
 #define UNNotificationPresentationOptionAll (UNNotificationPresentationOptionBadge | UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert)
@@ -20,6 +26,10 @@
 + (void)setDelegate:(id<UNUserNotificationCenterDelegate>)delegate;
 
 + (void)requestAuthorizationWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted))completionHandler;
+
+#if TARGET_OS_IPHONE
++ (void)requestAuthorizationIfNeededWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(NSNumber *granted))completionHandler;
+#endif
 
 + (void)setNotificationCategories:(NSArray<UNNotificationCategory *> *)categories;
 + (void)getNotificationCategories:(void (^)(NSArray<UNNotificationCategory *> *))completionHandler;

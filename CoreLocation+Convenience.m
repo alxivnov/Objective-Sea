@@ -23,6 +23,19 @@
 		[self requestWhenInUseAuthorization];
 }
 
+#if TARGET_OS_IPHONE
+- (NSNumber *)requestAuthorizationIfNeeded:(BOOL)always {
+	if ([CLLocationManager authorization:always].boolValue)
+		return @YES;
+	else if ([CLLocationManager authorization:always] == Nil)
+		[[CLLocationManager defaultManager] requestAuthorization:YES];
+	else
+		[UIApplication openSettings];
+
+	return Nil;
+}
+#endif
+
 __static(CLLocationManager *, defaultManager, [self new])
 
 @end
