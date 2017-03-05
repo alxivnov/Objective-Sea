@@ -33,7 +33,7 @@
 }
 
 - (BOOL)containsString:(NSString *)aString options:(NSStringCompareOptions)mask locale:(NSLocale *)locale {
-	return [self containsString:aString options:NSCaseInsensitiveSearch range:NSMakeRange(0, self.length) locale:Nil];
+	return [self containsString:aString options:mask range:NSMakeRange(0, self.length) locale:Nil];
 }
 
 - (BOOL)caseInsensitiveContainsString:(NSString *)aString {

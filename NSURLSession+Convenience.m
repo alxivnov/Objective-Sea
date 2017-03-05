@@ -218,7 +218,7 @@ static id _instance = Nil;
 }
 
 - (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id))completion {
-	if (!header[@"Content-Type"]) {
+	if (!header[@"Content-Type"] && json) {
 		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
 		dictionary[@"Content-Type"] = @"application/json";
 		header = dictionary;

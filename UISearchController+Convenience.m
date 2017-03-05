@@ -51,15 +51,22 @@
 - (UISearchController *)searchControllerWithHandler:(void (^)(NSString *))handler {
 	UISearchResultsUpdater *search = [UISearchResultsUpdater updaterWithSearchResultsHandler:handler];
 
-	[search.searchBar sizeToFit];
-	self.tableView.tableHeaderView = search.searchBar;
+	if (self.navigationController) {
+		search.searchBar.barStyle = self.navigationController.navigationBar.barStyle;
 
-	search.delegate = (id<UISearchControllerDelegate>)self;
-	[search.searchBar setShowsCancelButton:NO animated:NO];
+		self.navigationItem.titleView = search.searchBar;
+	} else {
+//		[search.searchBar sizeToFit];
 
+		self.tableView.tableHeaderView = search.searchBar;
+
+//		search.delegate = (id<UISearchControllerDelegate>)self;
+//		[search.searchBar setShowsCancelButton:NO animated:NO];
+	}
+	
 	return search;
 }
-
+/*
 - (void)didPresentSearchController:(UISearchController *)searchController {
 	self.tableView.tableHeaderView = searchController.searchBar;
 //	[self.tableView.tableHeaderView becomeFirstResponder];
@@ -69,5 +76,5 @@
 	self.tableView.tableHeaderView = searchController.searchBar;
 //	[self.tableView.tableHeaderView resignFirstResponder];
 }
-
+*/
 @end
