@@ -11,7 +11,7 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 @import UIKit;
 
 #import "UIApplication+Convenience.h"
@@ -27,7 +27,7 @@
 
 + (void)requestAuthorizationWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(BOOL granted))completionHandler;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 + (void)requestAuthorizationIfNeededWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(NSNumber *granted))completionHandler;
 #endif
 

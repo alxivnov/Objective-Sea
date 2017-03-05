@@ -10,7 +10,7 @@
 
 @implementation NSDictionary (Convenience)
 
-- (instancetype)dictionaryWithValue:(id)object forKey:(id<NSCopying>)key {
+- (instancetype)dictionaryWithObject:(id)object forKey:(id<NSCopying>)key {
 	NSMutableDictionary *dictionary = [self mutableCopy];
 	if (object)
 		dictionary[key] = object;
@@ -19,7 +19,7 @@
 	return dictionary;
 }
 
-- (instancetype)dictionaryWithValues:(NSArray *)objects forKeys:(NSArray *)keys {
+- (instancetype)dictionaryWithObjects:(NSArray *)objects forKeys:(NSArray *)keys {
 	NSMutableDictionary *dictionary = [self mutableCopy];
 	for (NSUInteger index = 0; index < keys.count; index++) {
 		id object = index < objects.count ? objects[index] : Nil;

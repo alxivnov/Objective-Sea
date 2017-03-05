@@ -10,8 +10,8 @@
 
 @interface NSDictionary<KeyType, ObjectType> (Convenience)
 
-- (instancetype)dictionaryWithValue:(id)object forKey:(id<NSCopying>)key;
-- (instancetype)dictionaryWithValues:(NSArray *)objects forKeys:(NSArray *)keys;
+- (instancetype)dictionaryWithObject:(id)object forKey:(id<NSCopying>)key;
+- (instancetype)dictionaryWithObjects:(NSArray *)objects forKeys:(NSArray *)keys;
 
 - (NSDictionary *)castKeys:(id (^)(KeyType item))keyBlock andValues:(id (^)(ObjectType item))valueBlock;
 - (NSDictionary *)castKeys:(id (^)(KeyType item))block;

@@ -23,7 +23,7 @@
 	}];
 }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 + (void)requestAuthorizationIfNeededWithOptions:(UNAuthorizationOptions)options completionHandler:(void (^)(NSNumber *granted))completionHandler {
 	[UNUserNotificationCenter getNotificationSettings:^(UNNotificationSettings *settings) {
 		if (settings.authorization.boolValue) {
