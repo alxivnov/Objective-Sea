@@ -22,6 +22,8 @@
 
 @property (assign, nonatomic, readonly) NSTimeInterval duration;
 
++ (instancetype)sampleWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate type:(CMMotionActivityType)type confidence:(CMMotionActivityConfidence)confidence;
+
 + (void)queryActivityStartingFromDate:(NSDate *)start toDate:(NSDate *)end within:(NSTimeInterval)within withHandler:(void (^)(NSArray<CMMotionActivitySample *> *activities))handler;
 
 + (NSData *)samplesToData:(NSArray<CMMotionActivitySample *> *)samples date:(NSDate *)date;

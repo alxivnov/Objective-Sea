@@ -51,6 +51,14 @@
 
 @end
 
+@interface HKActiveEnergy : HKData
+
+@end
+
+@interface HKBasalEnergy : HKData
+
+@end
+
 @interface HKObject (Convenience)
 
 @property (strong, nonatomic, readonly) NSString *sourceBundleIdentifier;
@@ -73,6 +81,9 @@
 
 @property (assign, nonatomic, readonly) double count;
 @property (assign, nonatomic, readonly) double countPerMinute;
+
+@property (assign, nonatomic, readonly) double calorie;
+@property (assign, nonatomic, readonly) double kilocalorie;
 
 @end
 

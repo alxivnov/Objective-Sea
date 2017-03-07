@@ -134,6 +134,22 @@
 
 @end
 
+@implementation HKActiveEnergy
+
++ (NSString *)identifier {
+	return HKQuantityTypeIdentifierActiveEnergyBurned;
+}
+
+@end
+
+@implementation HKBasalEnergy
+
++ (NSString *)identifier {
+	return HKQuantityTypeIdentifierBasalEnergyBurned;
+}
+
+@end
+
 @implementation HKObject (Convenience)
 
 - (NSString *)sourceBundleIdentifier {
@@ -177,13 +193,31 @@ static HKUnit *_count;
 	return [self doubleValueForUnit:_count];
 }
 
-static HKUnit *_countPerMinuteUnit;
+static HKUnit *_countPerMinute;
 
 - (double)countPerMinute {
-	if (!_countPerMinuteUnit)
-		_countPerMinuteUnit = [[HKUnit countUnit] unitDividedByUnit:[HKUnit minuteUnit]];
+	if (!_countPerMinute)
+		_countPerMinute = [[HKUnit countUnit] unitDividedByUnit:[HKUnit minuteUnit]];
 
-	return [self doubleValueForUnit:_countPerMinuteUnit];
+	return [self doubleValueForUnit:_countPerMinute];
+}
+
+static HKUnit *_calorie;
+
+- (double)calorie {
+	if (!_calorie)
+		_calorie = [HKUnit calorieUnit];
+
+	return [self doubleValueForUnit:_calorie];
+}
+
+static HKUnit *_kilocalorie;
+
+- (double)kilocalorie {
+	if (!_kilocalorie)
+		_kilocalorie = [HKUnit kilocalorieUnit];
+
+	return [self doubleValueForUnit:_kilocalorie];
 }
 
 @end
