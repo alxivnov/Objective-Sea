@@ -23,7 +23,7 @@
 		[self requestWhenInUseAuthorization];
 }
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (NSNumber *)requestAuthorizationIfNeeded:(BOOL)always {
 	if ([CLLocationManager authorization:always].boolValue)
 		return @YES;
@@ -90,6 +90,21 @@ __static(CLGeocoder *, defaultGeocoder, [self new])
 
 + (NSURL *)URLWithDirectionsToLocation:(CLLocation *)daddr fromLocation:(CLLocation *)saddr {
 	return [self URLWithDirectionsTo:daddr ? CLLocationCoordinate2DDescription(daddr.coordinate) : Nil from:saddr ? CLLocationCoordinate2DDescription(saddr.coordinate) : Nil];
+}
+
++ (NSURL *)URLWithSize:(CGSize)size scale:(CGFloat)scale markers:(NSDictionary<CLLocation *, NSURL *> *)markers {
+	NSMutableString *url = [NSMutableString stringWithString:@"https://maps.googleapis.com/maps/api/staticmap"];
+	[url appendFormat:@"?maptype=%@", @"roadmap"];
+	[url appendFormat:@"&size=%ux%u", (unsigned int)fmin(size.width, 640.0), (unsigned int)fmin(size.height, 640.0)];
+	[url appendFormat:@"&scale=%u", (unsigned int)fmin(scale, 2.0)];
+
+	for (CLLocation *location in markers.allKeys) {
+		[url appendString:@"&"];
+		[url appendString:[[NSString stringWithFormat:@"markers=icon:%@|shadow:false|scale:%u|", markers[location].absoluteString, (unsigned int)fmin(scale, 2.0)] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]]];
+		[url appendString:CLLocationCoordinate2DDescription(location.coordinate)];
+	}
+
+	return [NSURL URLWithString:url];
 }
 
 @end

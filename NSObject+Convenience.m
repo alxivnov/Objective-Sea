@@ -91,6 +91,10 @@
 	return NO;
 }
 
+- (BOOL)isNull {
+	return self == [NSNull null];
+}
+
 - (NSData *)archivedData {
 	return [NSKeyedArchiver archivedDataWithRootObject:self];
 }

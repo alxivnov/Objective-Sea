@@ -102,6 +102,8 @@
 - (BOOL)isKindOfAnyClass:(NSArray<Class> *)classes;
 - (BOOL)isMemberOfAnyClass:(NSArray<Class> *)classes;
 
+@property (assign, nonatomic, readonly) BOOL isNull;
+
 - (NSData *)archivedData;
 + (instancetype)createFromArchivedData:(NSData *)data;
 

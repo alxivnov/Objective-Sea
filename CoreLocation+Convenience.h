@@ -11,7 +11,7 @@
 #import "NSObject+Convenience.h"
 #import "NSURL+Convenience.h"
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 @import UIKit;
 
 #import "UIApplication+Convenience.h"
@@ -23,7 +23,7 @@
 
 - (void)requestAuthorization:(BOOL)always;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (NSNumber *)requestAuthorizationIfNeeded:(BOOL)always;
 #endif
 
@@ -54,11 +54,15 @@
 #define CLLocationCoordinate2DString(coord) [NSString stringWithFormat:@"%.04f, %.04f", coord.latitude, coord.longitude]
 #define CLLocationCoordinate2DDescription(coord) [NSString stringWithFormat:@"%f,%f", coord.latitude, coord.longitude]
 
+#import <CoreGraphics/CoreGraphics.h>
+
 @interface NSURL (CoreLocation)
 
 + (NSURL *)URLWithLocation:(CLLocation *)location query:(NSString *)query;
 
 + (NSURL *)URLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr;
 + (NSURL *)URLWithDirectionsToLocation:(CLLocation *)daddr fromLocation:(CLLocation *)saddr;
+
++ (NSURL *)URLWithSize:(CGSize)size scale:(CGFloat)scale markers:(NSDictionary<CLLocation *, NSURL *> *)markers;
 
 @end
