@@ -63,6 +63,6 @@
 + (NSURL *)URLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr;
 + (NSURL *)URLWithDirectionsToLocation:(CLLocation *)daddr fromLocation:(CLLocation *)saddr;
 
-+ (NSURL *)URLWithSize:(CGSize)size scale:(CGFloat)scale markers:(NSDictionary<CLLocation *, NSURL *> *)markers;
++ (NSURL *)URLWithSize:(CGSize)size scale:(CGFloat)scale markers:(NSDictionary<NSURL *, NSArray<CLLocation *> *> *)markers;
 
 @end
