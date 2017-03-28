@@ -15,7 +15,7 @@
 
 #define UIApplicationStateString(applicationState) ((applicationState) == UIApplicationStateActive ? @"Active" : (applicationState) == UIApplicationStateInactive ? @"Inactive" : (applicationState) == UIApplicationStateBackground ? @"Background" : @"")
 
-#define NSURLWithTel(tel) [NSURL URLWithString:[NSString stringWithFormat:@"tel:%@", tel]]
+#define NSURLWithTel(tel) [NSURL URLWithString:tel ? [NSString stringWithFormat:@"tel:%@", tel] : @"tel"]
 
 @interface UIApplication (Convenience)
 
