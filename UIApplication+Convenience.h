@@ -36,4 +36,6 @@
 
 + (BOOL)performBackgroundTaskWithName:(NSString *)taskName handler:(void (^)(void))taskHandler expirationHandler:(void (^)(void))expirationHandler;
 
++ (void)setAlternateIconName:(NSString *)alternateIconName;
+
 @end

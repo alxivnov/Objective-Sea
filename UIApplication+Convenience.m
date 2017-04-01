@@ -88,4 +88,12 @@
 	return YES;
 }
 
++ (void)setAlternateIconName:(NSString *)alternateIconName {
+	if ([[self sharedApplication] respondsToSelector:@selector(supportsAlternateIcons)] && [[self sharedApplication] respondsToSelector:@selector(setAlternateIconName:completionHandler:)])
+		if ([self sharedApplication].supportsAlternateIcons)
+			[[self sharedApplication] setAlternateIconName:alternateIconName completionHandler:^(NSError * _Nullable error) {
+				NSLog(@"setAlternateIconName: %@", error.debugDescription);
+			}];
+}
+
 @end
