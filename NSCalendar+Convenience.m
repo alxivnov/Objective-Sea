@@ -205,4 +205,28 @@
 	return NSCalendarUnitSecond;
 }
 
++ (instancetype)dateComponentsWithValue:(NSUInteger)value forComponent:(NSCalendarUnit)unit {
+	NSDateComponents *dateComponents = [NSDateComponents new];
+	[dateComponents setValue:value forComponent:unit];
+	return dateComponents;
+}
+
+- (NSTimeInterval)secondsFromDate:(NSDate *)date {
+	if (!date)
+		date = [NSDate date];
+
+	return [[[NSCalendar currentCalendar] dateByAddingComponents:self toDate:date options:0] timeIntervalSinceDate:date];
+}
+
+- (NSTimeInterval)secondsToDate:(NSDate *)date {
+	if (!date)
+		date = [NSDate date];
+
+	return [date timeIntervalSinceDate:[[NSCalendar currentCalendar] dateByAddingComponents:self toDate:date options:NSCalendarSearchBackwards]];
+}
+
+- (NSString *)description:(NSDateComponentsFormatterUnitsStyle)unitStyle {
+	return [NSDateComponentsFormatter localizedStringFromDateComponents:self unitsStyle:unitStyle];
+}
+
 @end

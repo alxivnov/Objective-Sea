@@ -76,4 +76,11 @@
 
 + (NSCalendarUnit)mostSignificantComponent:(NSTimeInterval)ti;
 
++ (instancetype)dateComponentsWithValue:(NSUInteger)value forComponent:(NSCalendarUnit)unit;
+
+- (NSTimeInterval)secondsFromDate:(NSDate *)date;
+- (NSTimeInterval)secondsToDate:(NSDate *)date;
+
+- (NSString *)description:(NSDateComponentsFormatterUnitsStyle)unitStyle;
+
 @end
