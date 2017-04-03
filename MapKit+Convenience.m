@@ -12,11 +12,10 @@
 
 - (void)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated {
 	double latitude = distance;
-	if (self.bounds.size.height < self.bounds.size.width)
-		latitude *= self.bounds.size.height / self.bounds.size.width;
-
 	double longitude = distance;
-	if (self.bounds.size.width < self.bounds.size.height)
+	if (self.bounds.size.height > self.bounds.size.width)
+		latitude *= self.bounds.size.height / self.bounds.size.width;
+	else if (self.bounds.size.height < self.bounds.size.width)
 		longitude *= self.bounds.size.width / self.bounds.size.height;
 
 	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(center, latitude, longitude);
