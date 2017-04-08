@@ -52,6 +52,7 @@ typedef enum : NSUInteger {
 
 - (BOOL)writePNGToURL:(NSURL *)url;
 
++ (UIImage *)imageWithContentsOfURL:(NSURL *)url scale:(CGFloat)scale;
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url;
 #endif
 

@@ -129,8 +129,12 @@
 	return [[self pngRepresentation] writeToURL:url atomically:YES];
 }
 
++ (UIImage *)imageWithContentsOfURL:(NSURL *)url scale:(CGFloat)scale {
+	return [UIImage imageWithData:[NSData dataWithContentsOfURL:url] scale:scale];
+}
+
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url {
-	return [UIImage imageWithData:[NSData dataWithContentsOfURL:url] scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : 1.0];
+	return [UIImage imageWithContentsOfURL:url scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : 1.0];
 }
 #endif
 
