@@ -183,10 +183,11 @@
 
 	for (id obj in self) {
 		id<NSCopying> key = keyPredicate ? keyPredicate(obj) : obj;
-		id val = dictionary[key];
-		val = valuePredicate ? valuePredicate(obj, key, val) : obj;
-		if (key && val)
+		if (key) {
+			id val = dictionary[key];
+			val = valuePredicate ? valuePredicate(obj, key, val) : obj;
 			dictionary[key] = val;
+		}
 	}
 
 	return dictionary;

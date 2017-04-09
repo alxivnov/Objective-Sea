@@ -49,60 +49,54 @@
 
 @end
 */
-@implementation NSData (Hash)
 
-- (NSUUID *)md5 {
-	unsigned char buffer[CC_MD5_DIGEST_LENGTH];
+@implementation NSData (CommonCrypto)
 
-	CC_MD5(self.bytes, (CC_LONG)self.length, buffer);
+- (NSData *)hash:(COMMON_DIGEST)commonDigest {
+	NSUInteger digestLength = commonDigest == MD2 ? CC_MD2_DIGEST_LENGTH : commonDigest == MD4 ? CC_MD4_DIGEST_LENGTH : commonDigest == MD5 ? CC_MD5_DIGEST_LENGTH : commonDigest == SHA1 ? CC_SHA1_DIGEST_LENGTH : commonDigest == SHA224 ? CC_SHA224_DIGEST_LENGTH : commonDigest == SHA256 ? CC_SHA224_DIGEST_LENGTH : commonDigest == SHA384 ? CC_SHA384_DIGEST_LENGTH : commonDigest == SHA512 ? CC_SHA512_DIGEST_LENGTH : 0;
 
-	return [[NSUUID alloc] initWithUUIDBytes:buffer];
-}
+	if (digestLength == 0)
+		return Nil;
 
-- (NSData *)md5AsData {
-	unsigned char buffer[CC_MD5_DIGEST_LENGTH];
+	unsigned char buffer[digestLength];
 
-	CC_MD5(self.bytes, (CC_LONG)self.length, buffer);
+	if (commonDigest == MD2)
+		CC_MD2(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == MD4)
+		CC_MD4(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == MD5)
+		CC_MD5(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == SHA1)
+		CC_SHA1(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == SHA224)
+		CC_SHA224(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == SHA256)
+		CC_SHA256(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == SHA384)
+		CC_SHA384(self.bytes, (CC_LONG)self.length, buffer);
+	else if (commonDigest == SHA512)
+		CC_SHA512(self.bytes, (CC_LONG)self.length, buffer);
 
-	return [NSData dataWithBytes:buffer length:CC_MD5_DIGEST_LENGTH];
-}
-
-- (NSMutableData *)md5AsMutableData {
-	unsigned char buffer[CC_MD5_DIGEST_LENGTH];
-
-	CC_MD5(self.bytes, (CC_LONG)self.length, buffer);
-
-	return [NSMutableData dataWithBytes:buffer length:CC_MD5_DIGEST_LENGTH];
-}
-
-- (long)md5AsLong {
-	unsigned char buffer[CC_MD5_DIGEST_LENGTH];
-
-	CC_MD5(self.bytes, (CC_LONG)self.length, buffer);
-
-	long md5 = 0;
-	memcpy(&md5, buffer, sizeof(md5));
-	return md5;
+	return [NSData dataWithBytes:buffer length:digestLength];
 }
 
 @end
 
-@implementation NSString (Hash)
+@implementation NSString (CommonCrypto)
 
-- (NSUUID *)md5 {
-	return [[self dataUsingEncoding:NSUnicodeStringEncoding] md5];
-}
+- (NSString *)hash:(COMMON_DIGEST)commonDigest {
+	NSData *hash = [[self dataUsingEncoding:NSUTF8StringEncoding] hash:commonDigest];
 
-- (NSData *)md5AsData {
-	return [[self dataUsingEncoding:NSUnicodeStringEncoding] md5AsData];
-}
+	NSMutableString *string = [[NSMutableString alloc] initWithCapacity:hash.length * 2];
 
-- (long)md5AsLong {
-	return [[self dataUsingEncoding:NSUnicodeStringEncoding] md5AsLong];
-}
+	unsigned char byte;
+	for (NSUInteger index = 0; index < hash.length; index++) {
+		[hash getBytes:&byte range:NSMakeRange(index, 1)];
 
-- (NSMutableData *)md5AsMutableData {
-	return [[self dataUsingEncoding:NSUnicodeStringEncoding] md5AsMutableData];
+		[string appendFormat:byte < 16 ? @"0%X" : @"%X", byte];
+	}
+
+	return string;
 }
 
 @end

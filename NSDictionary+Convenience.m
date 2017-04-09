@@ -10,6 +10,10 @@
 
 @implementation NSDictionary (Convenience)
 
+- (id)objectForNullableKey:(id<NSCopying>)aKey {
+	return aKey ? [self objectForKey:aKey] : Nil;
+}
+
 - (instancetype)dictionaryWithObject:(id)object forKey:(id<NSCopying>)key {
 	NSMutableDictionary *dictionary = [self mutableCopy];
 	if (object)

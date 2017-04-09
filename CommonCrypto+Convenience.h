@@ -9,39 +9,26 @@
 #import <Foundation/Foundation.h>
 
 #import <CommonCrypto/CommonDigest.h>
-/*
-@interface NSData (MD5)
 
-- (NSString *)MD5;
+typedef enum : NSUInteger {
+	MD2,
+	MD4,
+	MD5,
+	SHA1,
+	SHA224,
+	SHA256,
+	SHA384,
+	SHA512,
+} COMMON_DIGEST;
 
-@end
+@interface NSData (CommonCrypto)
 
-@interface NSString (MD5)
-
-- (NSString *)MD5;
-
-@end
-*/
-@interface NSData (Hash)
-
-- (NSUUID *)md5;
-
-- (NSData *)md5AsData;
-
-- (NSMutableData *)md5AsMutableData;
-
-- (long)md5AsLong;
+- (NSData *)hash:(COMMON_DIGEST)commonDigest;
 
 @end
 
-@interface NSString (Hash)
+@interface NSString (CommonCrypto)
 
-- (NSUUID *)md5;
-
-- (NSData *)md5AsData;
-
-- (NSMutableData *)md5AsMutableData;
-
-- (long)md5AsLong;
+- (NSString *)hash:(COMMON_DIGEST)commonDigest;
 
 @end
