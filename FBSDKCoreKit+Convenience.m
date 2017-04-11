@@ -73,8 +73,8 @@
 	return request;
 }
 
-+ (instancetype)requestMe:(void (^)(FBSDKProfile *me))completion {
-	return [self startRequestWithGraphPath:@"me" parameters:@{ @"fields" : @"id,first_name,middle_name,last_name,name" } completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
++ (instancetype)requestProfile:(NSString *)userID completion:(void (^)(FBSDKProfile *profile))completion {
+	return [self startRequestWithGraphPath:userID ?: @"me" parameters:@{ @"fields" : @"id,first_name,middle_name,last_name,name" } completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
 		if (completion)
 			completion([FBSDKProfile profileWithDictionary:result]);
 
@@ -82,8 +82,8 @@
 	}];
 }
 
-+ (instancetype)requestFriends:(void (^)(NSArray<FBSDKProfile *> *friends))completion {
-	return [self startRequestWithGraphPath:@"me/friends" parameters:@{ @"fields" : @"id,first_name,middle_name,last_name,name" } completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
++ (instancetype)requestFriends:(NSString *)userID completion:(void (^)(NSArray<FBSDKProfile *> *friends))completion {
+	return [self startRequestWithGraphPath:[NSString stringWithFormat:@"%@/friends", userID ?: @"me"] parameters:@{ @"fields" : @"id,first_name,middle_name,last_name,name" } completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
 		if (completion)
 			completion([result[@"data"] map:^id(id obj) {
 				return [FBSDKProfile profileWithDictionary:obj];

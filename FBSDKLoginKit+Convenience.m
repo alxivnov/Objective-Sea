@@ -22,21 +22,21 @@ __static(FBSDKLoginManager *, defaultManager, [self new])
 
 @implementation UIViewController (FBSDKLoginKit)
 
-- (void)presentLogInWithReadPermissions:(NSArray *)permissions completion:(void (^)(BOOL))completion {
+- (void)presentLogInWithReadPermissions:(NSArray *)permissions completion:(void (^)(FBSDKAccessToken *))completion {
 	if (![FBSDKLoginManager isLoggedIn:permissions])
 		[[FBSDKLoginManager defaultManager] logInWithReadPermissions:permissions fromViewController:self handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
 			if (completion)
-				completion(error != Nil);
+				completion(error ? Nil : result.token);
 
 			[error log:@"logInWithReadPermissions:"];
 		}];
 }
 
-- (void)presentLogInWithPublishPermissions:(NSArray *)permissions completion:(void (^)(BOOL))completion {
+- (void)presentLogInWithPublishPermissions:(NSArray *)permissions completion:(void (^)(FBSDKAccessToken *))completion {
 	if (![FBSDKLoginManager isLoggedIn:permissions])
 		[[FBSDKLoginManager defaultManager] logInWithPublishPermissions:permissions fromViewController:self handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
 			if (completion)
-				completion(error != Nil);
+				completion(error ? Nil : result.token);
 
 			[error log:@"logInWithPublishPermissions:"];
 		}];

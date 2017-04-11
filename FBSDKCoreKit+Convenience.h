@@ -31,8 +31,8 @@
 
 + (instancetype)startRequestWithGraphPath:(NSString *)graphPath parameters:(NSDictionary *)parameters completion:(FBSDKGraphRequestHandler)completion;
 
-+ (instancetype)requestMe:(void (^)(FBSDKProfile *me))completion;
-+ (instancetype)requestFriends:(void (^)(NSArray<FBSDKProfile *> *friends))completion;
++ (instancetype)requestProfile:(NSString *)userID completion:(void (^)(FBSDKProfile *profile))completion;
++ (instancetype)requestFriends:(NSString *)userID completion:(void (^)(NSArray<FBSDKProfile *> *friends))completion;
 
 @end
 
