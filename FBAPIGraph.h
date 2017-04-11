@@ -17,6 +17,6 @@
 
 - (instancetype)initWithAccessToken:(NSString *)accessToken;
 
-- (void)startRequestWithGraphPath:(NSString *)graphPath parameters:(NSDictionary *)parameters completion:(void (^)(NSDictionary *json))completion;
+- (NSURLSessionDataTask *)startRequestWithGraphPath:(NSString *)graphPath parameters:(NSDictionary *)parameters completion:(void (^)(NSDictionary *json))completion;
 
 @end

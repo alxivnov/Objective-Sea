@@ -60,7 +60,7 @@
 
 @interface NSURL (NSURLRequest)
 
-- (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *data))completion;
-- (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id json))completion;
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *data))completion;
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id json))completion;
 
 @end

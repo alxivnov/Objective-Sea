@@ -199,9 +199,9 @@ static id _instance = Nil;
 
 @implementation NSURL (NSURLRequest)
 
-- (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *))completion {
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *))completion {
 	if (!method/* || !header || !body*/)
-		return;
+		return Nil;
 
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self];
 	[request setHTTPMethod:method];
@@ -209,22 +209,24 @@ static id _instance = Nil;
 		[request addValue:header[field] forHTTPHeaderField:field];
 	[request setHTTPBody:body];
 
-	[[[NSURLSessionRedirection instance].defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+	NSURLSessionDataTask *task = [[NSURLSessionRedirection instance].defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if (completion)
 			completion(data);
 
 		[error log:@"dataTaskWithRequest:"];
-	}] resume];
+	}];
+	[task resume];
+	return task;
 }
 
-- (void)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id))completion {
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id))completion {
 	if (!header[@"Content-Type"] && json) {
 		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
 		dictionary[@"Content-Type"] = @"application/json";
 		header = dictionary;
 	}
 
-	[self sendRequestWithMethod:method header:header body:[NSJSONSerialization dataWithJSONObject:json] completion:^(NSData *data) {
+	return [self sendRequestWithMethod:method header:header body:[NSJSONSerialization dataWithJSONObject:json] completion:^(NSData *data) {
 		id object = [NSJSONSerialization JSONObjectWithData:data];
 
 		if (completion)
