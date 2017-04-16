@@ -12,6 +12,8 @@
 
 - (ObjectType)objectForNullableKey:(KeyType)aKey;
 
+- (NSDictionary<KeyType, ObjectType> *)dictionaryWithObjectsForKeys:(NSArray<KeyType> *)keys;
+
 - (instancetype)dictionaryWithObject:(ObjectType)object forKey:(KeyType)key;
 - (instancetype)dictionaryWithObjects:(NSArray<ObjectType> *)objects forKeys:(NSArray<KeyType> *)keys;
 

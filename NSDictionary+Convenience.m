@@ -14,6 +14,15 @@
 	return aKey ? [self objectForKey:aKey] : Nil;
 }
 
+- (NSDictionary *)dictionaryWithObjectsForKeys:(NSArray *)keys {
+	NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:keys.count];
+
+	for (id key in keys)
+		dictionary[key] = self[key];
+
+	return dictionary;
+}
+
 - (instancetype)dictionaryWithObject:(id)object forKey:(id<NSCopying>)key {
 	NSMutableDictionary *dictionary = [self mutableCopy];
 	if (object)

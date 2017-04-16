@@ -9,6 +9,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 #import "NSURLSession+Convenience.h"
+#import "UIImage+Convenience.h"
 
 @interface FBNode : NSObject
 @property (strong, nonatomic, readonly) NSDictionary *fields;
@@ -39,5 +40,7 @@
 @interface FBSDKProfile (Convenience)
 
 + (instancetype)profileWithDictionary:(NSDictionary *)dictionary;
+
+- (NSURL *)imageForPictureMode:(FBSDKProfilePictureMode)mode size:(CGSize)size scale:(CGFloat)scale completion:(void (^)(UIImage *image))completion;
 
 @end

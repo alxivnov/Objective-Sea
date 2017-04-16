@@ -101,4 +101,15 @@
 	return [[FBSDKProfile alloc] initWithUserID:dictionary[@"id"] firstName:dictionary[@"first_name"] middleName:dictionary[@"middle_name"] lastName:dictionary[@"last_name"] name:dictionary[@"name"] linkURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://facebook.com/%@", dictionary[@"id"]]] refreshDate:Nil];
 }
 
+- (NSURL *)imageForPictureMode:(FBSDKProfilePictureMode)mode size:(CGSize)size scale:(CGFloat)scale completion:(void (^)(UIImage *))completion {
+	NSURL *url = [self imageURLForPictureMode:mode size:scale > 0.0 ? CGSizeMake(size.width * scale, size.height * scale) : size];
+
+	[url cache:^(NSURL *url) {
+		if (completion)
+			completion([UIImage imageWithContentsOfURL:url scale:scale]);
+	}];
+
+	return url;
+}
+
 @end

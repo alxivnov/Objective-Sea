@@ -19,6 +19,11 @@
 #define HEX_IOS_GREEN 0x95C11F
 #define HEX_IOS_RED 0xFF3B30
 
+#define HEX_NCS_BLUE 0x0087BD
+#define HEX_NCS_GREEN 0x009F6B
+#define HEX_NCS_RED 0xC40233
+#define HEX_NCS_YELLOW 0xFFD300
+
 @interface UIColor (Convenience)
 
 - (UIColor *)mixWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue value:(CGFloat)value;
