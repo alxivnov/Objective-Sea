@@ -16,13 +16,16 @@
 #define HEX(v) [UIColor colorWithRed:((v & 0xFF0000) >> 16) / 255.0 green:((v & 0x00FF00) >> 8) / 255.0 blue:((v & 0x0000FF) >> 0) / 255.0 alpha:1.0]
 
 #define HEX_IOS_BLUE 0x007AFF
-#define HEX_IOS_GREEN 0x95C11F
+#define HEX_IOS_GREEN 0x4BD964
 #define HEX_IOS_RED 0xFF3B30
+#define HEX_IOS_YELLOW 0xE4AF0A
 
 #define HEX_NCS_BLUE 0x0087BD
 #define HEX_NCS_GREEN 0x009F6B
 #define HEX_NCS_RED 0xC40233
 #define HEX_NCS_YELLOW 0xFFD300
+
+#define HEX_FB_BLUE 0x3664A2
 
 @interface UIColor (Convenience)
 
