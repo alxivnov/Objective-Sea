@@ -34,3 +34,32 @@
 }
 
 @end
+
+@implementation WKPickerItem (Convenience)
+
+- (instancetype)initWithTitle:(NSString *)title caption:(NSString *)caption accessoryImage:(WKImage *)accessoryImage contentImage:(WKImage *)contentImage {
+	self = [self init];
+
+	if (self) {
+		self.title = title;
+		self.caption = caption;
+		self.accessoryImage = accessoryImage;
+		self.contentImage = contentImage;
+	}
+
+	return self;
+}
+
+@end
+
+@implementation WKInterfacePicker (Convenience)
+
+- (void)setItemsWithTitles:(NSArray<NSString *> *)titles {
+	NSMutableArray<WKPickerItem *> *items = [NSMutableArray arrayWithCapacity:titles.count];
+	for (NSString *title in titles)
+		[items addObject:[[WKPickerItem alloc] initWithTitle:title caption:Nil accessoryImage:Nil contentImage:Nil]];
+
+	[self setItems:items];
+}
+
+@end

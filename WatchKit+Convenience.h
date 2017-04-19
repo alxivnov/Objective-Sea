@@ -19,3 +19,15 @@
 - (void)setInterval:(NSTimeInterval)interval;
 
 @end
+
+@interface WKPickerItem (Convenience)
+
+- (instancetype)initWithTitle:(NSString *)title caption:(NSString *)caption accessoryImage:(WKImage *)accessoryImage contentImage:(WKImage *)contentImage;
+
+@end
+
+@interface WKInterfacePicker (Convenience)
+
+- (void)setItemsWithTitles:(NSArray<NSString *> *)titles;
+
+@end
