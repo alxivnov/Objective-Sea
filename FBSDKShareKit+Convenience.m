@@ -10,17 +10,13 @@
 
 @implementation FBSDKShareLinkContent (Convenience)
 
-+ (instancetype)createWithURL:(NSURL *)url title:(NSString *)title description:(NSString *)description imageURL:(NSURL *)imageURL {
++ (instancetype)createWithURL:(NSURL *)url {
 	FBSDKShareLinkContent *instance = [FBSDKShareLinkContent new];
-	instance.contentDescription = description;
-	instance.contentTitle = title;
+//	instance.contentDescription = description;
+//	instance.contentTitle = title;
 	instance.contentURL = url;
-	instance.imageURL = imageURL;
+//	instance.imageURL = imageURL;
 	return instance;
-}
-
-+ (instancetype)createWithURL:(NSURL *)url title:(NSString *)title description:(NSString *)description {
-	return [self createWithURL:url title:title description:description imageURL:Nil];
 }
 
 @end

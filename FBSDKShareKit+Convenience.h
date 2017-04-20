@@ -13,8 +13,7 @@
 
 @interface FBSDKShareLinkContent (Convenience)
 
-+ (instancetype)createWithURL:(NSURL *)url title:(NSString *)title description:(NSString *)description imageURL:(NSURL *)imageURL;
-+ (instancetype)createWithURL:(NSURL *)url title:(NSString *)title description:(NSString *)description;
++ (instancetype)createWithURL:(NSURL *)url;
 
 @end
 
