@@ -195,6 +195,15 @@ static id _instance = Nil;
 	return data;
 }
 
++ (id)JSONObjectWithString:(NSString *)string {
+	return [self JSONObjectWithData:[string dataUsingEncoding:NSUTF8StringEncoding]];
+}
+
++ (NSString *)stringWithJSONObject:(id)obj {
+	NSStringEncoding encoding = NSUTF8StringEncoding;
+	return [NSString stringWithData:[self dataWithJSONObject:obj] encoding:&encoding];
+}
+
 @end
 
 @implementation NSURL (NSURLRequest)

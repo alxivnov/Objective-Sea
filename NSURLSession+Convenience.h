@@ -53,8 +53,10 @@
 @interface NSJSONSerialization (Convenience)
 
 + (id)JSONObjectWithData:(NSData *)data;
-
 + (NSData *)dataWithJSONObject:(id)obj;
+
++ (id)JSONObjectWithString:(NSString *)string;
++ (NSString *)stringWithJSONObject:(id)obj;
 
 @end
 
