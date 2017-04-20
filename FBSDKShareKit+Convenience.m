@@ -165,7 +165,7 @@
 }
 
 - (FBSDKShareDialog *)presentSharingContent:(id<FBSDKSharingContent>)content completion:(void (^)(BOOL, NSError *))completion {
-	return [self presentSharingContent:content modes:@[ @(FBSDKShareDialogModeNative), @(FBSDKShareDialogModeFeedWeb), @(FBSDKShareDialogModeFeedBrowser), @(FBSDKShareDialogModeAutomatic) ] completion:completion];
+	return [self presentSharingContent:content modes:@[ @(FBSDKShareDialogModeNative), @(FBSDKShareDialogModeFeedBrowser), @(FBSDKShareDialogModeAutomatic) ] completion:completion];
 }
 
 - (FBSDKShareDialog *)presentSharingContent:(id <FBSDKSharingContent>)content {
