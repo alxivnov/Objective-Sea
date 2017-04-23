@@ -10,6 +10,8 @@
 
 @interface UIViewController (SafariServices)
 
+- (SFSafariViewController *)presentSafariWithURL:(NSURL *)url entersReaderIfAvailable:(BOOL)entersReaderIfAvailable animated:(BOOL)flag completion:(void (^)(void))completion;
+- (SFSafariViewController *)presentSafariWithURL:(NSURL *)url entersReaderIfAvailable:(BOOL)entersReaderIfAvailable animated:(BOOL)flag;
 - (SFSafariViewController *)presentSafariWithURL:(NSURL *)url entersReaderIfAvailable:(BOOL)entersReaderIfAvailable;
 - (SFSafariViewController *)presentSafariWithURL:(NSURL *)url;
 

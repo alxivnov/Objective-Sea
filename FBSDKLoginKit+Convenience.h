@@ -22,7 +22,7 @@
 
 @interface UIViewController (FBSDKLoginKit)
 
-- (void)presentLogInWithReadPermissions:(NSArray *)permissions completion:(void (^)(FBSDKAccessToken *token))completion;
-- (void)presentLogInWithPublishPermissions:(NSArray *)permissions completion:(void (^)(FBSDKAccessToken *token))completion;
+- (BOOL)presentLogInWithReadPermissions:(NSArray *)permissions completion:(void (^)(FBSDKAccessToken *token))completion;
+- (BOOL)presentLogInWithPublishPermissions:(NSArray *)permissions completion:(void (^)(FBSDKAccessToken *token))completion;
 
 @end
