@@ -10,13 +10,16 @@
 
 @implementation FBSDKShareLinkContent (Convenience)
 
-+ (instancetype)createWithURL:(NSURL *)url {
++ (instancetype)contentWithURL:(NSURL *)url hashtag:(NSString *)hashtag {
 	FBSDKShareLinkContent *instance = [FBSDKShareLinkContent new];
-//	instance.contentDescription = description;
-//	instance.contentTitle = title;
 	instance.contentURL = url;
-//	instance.imageURL = imageURL;
+	if (hashtag.length)
+		instance.hashtag = [FBSDKHashtag hashtagWithString:hashtag];
 	return instance;
+}
+
++ (instancetype)contentWithURL:(NSURL *)url {
+	return [self contentWithURL:url hashtag:Nil];
 }
 
 @end
