@@ -119,7 +119,7 @@
 #define kAttributeRatingIndex @"ratingIndex"
 #define kAttributeSongTerm @"songTerm"
 
-+ (void)lookup:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
-+ (void)search:(NSString *)tearm handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
++ (BOOL)lookup:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
++ (BOOL)search:(NSString *)tearm handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
 
 @end

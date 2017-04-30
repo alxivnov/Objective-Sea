@@ -184,16 +184,26 @@
 	}];
 }
 
-+ (void)lookup:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *))handler {
++ (BOOL)lookup:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *))handler {
+	if (!ID)
+		return NO;
+
 	NSDictionary *parameters = @{ KEY_ID : @(ID) };
 	NSURL *url = [[NSURL URLWithString:URL_LOOKUP] URLByAppendingQueryDictionary:parameters];
 	[self sendAsynchronousRequestWithURL:url handler:handler];
+
+	return YES;
 }
 
-+ (void)search:(NSString *)tearm handler:(void(^)(NSArray<AFMediaItem *> *))handler {
++ (BOOL)search:(NSString *)tearm handler:(void(^)(NSArray<AFMediaItem *> *))handler {
+	if (!tearm.length)
+		return NO;
+
 	NSDictionary *parameters = @{ KEY_TERM : tearm, KEY_MEDIA : kMediaMusic, KEY_ENTITY : kEntitySong };
 	NSURL *url = [[NSURL URLWithString:URL_SEARCH] URLByAppendingQueryDictionary:parameters];
 	[self sendAsynchronousRequestWithURL:url handler:handler];
+
+	return YES;
 }
 
 @end
