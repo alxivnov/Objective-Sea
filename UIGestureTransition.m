@@ -62,14 +62,18 @@
 
 @end
 
-#define SCALE 0.9
+//#define SCALE 0.9
 #define ALPHA 0.4
 
 @interface UIPanTransition ()
+@property (assign, nonatomic, readonly) CGFloat scale;
+
 @property (strong, nonatomic) UIView *blur;
 @end
 
 @implementation UIPanTransition
+
+__synthesize(CGFloat, scale, 1.0 - 40.0 / self.containerView.bounds.size.height)
 
 @synthesize blur = _blur;
 
@@ -101,7 +105,7 @@
 
 		[self.containerView insertSubview:self.blur aboveSubview:self.fromView];
 	} else {
-		self.toView.transform = CGAffineTransformMakeScale(SCALE, SCALE);
+		self.toView.transform = CGAffineTransformMakeScale(self.scale, self.scale);
 
 		[self.containerView insertSubview:self.blur belowSubview:self.fromView];
 	}
@@ -128,7 +132,7 @@
 	CGFloat y = self.containerView.bounds.origin.y + self.containerView.bounds.size.height * percentComplete;
 	panView.frame = CGRectSetY(panView.frame, y);
 
-	CGFloat scale = SCALE + (1.0 - SCALE) * percentComplete;
+	CGFloat scale = self.scale + (1.0 - self.scale) * percentComplete;
 	scaleView.transform = CGAffineTransformMakeScale(scale, scale);
 
 	self.blur.alpha = ALPHA - ALPHA * percentComplete;
