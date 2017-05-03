@@ -228,8 +228,38 @@ static id _instance = Nil;
 	return task;
 }
 
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *))completion {
+	NSMutableString *body = Nil;
+
+	if (form) {
+		NSString *boundary = [NSUUID UUID].UUIDString;
+
+		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
+		dictionary[@"Content-Type"] = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+		header = dictionary;
+
+
+		body = [NSMutableString string];
+
+		for (NSString *key in form.allKeys) {
+			[body appendFormat:@"--%@\r\n", boundary];
+			[body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key];
+			[body appendFormat:@"%@\r\n", form[key]];
+		}
+
+		[body appendFormat:@"--%@\r\n", boundary];
+	}
+
+	return [self sendRequestWithMethod:method header:header body:[body dataUsingEncoding:NSUTF8StringEncoding] completion:^(NSData *data) {
+		id object = [NSJSONSerialization JSONObjectWithData:data];
+
+		if (completion)
+			completion(object);
+	}];
+}
+
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id))completion {
-	if (!header[@"Content-Type"] && json) {
+	if (json) {
 		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
 		dictionary[@"Content-Type"] = @"application/json";
 		header = dictionary;
