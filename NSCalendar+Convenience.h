@@ -61,15 +61,6 @@
 + (NSDate *)today;
 + (NSDate *)tomorrow;
 
-- (NSString *)descriptionForDate:(NSDateFormatterStyle)dateStyle andTime:(NSDateFormatterStyle)timeStyle;
-- (NSString *)descriptionForDateAndTime:(NSDateFormatterStyle)dateAndTimeStyle;
-- (NSString *)descriptionForDate:(NSDateFormatterStyle)dateStyle;
-- (NSString *)descriptionForTime:(NSDateFormatterStyle)timeStyle;
-
-- (NSString *)descriptionWithFormat:(NSString *)format calendar:(NSCalendar *)calendar;
-- (NSString *)weekdayDescription;
-- (NSString *)timestampDescription;
-
 @end
 
 @interface NSDateComponents (Convenience)
@@ -80,7 +71,5 @@
 
 - (NSTimeInterval)secondsFromDate:(NSDate *)date;
 - (NSTimeInterval)secondsToDate:(NSDate *)date;
-
-- (NSString *)description:(NSDateComponentsFormatterUnitsStyle)unitStyle;
 
 @end

@@ -149,39 +149,6 @@
 	return [[[NSDate date] dateComponent] addValue:1 forComponent:NSCalendarUnitDay];
 }
 
-- (NSString *)descriptionForDate:(NSDateFormatterStyle)dateStyle andTime:(NSDateFormatterStyle)timeStyle {
-	return [NSDateFormatter localizedStringFromDate:self dateStyle:dateStyle timeStyle:timeStyle];
-}
-
-- (NSString *)descriptionForDateAndTime:(NSDateFormatterStyle)dateAndTimeStyle {
-	return [NSDateFormatter localizedStringFromDate:self dateStyle:dateAndTimeStyle timeStyle:dateAndTimeStyle];
-}
-
-- (NSString *)descriptionForDate:(NSDateFormatterStyle)dateStyle {
-	return [NSDateFormatter localizedStringFromDate:self dateStyle:dateStyle timeStyle:NSDateFormatterNoStyle];
-}
-
-- (NSString *)descriptionForTime:(NSDateFormatterStyle)timeStyle {
-	return [NSDateFormatter localizedStringFromDate:self dateStyle:NSDateFormatterNoStyle timeStyle:timeStyle];
-}
-
-- (NSString *)descriptionWithFormat:(NSString *)format calendar:(NSCalendar *)calendar {
-	NSDateFormatter *formatter = [NSDateFormatter new];
-	if (format)
-		formatter.dateFormat = format;
-	if (calendar)
-		formatter.calendar = calendar;
-	return [formatter stringFromDate:self];
-}
-
-- (NSString *)weekdayDescription {
-	return [self descriptionWithFormat:@"EEEE" calendar:Nil];
-}
-
-- (NSString *)timestampDescription {
-	return [self descriptionWithFormat:@"yyyy-MM-dd-HH-mm-ss" calendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
-}
-
 @end
 
 @implementation NSDateComponents (Convenience)
@@ -223,10 +190,6 @@
 		date = [NSDate date];
 
 	return [date timeIntervalSinceDate:[[NSCalendar currentCalendar] dateByAddingComponents:self toDate:date options:NSCalendarSearchBackwards]];
-}
-
-- (NSString *)description:(NSDateComponentsFormatterUnitsStyle)unitStyle {
-	return [NSDateComponentsFormatter localizedStringFromDateComponents:self unitsStyle:unitStyle];
 }
 
 @end

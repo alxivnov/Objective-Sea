@@ -10,7 +10,7 @@
 
 @implementation UIView (UIActivityIndicatorView)
 
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message {
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message {
 	UIView *blur = [[UIView alloc] initWithFrame:self.bounds];
 	blur.alpha = 0.0;
 	blur.backgroundColor = style == UIActivityIndicatorViewStyleGray ? [UIColor whiteColor] : [UIColor blackColor];
@@ -44,14 +44,16 @@
 	} completion:^(BOOL finished) {
 		[indicator startAnimating];
 	}];
+
+	return blur;
 }
 
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style {
-	[self startActivityIndication:style message:Nil];
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style {
+	return [self startActivityIndication:style message:Nil];
 }
 
-- (void)startActivityIndication {
-	[self startActivityIndication:UIActivityIndicatorViewStyleWhiteLarge];
+- (UIView *)startActivityIndication {
+	return [self startActivityIndication:UIActivityIndicatorViewStyleWhiteLarge];
 }
 
 - (void)stopActivityIndication:(void (^)())completion {
@@ -76,18 +78,18 @@
 
 @implementation UIViewController (UIActivityIndicatorView)
 
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message {
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message {
 	UIViewController *vc = self.containingViewController;
 
-	[vc.view startActivityIndication:style message:message];
+	return [vc.view startActivityIndication:style message:message];
 }
 
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style {
-	[self startActivityIndication:style message:Nil];
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style {
+	return [self startActivityIndication:style message:Nil];
 }
 
-- (void)startActivityIndication {
-	[self startActivityIndication:UIActivityIndicatorViewStyleWhiteLarge];
+- (UIView *)startActivityIndication {
+	return [self startActivityIndication:UIActivityIndicatorViewStyleWhiteLarge];
 }
 
 - (void)stopActivityIndication:(void (^)())completion {

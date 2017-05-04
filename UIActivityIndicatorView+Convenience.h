@@ -14,9 +14,9 @@
 
 @interface UIView (UIActivityIndicatorView)
 
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message;
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style;
-- (void)startActivityIndication;
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message;
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style;
+- (UIView *)startActivityIndication;
 
 - (void)stopActivityIndication:(void (^)())completion;
 - (void)stopActivityIndication;
@@ -25,9 +25,9 @@
 
 @interface UIViewController (UIActivityIndicatorView)
 
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message;
-- (void)startActivityIndication:(UIActivityIndicatorViewStyle)style;
-- (void)startActivityIndication;
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style message:(NSString *)message;
+- (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style;
+- (UIView *)startActivityIndication;
 
 - (void)stopActivityIndication:(void (^)())completion;
 - (void)stopActivityIndication;
