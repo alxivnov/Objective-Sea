@@ -139,17 +139,59 @@
 #endif
 
 __static(NSMutableDictionary *, images, [NSMutableDictionary new])
+__static(NSMutableDictionary *, originals, [NSMutableDictionary new])
+__static(NSMutableDictionary *, templates, [NSMutableDictionary new])
 
-+ (UIImage *)image:(id)key {
++ (UIImage *)image:(id)key renderingMode:(UIImageRenderingMode)renderingMode {
 	if (!key)
 		return Nil;
 
-	UIImage *value = [self images][key];
+	NSMutableDictionary *images = renderingMode == UIImageRenderingModeAlwaysOriginal ? [self originals] : renderingMode == UIImageRenderingModeAlwaysTemplate ? [self templates] : [self images];
 
-	if (!value)
-		[self images][key] = value = [key isKindOfClass:[NSString class]] ? [UIImage imageNamed:key] : [key isKindOfClass:[NSURL class]] ? [UIImage imageWithContentsOfURL:key] : Nil;
+	UIImage *value = images[key];
+
+	if (!value) {
+		value = [key isKindOfClass:[NSString class]] ? [UIImage imageNamed:key] : [key isKindOfClass:[NSURL class]] ? [UIImage imageWithContentsOfURL:key] : Nil;
+
+		if (renderingMode == UIImageRenderingModeAlwaysOriginal)
+			value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+		else if (renderingMode == UIImageRenderingModeAlwaysTemplate)
+			value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+
+		images[key] = value;
+	}
 
 	return value;
+}
+
++ (UIImage *)image:(id)key {
+	return [self image:key renderingMode:UIImageRenderingModeAutomatic];
+}
+
++ (UIImage *)originalImage:(id)key {
+	return [self image:key renderingMode:UIImageRenderingModeAlwaysOriginal];
+}
+
++ (UIImage *)templateImage:(id)key {
+	return [self image:key renderingMode:UIImageRenderingModeAlwaysTemplate];
+}
+
++ (NSArray<UIImage *> *)images:(NSArray *)keys {
+	return [keys map:^id(id obj) {
+		return [self image:obj];
+	}];
+}
+
++ (NSArray<UIImage *> *)originalImages:(NSArray *)keys {
+	return [keys map:^id(id obj) {
+		return [self originalImage:obj];
+	}];
+}
+
++ (NSArray<UIImage *> *)templateImages:(NSArray *)keys {
+	return [keys map:^id(id obj) {
+		return [self templateImage:obj];
+	}];
 }
 
 @end

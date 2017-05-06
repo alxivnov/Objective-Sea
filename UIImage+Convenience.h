@@ -56,6 +56,12 @@ typedef enum : NSUInteger {
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url;
 #endif
 
-+ (UIImage *)image:(id <NSCopying>)key;
++ (UIImage *)image:(id)key;
++ (UIImage *)originalImage:(id)key;
++ (UIImage *)templateImage:(id)key;
+
++ (NSArray<UIImage *> *)images:(NSArray *)keys;
++ (NSArray<UIImage *> *)originalImages:(NSArray *)keys;
++ (NSArray<UIImage *> *)templateImages:(NSArray *)keys;
 
 @end
