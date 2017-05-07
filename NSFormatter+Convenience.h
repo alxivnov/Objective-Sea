@@ -34,6 +34,7 @@
 
 + (instancetype)mmssAbbreviatedFormatter;
 + (instancetype)mmShortFormatter;
++ (instancetype)ssShortFormatter;
 
 - (NSString *)stringFromValue:(NSDate *)startDate toValue:(NSDate *)endDate;
 
