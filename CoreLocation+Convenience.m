@@ -42,7 +42,14 @@ __static(CLLocationManager *, defaultManager, [self new])
 
 @implementation CLLocation (Convenience)
 
+- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate {
+	return [self initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+}
+
 - (void)reverseGeocodeLocation:(void (^)(NSArray<CLPlacemark *> *placemarks))completionHandler {
+	if ([CLGeocoder defaultGeocoder].isGeocoding)
+		[[CLGeocoder defaultGeocoder] cancelGeocode];
+	
 	[[CLGeocoder defaultGeocoder] reverseGeocodeLocation:self completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
 		if (completionHandler)
 			completionHandler(placemarks);

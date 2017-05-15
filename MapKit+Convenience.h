@@ -8,9 +8,11 @@
 
 #import <MapKit/MapKit.h>
 
+#define MKCoordinateRegionIsValid(region) (fabs(region.center.latitude + region.span.latitudeDelta) <= 90.0 && fabs(region.center.longitude + region.span.longitudeDelta) <= 180.0)
+
 @interface MKMapView (Convenience)
 
-- (void)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated;
+- (BOOL)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated;
 
 - (void)removeAllAnnotations;
 - (void)removeAllOverlays;
@@ -18,6 +20,8 @@
 - (void)removeAllAnnotationsAndOverlays;
 
 - (MKAnnotationView *)viewForNullableAnnotation:(id<MKAnnotation>)annotation;
+
+- (void)showAllAnnotations:(BOOL)animated;
 
 @end
 

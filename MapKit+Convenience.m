@@ -10,16 +10,27 @@
 
 @implementation MKMapView (Convenience)
 
-- (void)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated {
-	double latitude = distance;
-	double longitude = distance;
-	if (self.bounds.size.height > self.bounds.size.width)
-		latitude *= self.bounds.size.height / self.bounds.size.width;
-	else if (self.bounds.size.height < self.bounds.size.width)
-		longitude *= self.bounds.size.width / self.bounds.size.height;
+- (BOOL)setRegionWithCenter:(CLLocationCoordinate2D)center distance:(CLLocationDistance)distance animated:(BOOL)animated {
+//	double latitude = distance;
+//	double longitude = distance;
+//	if (self.bounds.size.height > self.bounds.size.width)
+//		latitude *= self.bounds.size.height / self.bounds.size.width;
+//	else if (self.bounds.size.height < self.bounds.size.width)
+//		longitude *= self.bounds.size.width / self.bounds.size.height;
 
-	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(center, latitude, longitude);
+	MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance(center, distance, distance);
+
+	if (!MKCoordinateRegionIsValid(region))
+		return NO;
+
+	region = [self regionThatFits:region];
+
+	if (!MKCoordinateRegionIsValid(region))
+		return NO;
+
 	[self setRegion:region animated:animated];
+
+	return YES;
 }
 
 - (void)removeAllAnnotations {
@@ -40,6 +51,10 @@
 
 - (MKAnnotationView *)viewForNullableAnnotation:(id<MKAnnotation>)annotation {
 	return annotation ? [self viewForAnnotation:annotation] : Nil;
+}
+
+- (void)showAllAnnotations:(BOOL)animated {
+	[self showAnnotations:self.annotations animated:animated];
 }
 
 @end

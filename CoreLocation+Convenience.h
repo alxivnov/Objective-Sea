@@ -35,6 +35,8 @@
 
 @interface CLLocation (Convenience)
 
+- (instancetype)initWithCoordinate:(CLLocationCoordinate2D)coordinate;
+
 - (void)reverseGeocodeLocation:(void (^)(NSArray<CLPlacemark *> *placemarks))completionHandler;
 
 @end
