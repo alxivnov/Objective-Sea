@@ -46,14 +46,14 @@
 	return dictionary;
 }
 
-- (NSDictionary *)castKeys:(id (^)(id item))keyBlock andValues:(id (^)(id item))valueBlock {
+- (NSDictionary *)mapKeys:(id (^)(id))keyBlock values:(id (^)(id))valBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 
 	for (id key in self) {
-		id value = self[key];
+		id val = self[key];
 
 		id k = keyBlock ? keyBlock(key) : key;
-		id v = valueBlock ? valueBlock(value) : value;
+		id v = valBlock ? valBlock(val) : val;
 		if (k && v)
 			dictionary[k] = v;
 	}
@@ -61,21 +61,30 @@
 	return dictionary;
 }
 
-- (NSDictionary *)castKeys:(id (^)(id))block {
-	return [self castKeys:block andValues:Nil];
+- (NSDictionary *)mapKeys:(id (^)(id))block {
+	return [self mapKeys:block values:Nil];
 }
 
-- (NSDictionary *)castValues:(id (^)(id item))block {
-	return [self castKeys:Nil andValues:block];
+- (NSDictionary *)mapValues:(id (^)(id))block {
+	return [self mapKeys:Nil values:block];
+}
+
+- (NSArray *)array:(NSArray *(^)(id, id))block {
+	NSMutableArray *array = [NSMutableArray arrayWithCapacity:2 * self.count];
+
+	for (id key in self) {
+		id val = self[key];
+
+		NSArray *objects = block ? block(key, val) : @[ key, val ];
+		if (objects)
+			[array addObjectsFromArray:objects];
+	}
+
+	return array;
 }
 
 - (NSArray *)array {
-	NSMutableArray *array = [NSMutableArray arrayWithCapacity:2 * self.count];
-	for (NSUInteger index = 0; index < self.count; index++) {
-		[array addObject:self.allKeys[index]];
-		[array addObject:self.allValues[index]];
-	}
-	return array;
+	return [self array:Nil];
 }
 
 - (BOOL)boolForKey:(NSString *)key {

@@ -12,15 +12,16 @@
 
 - (ObjectType)objectForNullableKey:(KeyType)aKey;
 
-- (NSDictionary<KeyType, ObjectType> *)dictionaryWithObjectsForKeys:(NSArray<KeyType> *)keys;
+- (instancetype)dictionaryWithObjectsForKeys:(NSArray<KeyType> *)keys;
 
 - (instancetype)dictionaryWithObject:(ObjectType)object forKey:(KeyType)key;
 - (instancetype)dictionaryWithObjects:(NSArray<ObjectType> *)objects forKeys:(NSArray<KeyType> *)keys;
 
-- (NSDictionary *)castKeys:(id (^)(KeyType item))keyBlock andValues:(id (^)(ObjectType item))valueBlock;
-- (NSDictionary *)castKeys:(id (^)(KeyType item))block;
-- (NSDictionary *)castValues:(id (^)(ObjectType item))block;
+- (NSDictionary *)mapKeys:(id (^)(KeyType key))keyBlock values:(id (^)(ObjectType val))valBlock;
+- (NSDictionary *)mapKeys:(id (^)(KeyType key))block;
+- (NSDictionary *)mapValues:(id (^)(ObjectType val))block;
 
+- (NSArray *)array:(NSArray *(^)(KeyType key, ObjectType val))block;
 - (NSArray *)array;
 
 - (BOOL)boolForKey:(NSString *)key;

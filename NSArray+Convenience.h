@@ -48,13 +48,13 @@
 - (BOOL)all:(BOOL (^)(ObjectType obj))predicate;
 - (BOOL)any:(BOOL (^)(ObjectType obj))predicate;
 
-- (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(ObjectType obj))keyPredicate value:(id(^)(ObjectType obj, id<NSCopying> key, id val))valuePredicate;
+- (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(ObjectType obj))keyPredicate value:(id(^)(ObjectType obj, id<NSCopying> key, id val))valPredicate;
 - (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(ObjectType obj))keyPredicate;
 
 + (instancetype)arrayFromCount:(NSUInteger)count block:(ObjectType (^)(NSUInteger index))block;
 + (instancetype)arrayFromRange:(NSRange)range block:(ObjectType (^)(NSUInteger index))block;
 
-- (NSString *)componentsJoinedByString:(NSString *)separator block:(NSString *(^)(ObjectType item))block;
+- (NSString *)componentsJoinedByString:(NSString *)separator block:(NSString *(^)(ObjectType obj))block;
 - (BOOL)isEqualToArray:(NSArray<ObjectType> *)otherArray block:(BOOL(^)(ObjectType obj, ObjectType otherObj))predicate;
 
 - (double)max:(NSNumber *(^)(ObjectType obj))predicate;

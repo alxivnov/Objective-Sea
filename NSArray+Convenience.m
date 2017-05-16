@@ -178,14 +178,14 @@
 	return NO;
 }
 
-- (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(id))keyPredicate value:(id(^)(id, id<NSCopying>, id))valuePredicate  {
+- (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(id))keyPredicate value:(id(^)(id, id<NSCopying>, id))valPredicate  {
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:self.count];
 
 	for (id obj in self) {
 		id<NSCopying> key = keyPredicate ? keyPredicate(obj) : obj;
 		if (key) {
 			id val = dictionary[key];
-			val = valuePredicate ? valuePredicate(obj, key, val) : obj;
+			val = valPredicate ? valPredicate(obj, key, val) : obj;
 			dictionary[key] = val;
 		}
 	}
