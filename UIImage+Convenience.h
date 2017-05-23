@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 @import UIKit;
+#elif TARGET_OS_WATCH
+@import WatchKit;
 #else
 @import AppKit;
 
@@ -63,5 +65,8 @@ typedef enum : NSUInteger {
 + (NSArray<UIImage *> *)images:(NSArray *)keys;
 + (NSArray<UIImage *> *)originalImages:(NSArray *)keys;
 + (NSArray<UIImage *> *)templateImages:(NSArray *)keys;
+
++ (NSURL *)URLForResource:(NSString *)name withExtension:(NSString *)ext;
++ (NSURL *)URLForResource:(NSString *)name;
 
 @end

@@ -194,4 +194,20 @@ __static(NSMutableDictionary *, templates, [NSMutableDictionary new])
 	}];
 }
 
++ (NSURL *)URLForResource:(NSString *)name withExtension:(NSString *)ext {
+#if TARGET_OS_IOS
+	CGFloat scale = [UIScreen mainScreen].scale;
+#elif TARGET_OS_WATCH
+	CGFloat scale = [WKInterfaceDevice currentDevice].screenScale;
+#else
+	CGFloat scale = [NSScreen mainScreen].backingScaleFactor;
+#endif
+
+	return [name hasSuffix:@"@2x"] || [name hasSuffix:@"@3x"] || scale == 1.0 ? [[NSBundle mainBundle] URLForResource:name withExtension:ext] : [[NSBundle mainBundle] URLForResource:[name stringByAppendingFormat:@"@%.0fx", scale] withExtension:ext] ?: [[NSBundle mainBundle] URLForResource:name withExtension:ext];
+}
+
++ (NSURL *)URLForResource:(NSString *)name {
+	return [self URLForResource:name.stringByDeletingPathExtension withExtension:name.pathExtension];
+}
+
 @end
