@@ -66,6 +66,7 @@
 #define ALPHA 0.4
 
 @interface UIPanTransition ()
+@property (assign, nonatomic, readonly) CGFloat offset;
 @property (assign, nonatomic, readonly) CGFloat scale;
 
 @property (strong, nonatomic) UIView *blur;
@@ -73,7 +74,8 @@
 
 @implementation UIPanTransition
 
-__synthesize(CGFloat, scale, 1.0 - 40.0 / self.containerView.bounds.size.height)
+__synthesize(CGFloat, offset, [UIApplication sharedApplication].statusBarFrame.size.height)
+__synthesize(CGFloat, scale, 1.0 - self.offset / self.containerView.bounds.size.height)
 
 @synthesize blur = _blur;
 
@@ -106,6 +108,7 @@ __synthesize(CGFloat, scale, 1.0 - 40.0 / self.containerView.bounds.size.height)
 		[self.containerView insertSubview:self.blur aboveSubview:self.fromView];
 	} else {
 		self.toView.transform = CGAffineTransformMakeScale(self.scale, self.scale);
+		self.toView.center = CGPointMake(self.toView.center.x, self.containerView.center.y + self.offset / 2.0);
 
 		[self.containerView insertSubview:self.blur belowSubview:self.fromView];
 	}
@@ -114,10 +117,12 @@ __synthesize(CGFloat, scale, 1.0 - 40.0 / self.containerView.bounds.size.height)
 - (void)endInteractiveTransition:(BOOL)didComplete {
 	[super endInteractiveTransition:didComplete];
 
-	if (self.isPresenting)
+	if (self.isPresenting) {
 		self.toView.frame = self.containerView.bounds;
-	else
+	} else {
 		self.toView.transform = CGAffineTransformIdentity;
+		self.toView.center = CGPointMake(self.toView.center.x, self.containerView.center.y);
+	}
 
 	self.blur = Nil;
 }
@@ -134,6 +139,8 @@ __synthesize(CGFloat, scale, 1.0 - 40.0 / self.containerView.bounds.size.height)
 
 	CGFloat scale = self.scale + (1.0 - self.scale) * percentComplete;
 	scaleView.transform = CGAffineTransformMakeScale(scale, scale);
+	CGFloat offset = (self.offset - self.offset * percentComplete) / 2.0;
+	scaleView.center = CGPointMake(scaleView.center.x, self.containerView.center.y + offset);
 
 	self.blur.alpha = ALPHA - ALPHA * percentComplete;
 }
