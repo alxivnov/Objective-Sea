@@ -41,14 +41,6 @@
 
 @end
 
-@interface UITableViewCell (Convenience)
-
-- (UITableView *)tableView;
-
-- (void)setAccessoryView:(UIView *)accessoryView insets:(UIEdgeInsets)insets;
-
-@end
-
 @interface UITableView (Sections)
 
 - (void)insertSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation;

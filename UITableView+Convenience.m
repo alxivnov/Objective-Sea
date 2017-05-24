@@ -67,31 +67,6 @@
 
 @end
 
-@implementation UITableViewCell (Convenience)
-
-- (UITableView *)tableView {
-	UIView *superview = self.superview;
-	while (superview)
-		if ([superview isKindOfClass:[UITableView class]])
-			return (UITableView *)superview;
-		else
-			superview = superview.superview;
-	return Nil;
-}
-
-- (void)setAccessoryView:(UIView *)accessoryView insets:(UIEdgeInsets)insets {
-	if (UIEdgeInsetsEqualToEdgeInsets(insets, UIEdgeInsetsZero)) {
-		CGFloat left = self.imageView.frame.origin.x ?: self.textLabel.frame.origin.x;
-		insets = UIEdgeInsetsMake(0.0, left, 0.0, 0.0 - left);
-	}
-
-	accessoryView.frame = UIEdgeInsetsInsetRect(accessoryView.frame, insets);
-	self.accessoryView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, accessoryView.frame.origin.x + accessoryView.frame.size.width, accessoryView.frame.origin.y + accessoryView.frame.size.height)];
-	[self.accessoryView addSubview:accessoryView];
-}
-
-@end
-
 @implementation UITableView (Sections)
 
 - (void)insertSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation {
