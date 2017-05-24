@@ -33,11 +33,6 @@
 
 @end
 
-@interface UISwitchTableViewCell ()
-@property (strong, nonatomic) UIImage *onImage;
-@property (strong, nonatomic) UIImage *offImage;
-@end
-
 @implementation UISwitchTableViewCell
 
 __synthesize(UISwitch *, switchView, [[UISwitch alloc] initWithFrame:CGRectZero])
@@ -48,16 +43,8 @@ __synthesize(UISwitch *, switchView, [[UISwitch alloc] initWithFrame:CGRectZero]
 	self.accessoryView = self.switchView;
 }
 
-- (void)setupImage {
-	UIImage *image = self.switchView.on ? self.onImage : self.offImage;
-	if (image)
-		self.imageView.image = image;
-
-	NSLog(@"image: %@", self.imageView.image);
-}
-
 - (IBAction)switchValueChanged:(UISwitch *)sender {
-	[self setupImage];
+
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -78,6 +65,20 @@ __synthesize(UISwitch *, switchView, [[UISwitch alloc] initWithFrame:CGRectZero]
 	return self;
 }
 
+- (void)awakeFromNib  {
+	[super awakeFromNib];
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+	[super setSelected:selected animated:animated];
+
+	if (selected) {
+		[self.switchView setOn:!self.switchView.on animated:YES];
+
+		[self.switchView sendActionsForControlEvents:UIControlEventValueChanged];
+	}
+}
+
 @end
 
 #if __has_include("UserNotifications+Convenience.h")
@@ -86,21 +87,12 @@ __synthesize(UISwitch *, switchView, [[UISwitch alloc] initWithFrame:CGRectZero]
 
 __synthesize(UNAuthorizationOptions, authorizationOptions, UNAuthorizationOptionAll)
 
-- (void)setOn:(BOOL)on animated:(BOOL)animated {
-	[self.switchView setOn:on animated:animated];
-
-	[self setupImage];
-}
-
 - (void)setupSwitch {
 	[super setupSwitch];
 
-	self.onImage = [[UIImage imageNamed:@"user-notifications-on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-	self.offImage = [[UIImage imageNamed:@"user-notifications-off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-
 	[UNUserNotificationCenter getNotificationSettings:^(UNNotificationSettings *settings) {
 		[GCD main:^{
-			[self setOn:settings.authorization.boolValue animated:YES];
+			[self.switchView setOn:settings.authorization.boolValue animated:YES];
 		}];
 	}];
 }
@@ -109,11 +101,14 @@ __synthesize(UNAuthorizationOptions, authorizationOptions, UNAuthorizationOption
 	if (sender.on) {
 		[UNUserNotificationCenter requestAuthorizationIfNeededWithOptions:self.authorizationOptions completionHandler:^(NSNumber *granted) {
 			[GCD main:^{
-				[self setOn:granted.boolValue animated:YES];
+				[self.switchView setOn:granted.boolValue animated:YES];
 			}];
 		}];
 	} else {
-		[self setOn:YES animated:YES];
+		[self.switchView setOn:YES animated:YES];
+
+		if (IS_DEBUGGING)
+			[UIApplication openSettings];
 	}
 }
 
@@ -125,28 +120,22 @@ __synthesize(UNAuthorizationOptions, authorizationOptions, UNAuthorizationOption
 
 @implementation CLTableViewCell
 
-__synthesize(BOOL, requestAlwaysAuthorization, NO)
-
-- (void)setOn:(BOOL)on animated:(BOOL)animated {
-	[self.switchView setOn:on animated:animated];
-
-	[self setupImage];
-}
+__synthesize(BOOL, requestAlwaysAuthorization, YES)
 
 - (void)setupSwitch {
 	[super setupSwitch];
 
-	self.onImage = [[UIImage imageNamed:@"core-location-on"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-	self.offImage = [[UIImage imageNamed:@"core-location-off"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-
-	[self setOn:[CLLocationManager authorization:self.requestAlwaysAuthorization].boolValue animated:YES];
+	[self.switchView setOn:[CLLocationManager authorization:self.requestAlwaysAuthorization].boolValue animated:YES];
 }
 
 - (void)switchValueChanged:(UISwitch *)sender {
 	if (sender.on) {
-		[self setOn:[[CLLocationManager defaultManager] requestAuthorizationIfNeeded:self.requestAlwaysAuthorization].boolValue animated:YES];
+		[self.switchView setOn:[[CLLocationManager defaultManager] requestAuthorizationIfNeeded:self.requestAlwaysAuthorization].boolValue animated:YES];
 	} else {
-		[self setOn:YES animated:YES];
+		[self.switchView setOn:YES animated:YES];
+
+		if (IS_DEBUGGING)
+			[UIApplication openSettings];
 	}
 }
 

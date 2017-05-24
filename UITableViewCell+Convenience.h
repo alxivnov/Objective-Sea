@@ -23,9 +23,6 @@
 
 @property (strong, nonatomic, readonly) UISwitch *switchView;
 
-@property (strong, nonatomic, readonly) UIImage *onImage;
-@property (strong, nonatomic, readonly) UIImage *offImage;
-
 @end
 
 #if __has_include("UserNotifications+Convenience.h")
