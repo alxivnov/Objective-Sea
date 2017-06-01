@@ -8,6 +8,16 @@
 
 #import "FBSDKLoginKit+Convenience.h"
 
+@implementation FBSDKLoginButton (Convenience)
+
+- (void)fit {
+	CGFloat titleWidth = self.titleLabel.attributedText.size.width;
+	CGFloat imageWidth = self.imageView.frame.size.width;
+	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, titleWidth + imageWidth + 24.0, self.frame.size.height);
+}
+
+@end
+
 @implementation FBSDKLoginManager (Convenience)
 
 + (BOOL)isLoggedIn:(NSArray<NSString *> *)permissions {

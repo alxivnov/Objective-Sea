@@ -209,11 +209,12 @@ static id _instance = Nil;
 @implementation NSURL (NSURLRequest)
 
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *))completion {
-	if (!method/* || !header || !body*/)
-		return Nil;
+//	if (!method/* || !header || !body*/)
+//		return Nil;
 
 	NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self];
-	[request setHTTPMethod:method];
+	if (method)
+		[request setHTTPMethod:method];
 	for (NSString *field in header.allKeys)
 		[request addValue:header[field] forHTTPHeaderField:field];
 	[request setHTTPBody:body];

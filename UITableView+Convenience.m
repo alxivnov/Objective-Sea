@@ -120,13 +120,13 @@
 - (void)setHeaderText:(NSString *)text forSection:(NSUInteger)section {
 	UITableViewHeaderFooterView *view = [self headerViewForSection:section];
 	view.textLabel.text = text;
-	[view layoutSubviews];
+	[view setNeedsLayout];
 }
 
 - (void)setFooterText:(NSString *)text forSection:(NSUInteger)section {
 	UITableViewHeaderFooterView *view = [self footerViewForSection:section];
 	view.textLabel.text = text;
-	[view layoutSubviews];
+	[view setNeedsLayout];
 }
 
 - (NSUInteger)firstSection {

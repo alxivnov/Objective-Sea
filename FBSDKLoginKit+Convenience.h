@@ -12,6 +12,12 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
+@interface FBSDKLoginButton (Convenience)
+
+- (void)fit;
+
+@end
+
 @interface FBSDKLoginManager (Convenience)
 
 + (BOOL)isLoggedIn:(NSArray<NSString *> *)permissions;

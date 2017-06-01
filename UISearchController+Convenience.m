@@ -52,8 +52,8 @@
 	UISearchResultsUpdater *search = [UISearchResultsUpdater updaterWithSearchResultsHandler:handler];
 
 	if (self.navigationController) {
-		search.searchBar.barStyle = self.navigationController.navigationBar.barStyle;
-		search.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+//		search.searchBar.barStyle = self.navigationController.navigationBar.barStyle;
+//		search.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
 
 		self.navigationItem.titleView = search.searchBar;
 	} else {
