@@ -19,11 +19,13 @@
 #define VK_METHOD_NEWSFEED_SEARCH @"newsfeed.search"
 #define VK_METHOD_USERS_GET @"users.get"
 #define VK_METHOD_WALL_GET @"wall.get"
+#define VK_METHOD_WALL_SEARCH @"wall.search"
 #define VK_METHOD_WALL_POST @"wall.post"				// wall
 
 #define VK_HTTP_METHOD_GET @"GET"
 
 #define VK_PARAM_Q @"q"
+#define VK_PARAM_QUERY @"query"
 #define VK_PARAM_V @"v"
 #define VK_PARAM_ACCESS_TOKEN @"access_token"
 #define VK_PARAM_ID @"id"

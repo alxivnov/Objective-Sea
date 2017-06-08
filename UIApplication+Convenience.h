@@ -30,6 +30,8 @@
 @property (assign, nonatomic, readonly) BOOL iPad;
 @property (assign, nonatomic, readonly) BOOL iPhone;
 
+@property (assign, nonatomic, readonly) CGFloat statusBarHeight;
+
 @property (assign, nonatomic, readonly) BOOL isActive;
 @property (assign, nonatomic, readonly) BOOL isBackground;
 @property (assign, nonatomic, readonly) BOOL isInactive;

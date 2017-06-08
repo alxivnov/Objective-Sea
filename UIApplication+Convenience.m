@@ -62,6 +62,10 @@
 	return !self.iPad;
 }
 
+- (CGFloat)statusBarHeight {
+	return fmin(self.statusBarFrame.size.height, self.statusBarFrame.size.width);
+}
+
 
 
 - (BOOL)isActive {
