@@ -27,10 +27,10 @@
 - (NSNumber *)requestAuthorizationIfNeeded:(BOOL)always {
 	if ([CLLocationManager authorization:always].boolValue)
 		return @YES;
-	else if ([CLLocationManager authorization:always] == Nil)
-		[[CLLocationManager defaultManager] requestAuthorization:always];
-	else
+	else if ([CLLocationManager authorization:always])
 		[UIApplication openSettings];
+	else
+		[[CLLocationManager defaultManager] requestAuthorization:always];
 
 	return Nil;
 }

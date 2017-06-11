@@ -142,3 +142,34 @@ __synthesize(BOOL, requestAlwaysAuthorization, YES)
 @end
 
 #endif
+
+#if __has_include("AVAudioRecorder+Convenience.h")
+
+@implementation AVFTableViewCell
+
+__synthesize(AVAudioSession *, audioSession, [AVAudioSession sharedInstance])
+
+- (void)setupSwitch {
+	[super setupSwitch];
+
+	[self.switchView setOn:self.audioSession.recordPermissionGranted.boolValue animated:YES];
+}
+
+- (void)switchValueChanged:(UISwitch *)sender {
+	if (sender.on) {
+		[self.audioSession requestRecordPermissionIfNeeded:^(NSNumber *granted) {
+			[GCD main:^{
+				[self.switchView setOn:granted.boolValue animated:YES];
+			}];
+		}];
+	} else {
+		[self.switchView setOn:YES animated:YES];
+
+		if (IS_DEBUGGING)
+			[UIApplication openSettings];
+	}
+}
+
+@end
+
+#endif

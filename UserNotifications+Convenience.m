@@ -29,16 +29,16 @@
 		if (settings.authorization.boolValue) {
 			if (completionHandler)
 				completionHandler(@YES);
-		} else if (settings.authorization == Nil) {
-			[UNUserNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(BOOL granted) {
-				if (completionHandler)
-					completionHandler(@(granted));
-			}];
-		} else {
+		} else if (settings.authorization) {
 			[UIApplication openSettings];
 
 			if (completionHandler)
 				completionHandler(Nil);
+		} else {
+			[UNUserNotificationCenter requestAuthorizationWithOptions:options completionHandler:^(BOOL granted) {
+				if (completionHandler)
+					completionHandler(@(granted));
+			}];
 		}
 	}];
 }

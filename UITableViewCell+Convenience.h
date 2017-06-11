@@ -48,3 +48,15 @@
 @end
 
 #endif
+
+#if __has_include("AVAudioRecorder+Convenience.h")
+
+#import "AVAudioRecorder+Convenience.h"
+
+@interface AVFTableViewCell : UISwitchTableViewCell
+
+@property (assign, nonatomic) AVAudioSession *audioSession;
+
+@end
+
+#endif

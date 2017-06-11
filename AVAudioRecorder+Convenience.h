@@ -10,9 +10,17 @@
 
 #import "NSObject+Convenience.h"
 
+#if TARGET_OS_IOS
+#import "UIApplication+Convenience.h"
+#endif
+
 @interface AVAudioSession (Convenience)
 
-+ (void)requestRecordPermission:(PermissionBlock)response;
+@property (strong, nonatomic, readonly) NSString *recordPermissionGranted;
+
+#if TARGET_OS_IOS
+- (void)requestRecordPermissionIfNeeded:(void (^)(NSNumber *granted))completionHandler;
+#endif
 
 @end
 

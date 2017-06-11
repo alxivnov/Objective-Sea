@@ -10,16 +10,28 @@
 
 @implementation AVAudioSession (Convenience)
 
-+ (void)requestRecordPermission:(PermissionBlock)response {
-	AVAudioSession *session = [self sharedInstance];
-	AVAudioSessionRecordPermission recordPermission = [session recordPermission];
-
-	if (recordPermission == AVAudioSessionRecordPermissionUndetermined)
-		[session requestRecordPermission:response];
-	else
-		if (response)
-			response(recordPermission == AVAudioSessionRecordPermissionGranted);
+- (NSNumber *)recordPermissionGranted {
+	return self.recordPermission == AVAudioSessionRecordPermissionGranted ? @YES : self.recordPermission == AVAudioSessionRecordPermissionDenied ? @NO : Nil;
 }
+
+#if TARGET_OS_IOS
+- (void)requestRecordPermissionIfNeeded:(void (^)(NSNumber *granted))completionHandler {
+	if (self.recordPermissionGranted.boolValue) {
+		if (completionHandler)
+			completionHandler(@YES);
+	} else if (self.recordPermissionGranted) {
+		[UIApplication openSettings];
+
+		if (completionHandler)
+			completionHandler(Nil);
+	} else {
+		[self requestRecordPermission:^(BOOL granted) {
+			if (completionHandler)
+				completionHandler(@(granted));
+		}];
+	}
+}
+#endif
 
 @end
 

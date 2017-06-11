@@ -12,8 +12,6 @@
 #import "NSObject+Convenience.h"
 
 #if TARGET_OS_IOS
-@import UIKit;
-
 #import "UIApplication+Convenience.h"
 #endif
 
