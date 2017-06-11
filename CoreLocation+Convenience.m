@@ -101,7 +101,8 @@ __static(CLGeocoder *, defaultGeocoder, [self new])
 
 + (NSURL *)URLWithSize:(CGSize)size scale:(CGFloat)scale markers:(NSDictionary<NSURL *, NSArray<CLLocation *> *> *)markers {
 	NSMutableString *url = [NSMutableString stringWithString:@"https://maps.googleapis.com/maps/api/staticmap"];
-	[url appendFormat:@"?maptype=%@", @"roadmap"];
+	[url appendString:@"?maptype=roadmap"];
+	[url appendString:@"&format=jpg"];
 	[url appendFormat:@"&size=%ux%u", (unsigned int)fmin(size.width, 640.0), (unsigned int)fmin(size.height, 640.0)];
 	[url appendFormat:@"&scale=%u", (unsigned int)fmin(scale, 2.0)];
 
