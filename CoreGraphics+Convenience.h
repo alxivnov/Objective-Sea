@@ -20,9 +20,9 @@
 #define CGSizeIsNan(size) (isnan(size.width) || isnan(size.height))
 #define CGRectIsNan(rect) (isnan(rect.origin.x) || isnan(rect.origin.y) || isnan(rect.size.width) || isnan(rect.size.height))
 
-#define CGPointDescription(point) [NSString stringWithFormat:@"{ x : %f, y : %f }", point.x, point.y]
-#define CGSizeDescription(size) [NSString stringWithFormat:@"{ width : %f, height : %f }", size.width, size.height]
-#define CGRectDescription(rect)  [NSString stringWithFormat:@"{ origin : { x : %f, y : %f }, size : { width : %f, height : %f } }", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height]
+#define CGPointDescription(point) [NSString stringWithFormat:@"{%.1f,%.1f}", point.x, point.y]
+#define CGSizeDescription(size) [NSString stringWithFormat:@"{%.1f,%.1f}", size.width, size.height]
+#define CGRectDescription(rect)  [NSString stringWithFormat:@"{{%.1f,%.1f},{%.1f,%.1f}}", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height]
 
 #define CGRectMakeWithOriginAndSize(origin, size) CGRectMake(origin.x, origin.y, size.width, size.height)
 #define CGRectMakeWithSize(size) CGRectMakeWithOriginAndSize(CGPointZero, size)

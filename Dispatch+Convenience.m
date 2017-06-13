@@ -58,7 +58,7 @@
 
 
 
-+ (void)queue:(dispatch_queue_t)queue after:(NSTimeInterval)after block:(void (^)())block {
++ (void)queue:(dispatch_queue_t)queue after:(NSTimeInterval)after block:(void (^)(void))block {
 	if (queue) {
 		if (after > 0.0)
 			dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(after * NSEC_PER_SEC)), queue, block);
@@ -72,15 +72,15 @@
 	}
 }
 
-+ (void)global:(void (^)())block {
++ (void)global:(void (^)(void))block {
 	[self queue:GCD_GLOBAL after:0.0 block:block];
 }
 
-+ (void)main:(void (^)())block {
++ (void)main:(void (^)(void))block {
 	[self queue:GCD_MAIN after:0.0 block:block];
 }
 
-+ (void)once:(void (^)())block {
++ (void)once:(void (^)(void))block {
 	static dispatch_once_t predicate;
 
 	dispatch_once(&predicate, block);

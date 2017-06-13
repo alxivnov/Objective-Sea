@@ -28,10 +28,10 @@
 
 
 
-+ (void)queue:(dispatch_queue_t)queue after:(NSTimeInterval)after block:(void (^)())block;
-+ (void)global:(void (^)())block;
-+ (void)main:(void (^)())block;
-+ (void)once:(void (^)())block;
++ (void)queue:(dispatch_queue_t)queue after:(NSTimeInterval)after block:(void (^)(void))block;
++ (void)global:(void (^)(void))block;
++ (void)main:(void (^)(void))block;
++ (void)once:(void (^)(void))block;
 
 
 

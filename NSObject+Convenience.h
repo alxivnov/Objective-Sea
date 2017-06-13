@@ -84,6 +84,9 @@
 
 #define DEG_360 (2.0 * M_PI)
 
+#define NSStringFromInteger(i) [NSString stringWithFormat:@"%l", i]
+#define NSStringFromUnsignedInteger(i) [NSString stringWithFormat:@"%lu", i]
+
 @interface NSObject (Convenience)
 
 - (void)log:(NSString *)message;
