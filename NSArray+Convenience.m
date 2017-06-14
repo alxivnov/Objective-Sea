@@ -281,4 +281,17 @@
 	return numbers.count ? numbers.count % 2 ? numbers[med].doubleValue : (numbers[med].doubleValue + numbers[med - 1].doubleValue) / 2.0 : 0.0;
 }
 
+- (double)dev:(NSNumber *(^)(id))predicate {
+	NSArray *numbers = [self map:predicate];
+	if (!numbers.count)
+		return 0.0;
+
+	double avg = [numbers aggregate:^double(double val, double obj) {
+		return val + obj;
+	}] / numbers.count;
+	return sqrt([numbers aggregate:^double(double val, double obj) {
+		return val + pow(obj - avg, 2.0);
+	}] / numbers.count);
+}
+
 @end

@@ -62,5 +62,6 @@
 - (double)sum:(NSNumber *(^)(ObjectType obj))predicate;
 - (double)avg:(NSNumber *(^)(ObjectType obj))predicate;
 - (double)med:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)dev:(NSNumber *(^)(ObjectType obj))predicate;
 
 @end
