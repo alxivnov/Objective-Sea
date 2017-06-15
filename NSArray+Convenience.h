@@ -57,11 +57,4 @@
 - (NSString *)componentsJoinedByString:(NSString *)separator block:(NSString *(^)(ObjectType obj))block;
 - (BOOL)isEqualToArray:(NSArray<ObjectType> *)otherArray block:(BOOL(^)(ObjectType obj, ObjectType otherObj))predicate;
 
-- (double)max:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)min:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)sum:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)avg:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)med:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)dev:(NSNumber *(^)(ObjectType obj))predicate;
-
 @end
