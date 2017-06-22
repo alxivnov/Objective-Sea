@@ -82,8 +82,8 @@
 	}];
 }
 
-+ (instancetype)requestFriends:(NSString *)userID completion:(void (^)(NSArray<FBSDKProfile *> *friends))completion {
-	return [self startRequestWithGraphPath:[NSString stringWithFormat:@"%@/friends", userID ?: @"me"] parameters:@{ @"fields" : @"id,first_name,middle_name,last_name,name" } HTTPMethod:Nil completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
++ (instancetype)requestFriends:(NSString *)userID limit:(NSUInteger)limit completion:(void (^)(NSArray<FBSDKProfile *> *friends))completion {
+	return [self startRequestWithGraphPath:[NSString stringWithFormat:@"%@/friends", userID ?: @"me"] parameters:limit > 0 ? @{ @"fields" : @"id,first_name,middle_name,last_name,name", @"limit" : @(limit) } : @{ @"fields" : @"id,first_name,middle_name,last_name,name" } HTTPMethod:Nil completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
 		if (completion)
 			completion([result[@"data"] map:^id(id obj) {
 				return [FBSDKProfile profileWithDictionary:obj];

@@ -107,7 +107,7 @@ __synthesize(UNAuthorizationOptions, authorizationOptions, UNAuthorizationOption
 	} else {
 		[self.switchView setOn:YES animated:YES];
 
-		if (IS_DEBUGGING)
+//		if (IS_DEBUGGING)
 			[UIApplication openSettings];
 	}
 }
@@ -134,7 +134,7 @@ __synthesize(BOOL, requestAlwaysAuthorization, YES)
 	} else {
 		[self.switchView setOn:YES animated:YES];
 
-		if (IS_DEBUGGING)
+//		if (IS_DEBUGGING)
 			[UIApplication openSettings];
 	}
 }
@@ -165,7 +165,7 @@ __synthesize(AVAudioSession *, audioSession, [AVAudioSession sharedInstance])
 	} else {
 		[self.switchView setOn:YES animated:YES];
 
-		if (IS_DEBUGGING)
+//		if (IS_DEBUGGING)
 			[UIApplication openSettings];
 	}
 }

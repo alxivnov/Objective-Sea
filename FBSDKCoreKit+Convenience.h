@@ -39,7 +39,7 @@
 + (instancetype)startRequestWithGraphPath:(NSString *)graphPath parameters:(NSDictionary *)parameters HTTPMethod:(NSString *)HTTPMethod completion:(FBSDKGraphRequestHandler)completion;
 
 + (instancetype)requestProfile:(NSString *)userID completion:(void (^)(FBSDKProfile *profile))completion;
-+ (instancetype)requestFriends:(NSString *)userID completion:(void (^)(NSArray<FBSDKProfile *> *friends))completion;
++ (instancetype)requestFriends:(NSString *)userID limit:(NSUInteger)limit completion:(void (^)(NSArray<FBSDKProfile *> *friends))completion;
 
 + (instancetype)publishMessage:(NSString *)message link:(NSURL *)link place:(NSString *)place tags:(NSArray<NSString *> *)tags privacy:(NSString *)privacy completion:(void (^)(NSString *ID))completion;
 + (instancetype)publishMessage:(NSString *)message link:(NSURL *)link place:(NSString *)place tags:(NSArray<NSString *> *)tags allow:(NSArray<NSString *> *)allow completion:(void (^)(NSString *ID))completion;
