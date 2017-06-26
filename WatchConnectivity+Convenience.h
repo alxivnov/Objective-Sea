@@ -29,6 +29,7 @@
 @interface WCSessionDelegate : NSObject <WCSessionDelegate>
 
 @property (copy, nonatomic) void(^didReceiveMessage)(NSDictionary<NSString *,id> *message, void (^replyHandler)(NSDictionary<NSString *,id> *replyMessage));
+@property (copy, nonatomic) void(^activationDidComplete)(WCSessionActivationState activationState);
 
 @property (strong, nonatomic, readonly) WCSession *session;
 @property (strong, nonatomic, readonly) WCSession *installedSession;

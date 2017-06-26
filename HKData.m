@@ -206,7 +206,7 @@ static HKUnit *_calorie;
 
 - (double)calorie {
 	if (!_calorie)
-		_calorie = [HKUnit calorieUnit];
+		_calorie = /*[[HKUnit class] respondsToSelector:@selector(smallCalorieUnit)] ? [[HKUnit class] performSelector:@selector(smallCalorieUnit)] : */[[HKUnit class] performSelector:@selector(calorieUnit)];
 
 	return [self doubleValueForUnit:_calorie];
 }

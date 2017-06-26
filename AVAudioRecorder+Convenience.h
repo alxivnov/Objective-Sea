@@ -22,6 +22,9 @@
 - (void)requestRecordPermissionIfNeeded:(void (^)(NSNumber *granted))completionHandler;
 #endif
 
+- (BOOL)setActive:(BOOL)active withOptions:(AVAudioSessionSetActiveOptions)options;
+- (BOOL)setCategory:(NSString *)category mode:(NSString *)mode options:(AVAudioSessionCategoryOptions)options;
+
 @end
 
 @interface AVAudioRecorder (Convenience)
@@ -36,9 +39,11 @@
 
 @end
 
-@interface AVAudioRecorderFactory : AVAudioRecorder
+@interface AVAudioRecorderSingleton : AVAudioRecorder
 
-+ (instancetype)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url settings:(NSDictionary<NSString *,id> *)settings completion:(void (^)(NSURL *url, BOOL flag))completion;
-+ (instancetype)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url format:(AVAudioFormat *)format completion:(void (^)(NSURL *url, BOOL flag))completion;
++ (AVAudioRecorder *)instance;
+
++ (void)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url settings:(NSDictionary<NSString *,id> *)settings completion:(void (^)(NSURL *url, BOOL flag))completion;
++ (void)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url format:(AVAudioFormat *)format completion:(void (^)(NSURL *url, BOOL flag))completion;
 
 @end

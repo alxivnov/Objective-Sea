@@ -38,6 +38,9 @@
 __synthesize(UISwitch *, switchView, [[UISwitch alloc] initWithFrame:CGRectZero])
 
 - (void)setupSwitch {
+	if (self.accessoryView)
+		return;
+
 	[self.switchView addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
 
 	self.accessoryView = self.switchView;
@@ -130,7 +133,14 @@ __synthesize(BOOL, requestAlwaysAuthorization, YES)
 
 - (void)switchValueChanged:(UISwitch *)sender {
 	if (sender.on) {
-		[self.switchView setOn:[[CLLocationManager defaultManager] requestAuthorizationIfNeeded:self.requestAlwaysAuthorization].boolValue animated:YES];
+		[GCD global:^{
+			NSNumber *granted = [[CLLocationManager defaultManager] requestAuthorizationIfNeeded:self.requestAlwaysAuthorization];
+
+			[GCD main:^{
+//				if (granted.boolValue)
+					[self.switchView setOn:granted.boolValue animated:YES];
+			}];
+		}];
 	} else {
 		[self.switchView setOn:YES animated:YES];
 
@@ -147,17 +157,15 @@ __synthesize(BOOL, requestAlwaysAuthorization, YES)
 
 @implementation AVFTableViewCell
 
-__synthesize(AVAudioSession *, audioSession, [AVAudioSession sharedInstance])
-
 - (void)setupSwitch {
 	[super setupSwitch];
 
-	[self.switchView setOn:self.audioSession.recordPermissionGranted.boolValue animated:YES];
+	[self.switchView setOn:[AVAudioSession sharedInstance].recordPermissionGranted.boolValue animated:YES];
 }
 
 - (void)switchValueChanged:(UISwitch *)sender {
 	if (sender.on) {
-		[self.audioSession requestRecordPermissionIfNeeded:^(NSNumber *granted) {
+		[[AVAudioSession sharedInstance] requestRecordPermissionIfNeeded:^(NSNumber *granted) {
 			[GCD main:^{
 				[self.switchView setOn:granted.boolValue animated:YES];
 			}];

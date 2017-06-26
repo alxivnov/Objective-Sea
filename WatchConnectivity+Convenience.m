@@ -43,13 +43,20 @@
 
 - (void)session:(WCSession *)session activationDidCompleteWithState:(WCSessionActivationState)activationState error:(NSError *)error {
 	[error log:@"activationDidCompleteWithState:"];
+
+	if (self.activationDidComplete)
+		self.activationDidComplete(activationState);
 }
 
 - (void)sessionDidBecomeInactive:(WCSession *)session {
+	if (self.activationDidComplete)
+		self.activationDidComplete(session.activationState);
 
 }
 
 - (void)sessionDidDeactivate:(WCSession *)session {
+	if (self.activationDidComplete)
+		self.activationDidComplete(session.activationState);
 	
 }
 

@@ -55,8 +55,6 @@
 
 @interface AVFTableViewCell : UISwitchTableViewCell
 
-@property (assign, nonatomic) AVAudioSession *audioSession;
-
 @end
 
 #endif

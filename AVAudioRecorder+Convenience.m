@@ -33,6 +33,27 @@
 }
 #endif
 
+- (BOOL)setActive:(BOOL)active withOptions:(AVAudioSessionSetActiveOptions)options {
+	NSError *error = Nil;
+
+	BOOL success = [self setActive:YES withOptions:options error:&error];
+
+	[error log:@"setCategory:mode:options:error:"];
+
+	return success;
+
+}
+
+- (BOOL)setCategory:(NSString *)category mode:(NSString *)mode options:(AVAudioSessionCategoryOptions)options {
+	NSError *error = Nil;
+
+	BOOL success = [self setCategory:category mode:mode options:options error:&error];
+
+	[error log:@"setCategory:mode:options:error:"];
+
+	return success;
+}
+
 @end
 
 @implementation AVAudioRecorder (Convenience)
@@ -44,8 +65,10 @@
 	NSError *error = Nil;
 
 	AVAudioRecorder *recorder = [[self alloc] initWithURL:url settings:settings error:&error];
-
 	[error log:@"audioRecorderWithURL:settings:"];
+
+	if (![recorder prepareToRecord])
+		NSLog(@"prepareToRecord: NO");
 
 	return recorder;
 }
@@ -57,8 +80,10 @@
 	NSError *error = Nil;
 
 	AVAudioRecorder *recorder = [[self alloc] initWithURL:url format:format error:&error];
-
 	[error log:@"audioRecorderWithURL:format:"];
+
+	if (![recorder prepareToRecord])
+		NSLog(@"prepareToRecord: NO");
 
 	return recorder;
 }
@@ -88,28 +113,32 @@
 
 @end
 
-@interface AVAudioRecorderFactory () <AVAudioRecorderDelegate>
+@interface AVAudioRecorderSingleton () <AVAudioRecorderDelegate>
 @property (copy, nonatomic) void (^completion)(NSURL *, BOOL);
 @end
 
-@implementation AVAudioRecorderFactory
+@implementation AVAudioRecorderSingleton
 
-+ (instancetype)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url settings:(NSDictionary<NSString *,id> *)settings completion:(void (^)(NSURL *, BOOL))completion {
-	AVAudioRecorderFactory *recorder = [self audioRecorderWithURL:url settings:settings];
-	recorder.completion = completion;
-	recorder.delegate = recorder;
+static AVAudioRecorder *_instance;
 
-	time += recorder.deviceCurrentTime;
-	return [recorder recordInTime:time forDuration:duration] ? recorder : Nil;
++ (AVAudioRecorder *)instance {
+	return _instance;
 }
 
-+ (instancetype)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url format:(AVAudioFormat *)format completion:(void (^)(NSURL *, BOOL))completion {
-	AVAudioRecorderFactory *recorder = [self audioRecorderWithURL:url format:format];
++ (void)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url settings:(NSDictionary<NSString *,id> *)settings completion:(void (^)(NSURL *, BOOL))completion {
+	AVAudioRecorderSingleton *recorder = [self audioRecorderWithURL:url settings:settings];
 	recorder.completion = completion;
 	recorder.delegate = recorder;
 
-	time += recorder.deviceCurrentTime;
-	return [recorder recordInTime:time forDuration:duration] ? recorder : Nil;
+	_instance = [recorder recordInTime:time forDuration:duration] ? recorder : Nil;
+}
+
++ (void)recordInTime:(NSTimeInterval)time forDuration:(NSTimeInterval)duration url:(NSURL *)url format:(AVAudioFormat *)format completion:(void (^)(NSURL *, BOOL))completion {
+	AVAudioRecorderSingleton *recorder = [self audioRecorderWithURL:url format:format];
+	recorder.completion = completion;
+	recorder.delegate = recorder;
+
+	_instance = [recorder recordInTime:time forDuration:duration] ? recorder : Nil;
 }
 
 - (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError *)error {
@@ -117,11 +146,15 @@
 		self.completion(recorder.url, NO);
 
 	[error log:@"audioRecorderEncodeErrorDidOccur:"];
+
+	_instance = Nil;
 }
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
 	if (self.completion)
 		self.completion(recorder.url, flag);
+
+	_instance = Nil;
 }
 
 @end
