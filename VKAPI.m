@@ -94,7 +94,7 @@ __property(NSString *, version, @"5.64")
 	}];
 }
 
-- (NSURLSessionDataTask *)searchAudio:(NSString *)query handler:(void(^)(NSArray<VKAudioItem *> *items))handler {
+- (NSURLSessionDataTask *)searchAudio:(NSString *)query handler:(void(^)(NSArray<VKAudioItem *> *))handler {
 /*
 	return query ? [self execute:[NSString stringWithFormat:@"return API.audio.get({\"q\":\"beatles\",\"count\":10,\"sort\":2,\"auto_complete\":1,\"offset\":0,\"lang\":\"ru\"});", query] handler:^(id json) {
 		NSDictionary *dic = cls(NSDictionary, json);
@@ -117,10 +117,10 @@ __property(NSString *, version, @"5.64")
 	}] : Nil;
 }
 
-- (NSURLSessionDataTask *)executeCode:(NSString *)code handler:(void(^)(id json))handler {
-	return self.accessToken && code ? [[[[NSURL URLWithString:URL_METHOD] URLByAppendingPathComponent:@"execute"] URLByAppendingQueryDictionary:@{ @"code" : code, @"v" : self.version, @"access_token" : self.accessToken, @"lang" : @"ru" }] sendRequestWithMethod:Nil header:self.userAgent ? @{ @"User-Agent" : self.userAgent } : Nil json:Nil completion:^(id json) {
+- (NSURLSessionDataTask *)executeCode:(NSString *)code handler:(void(^)(id))handler {
+	return code ? [self executeMethod:@"execute" params:@{ @"code" : code } handler:^(id response, NSError *error) {
 		if (handler)
-			handler(json);
+			handler(response);
 	}] : Nil;
 }
 

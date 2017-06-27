@@ -59,8 +59,10 @@ typedef enum : NSUInteger {
 
 - (NSURLSessionDataTask *)authorizeWithClientID:(NSString *)clientID clientSecret:(NSString *)clientSecret scope:(NSUInteger)scope username:(NSString *)username password:(NSString *)password handler:(void(^)(NSDictionary *response))handler;
 
-- (NSURLSessionDataTask *)getAudio:(void (^)(NSArray<VKAudioItem *> *))handler;
-- (NSURLSessionDataTask *)searchAudio:(NSString *)query handler:(void(^)(NSArray<VKAudioItem *> *items))handler;
+- (NSURLSessionDataTask *)getAudio:(void (^)(NSArray<VKAudioItem *> *audio))handler;
+- (NSURLSessionDataTask *)searchAudio:(NSString *)query handler:(void(^)(NSArray<VKAudioItem *> *audio))handler;
+
+- (NSURLSessionDataTask *)executeCode:(NSString *)code handler:(void(^)(id response))handler;
 
 + (instancetype)api;
 
