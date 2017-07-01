@@ -240,4 +240,15 @@
 	return YES;
 }
 
+- (id)randomObject {
+	if (self.count == 0)
+		return Nil;
+
+	if (self.count == 1)
+		return [self objectAtIndex:0];
+
+	NSUInteger index = arc4random() % self.count;
+	return [self objectAtIndex:index];
+}
+
 @end

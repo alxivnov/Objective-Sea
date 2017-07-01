@@ -57,4 +57,6 @@
 - (NSString *)componentsJoinedByString:(NSString *)separator block:(NSString *(^)(ObjectType obj))block;
 - (BOOL)isEqualToArray:(NSArray<ObjectType> *)otherArray block:(BOOL(^)(ObjectType obj, ObjectType otherObj))predicate;
 
+- (ObjectType)randomObject;
+
 @end

@@ -85,7 +85,7 @@
 #define DEG_360 (2.0 * M_PI)
 
 #define NSStringFromInteger(d) [NSString stringWithFormat:@"%ld", d]
-#define NSStringFromUnsignedInteger(u) [NSString stringWithFormat:@"%lu", u]
+#define NSStringFromUnsignedInteger(u) [NSString stringWithFormat:@"%lu", (unsigned long)u]
 #define NSStringFromDouble(f, p) [NSString stringWithFormat:p ? @"%.##pf" : @"%.0f", f]
 
 @interface NSObject (Convenience)
