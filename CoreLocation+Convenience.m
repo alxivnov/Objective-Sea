@@ -58,6 +58,10 @@ __static(CLLocationManager *, defaultManager, [self new])
 	}];
 }
 
+- (BOOL)isValid {
+	return CLLocationCoordinate2DIsValid(self.coordinate);
+}
+
 @end
 
 @implementation CLGeocoder (Convenience)

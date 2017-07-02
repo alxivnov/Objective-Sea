@@ -37,6 +37,8 @@
 
 - (void)reverseGeocodeLocation:(void (^)(NSArray<CLPlacemark *> *placemarks))completionHandler;
 
+@property (assign, nonatomic, readonly) BOOL isValid;
+
 @end
 
 @interface CLGeocoder (Convenience)
