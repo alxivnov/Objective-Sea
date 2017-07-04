@@ -76,7 +76,7 @@
 + (instancetype)requestProfile:(NSString *)userID completion:(void (^)(FBSDKProfile *profile))completion {
 	return [self startRequestWithGraphPath:userID ?: @"me" parameters:@{ @"fields" : @"id,first_name,middle_name,last_name,name" } HTTPMethod:Nil completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
 		if (completion)
-			completion([FBSDKProfile profileWithDictionary:result]);
+			completion([FBSDKProfile profileFromDictionary:result]);
 
 		[error log:@"requestFriends:"];
 	}];
@@ -86,7 +86,7 @@
 	return [self startRequestWithGraphPath:[NSString stringWithFormat:@"%@/friends", userID ?: @"me"] parameters:limit > 0 ? @{ @"fields" : @"id,first_name,middle_name,last_name,name", @"limit" : @(limit) } : @{ @"fields" : @"id,first_name,middle_name,last_name,name" } HTTPMethod:Nil completion:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
 		if (completion)
 			completion([result[@"data"] map:^id(id obj) {
-				return [FBSDKProfile profileWithDictionary:obj];
+				return [FBSDKProfile profileFromDictionary:obj];
 			}]);
 
 		[error log:@"requestFriends:"];
@@ -136,7 +136,17 @@
 
 @implementation FBSDKProfile (Convenience)
 
-+ (instancetype)profileWithDictionary:(NSDictionary *)dictionary {
+- (NSDictionary *)dictionary {
+	NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:5];
+	dictionary[@"id"] = self.userID;
+	dictionary[@"first_name"] = self.firstName;
+	dictionary[@"middle_name"] = self.middleName;
+	dictionary[@"last_name"] = self.lastName;
+	dictionary[@"name"] = self.name;
+	return dictionary;
+}
+
++ (instancetype)profileFromDictionary:(NSDictionary *)dictionary {
 	return [[FBSDKProfile alloc] initWithUserID:dictionary[@"id"] firstName:dictionary[@"first_name"] middleName:dictionary[@"middle_name"] lastName:dictionary[@"last_name"] name:dictionary[@"name"] linkURL:[NSURL URLWithString:[NSString stringWithFormat:@"https://facebook.com/%@", dictionary[@"id"]]] refreshDate:Nil];
 }
 

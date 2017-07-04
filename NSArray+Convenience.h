@@ -10,9 +10,6 @@
 
 @interface NSArray<ObjectType> (Convenience)
 
-- (instancetype)initWithURL:(NSURL *)url;
-+ (instancetype)arrayWithURL:(NSURL *)url;
-
 + (instancetype)arrayWithObject:(id)anObject count:(NSUInteger)count;
 + (instancetype)arrayWithObject:(id)object1 withObject:(id)object2;
 + (instancetype)arrayWithObject:(id)object1 withObject:(id)object2 withObject:(id)object3;

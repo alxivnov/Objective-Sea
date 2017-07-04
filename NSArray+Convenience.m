@@ -10,19 +10,6 @@
 
 @implementation NSArray (Convenience)
 
-- (instancetype)initWithURL:(NSURL *)url {
-	self = url ? [self initWithContentsOfURL:url] : Nil;
-
-	if (!self)
-		self = [self init];
-
-	return self;
-}
-
-+ (instancetype)arrayWithURL:(NSURL *)url {
-	return [[self alloc] initWithURL:url];
-}
-
 + (instancetype)arrayWithObject:(id)anObject count:(NSUInteger)count {
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:count];
 	for (NSUInteger index = 0; index < count; index++)

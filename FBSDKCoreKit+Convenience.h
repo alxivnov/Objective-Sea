@@ -49,7 +49,9 @@
 
 @interface FBSDKProfile (Convenience)
 
-+ (instancetype)profileWithDictionary:(NSDictionary *)dictionary;
+@property (strong, nonatomic, readonly) NSDictionary *dictionary;
+
++ (instancetype)profileFromDictionary:(NSDictionary *)dictionary;
 
 - (NSURL *)imageForPictureMode:(FBSDKProfilePictureMode)mode size:(CGSize)size scale:(CGFloat)scale completion:(void (^)(UIImage *image))completion;
 
