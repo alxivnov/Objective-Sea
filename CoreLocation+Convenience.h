@@ -39,6 +39,10 @@
 
 @property (assign, nonatomic, readonly) BOOL isValid;
 
+@property (strong, nonatomic, readonly) NSString *locationString;
+
++ (CLLocation *)locationFromString:(NSString *)string;
+
 @end
 
 @interface CLGeocoder (Convenience)

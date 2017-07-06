@@ -29,7 +29,7 @@ __synthesize(NSURL *, url, [NSURL URLWithString:URL_GRAPH])
 
 - (NSURLSessionDataTask *)startRequestWithGraphPath:(NSString *)graphPath parameters:(NSDictionary *)parameters completion:(void (^)(NSDictionary *))completion {
 	NSURL *url = [[self.url URLByAppendingPathComponent:graphPath] URLByAppendingQueryDictionary:[parameters dictionaryWithObject:self.accessToken forKey:@"access_token"]];
-	return [url sendRequestWithMethod:@"GET" header:Nil json:Nil completion:^(id json) {
+	return [url sendRequestWithMethod:@"GET" header:Nil json:Nil completion:^(id json, NSURLResponse *response) {
 		if (completion)
 			completion(cls(NSDictionary, json));
 	}];

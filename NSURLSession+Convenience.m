@@ -208,7 +208,7 @@ static id _instance = Nil;
 
 @implementation NSURL (NSURLRequest)
 
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *))completion {
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *, NSURLResponse *))completion {
 //	if (!method/* || !header || !body*/)
 //		return Nil;
 
@@ -221,7 +221,7 @@ static id _instance = Nil;
 
 	NSURLSessionDataTask *task = [[NSURLSessionRedirection instance].defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if (completion)
-			completion(data);
+			completion(data, response);
 
 		[error log:@"dataTaskWithRequest:"];
 	}];
@@ -229,7 +229,7 @@ static id _instance = Nil;
 	return task;
 }
 
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *))completion {
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *, NSURLResponse *))completion {
 	NSMutableString *body = Nil;
 
 	if (form) {
@@ -251,26 +251,26 @@ static id _instance = Nil;
 		[body appendFormat:@"--%@\r\n", boundary];
 	}
 
-	return [self sendRequestWithMethod:method header:header body:[body dataUsingEncoding:NSUTF8StringEncoding] completion:^(NSData *data) {
-		id object = [NSJSONSerialization JSONObjectWithData:data];
+	return [self sendRequestWithMethod:method header:header body:[body dataUsingEncoding:NSUTF8StringEncoding] completion:^(NSData *data, NSURLResponse *response) {
+//		id object = [NSJSONSerialization JSONObjectWithData:data];
 
 		if (completion)
-			completion(object);
+			completion(data, response);
 	}];
 }
 
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id))completion {
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id, NSURLResponse *))completion {
 	if (json) {
 		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
 		dictionary[@"Content-Type"] = @"application/json";
 		header = dictionary;
 	}
 
-	return [self sendRequestWithMethod:method header:header body:[NSJSONSerialization dataWithJSONObject:json] completion:^(NSData *data) {
+	return [self sendRequestWithMethod:method header:header body:[NSJSONSerialization dataWithJSONObject:json] completion:^(NSData *data, NSURLResponse *response) {
 		id object = [NSJSONSerialization JSONObjectWithData:data];
 
 		if (completion)
-			completion(object);
+			completion(object, response);
 	}];
 }
 

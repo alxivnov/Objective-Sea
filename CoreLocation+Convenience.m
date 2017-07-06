@@ -62,6 +62,27 @@ __static(CLLocationManager *, defaultManager, [self new])
 	return CLLocationCoordinate2DIsValid(self.coordinate);
 }
 
+- (NSString *)locationString {
+	return CLLocationCoordinate2DString(self.coordinate);
+}
+
++ (CLLocation *)locationFromString:(NSString *)string {
+	NSArray<NSString *> *coordinates = [string componentsSeparatedByString:@","];
+	if (coordinates.count != 2)
+		return Nil;
+
+	double latitude = coordinates.firstObject.doubleValue;
+	double longitude = coordinates.lastObject.doubleValue;
+	if (latitude == 0.0 || longitude == 0.0)
+		return Nil;
+
+	CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(latitude, longitude);
+	if (!CLLocationCoordinate2DIsValid(coordinate))
+		return Nil;
+
+	return [[CLLocation alloc] initWithCoordinate:coordinate];
+}
+
 @end
 
 @implementation CLGeocoder (Convenience)
