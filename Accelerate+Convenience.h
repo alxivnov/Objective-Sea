@@ -13,7 +13,7 @@
 @interface NSArray<ObjectType> (Accelerate)
 
 - (NSArray<NSNumber *> *)meanAndStandardDeviation:(NSNumber *(^)(ObjectType obj))predicate;
-- (NSArray<NSNumber *> *)fiveNumberSummary:(NSNumber *(^)(ObjectType obj))predicate;
+- (NSArray<NSNumber *> *)quartiles:(NSNumber *(^)(ObjectType obj))predicate;
 
 - (double)sum:(NSNumber *(^)(ObjectType obj))predicate;
 

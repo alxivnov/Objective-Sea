@@ -50,7 +50,7 @@ __property(NSString *, version, @"5.64")
 }
 
 - (NSURLSessionDataTask *)authorizeWithClientID:(NSString *)clientID clientSecret:(NSString *)clientSecret scope:(NSUInteger)scope username:(NSString *)username password:(NSString *)password handler:(void (^)(NSDictionary *))handler {
-	return clientID && clientSecret && username && password ? [[[NSURL URLWithString:URL_TOKEN] URLByAppendingQueryDictionary:@{ @"grant_type" : @"password", @"client_id" : clientID, @"client_secret" : clientSecret, @"username" : username, @"password" : password }] sendRequestWithMethod:Nil header:self.userAgent ? @{ @"User-Agent" : self.userAgent } : Nil json:Nil completion:^(id json) {
+	return clientID && clientSecret && username && password ? [[[NSURL URLWithString:URL_TOKEN] URLByAppendingQueryDictionary:@{ @"grant_type" : @"password", @"client_id" : clientID, @"client_secret" : clientSecret, @"username" : username, @"password" : password }] sendRequestWithMethod:Nil header:self.userAgent ? @{ @"User-Agent" : self.userAgent } : Nil json:Nil completion:^(id json, NSURLResponse *response) {
 		NSDictionary *dic = cls(NSDictionary, json);
 
 		self.accessToken = dic[@"access_token"];
@@ -71,13 +71,13 @@ __property(NSString *, version, @"5.64")
 
 	NSDictionary *header = self.userAgent ? @{ @"User-Agent" : self.userAgent } : Nil;
 
-	return [[[[NSURL URLWithString:URL_METHOD] URLByAppendingPathComponent:method] URLByAppendingQueryDictionary:params] sendRequestWithMethod:Nil header:header json:Nil completion:^(id json) {
+	return [[[[NSURL URLWithString:URL_METHOD] URLByAppendingPathComponent:method] URLByAppendingQueryDictionary:params] sendRequestWithMethod:Nil header:header json:Nil completion:^(id json, NSURLResponse *response) {
 		NSDictionary *dic = cls(NSDictionary, json);
-		id response = dic[@"response"];
-		id error = dic[@"error"];
+		id jsonResponse = dic[@"response"];
+		id jsonError = dic[@"error"];
 
 		if (handler)
-			handler(response, [NSError errorWithUserInfo:error]);
+			handler(jsonResponse, [NSError errorWithUserInfo:jsonError]);
 	}];
 }
 

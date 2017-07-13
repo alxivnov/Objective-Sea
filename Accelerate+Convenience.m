@@ -54,7 +54,7 @@
 	return @[ @(mean), @(standardDeviation) ];
 }
 
-- (NSArray<NSNumber *> *)fiveNumberSummary:(NSNumber *(^)(id))predicate {
+- (NSArray<NSNumber *> *)quartiles:(NSNumber *(^)(id))predicate {
 	NSData *vector = [self vector:predicate];
 
 	NSUInteger count = vector.length / sizeof(double);
@@ -114,7 +114,7 @@
 	return @[ @(avg), @(dev) ];
 }
 
-- (NSArray<NSNumber *> *)fiveNumberSummary:(NSNumber *(^)(id))predicate {
+- (NSArray<NSNumber *> *)quartiles:(NSNumber *(^)(id))predicate {
 	NSArray<NSNumber *> *numbers = [[self map:predicate] sortedArray];
 
 	NSUInteger count = numbers.count;
@@ -145,15 +145,15 @@
 }
 
 - (double)min:(NSNumber *(^)(id))predicate {
-	return [self fiveNumberSummary:predicate].firstObject.doubleValue;
+	return [self quartiles:predicate].firstObject.doubleValue;
 }
 
 - (double)med:(NSNumber *(^)(id))predicate {
-	return [self fiveNumberSummary:predicate][2].doubleValue;
+	return [self quartiles:predicate][2].doubleValue;
 }
 
 - (double)max:(NSNumber *(^)(id))predicate {
-	return [self fiveNumberSummary:predicate].lastObject.doubleValue;
+	return [self quartiles:predicate].lastObject.doubleValue;
 }
 
 @end
