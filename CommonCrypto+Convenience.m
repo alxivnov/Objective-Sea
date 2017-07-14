@@ -80,12 +80,8 @@
 	return [NSData dataWithBytes:buffer length:digestLength];
 }
 
-@end
-
-@implementation NSString (CommonCrypto)
-
-- (NSString *)hash:(COMMON_DIGEST)commonDigest {
-	NSData *hash = [[self dataUsingEncoding:NSUTF8StringEncoding] hash:commonDigest];
+- (NSString *)hashString:(COMMON_DIGEST)commonDigest {
+	NSData *hash = [self hash:commonDigest];
 
 	NSMutableString *string = [[NSMutableString alloc] initWithCapacity:hash.length * 2];
 
@@ -97,6 +93,18 @@
 	}
 
 	return string;
+}
+
+@end
+
+@implementation NSString (CommonCrypto)
+
+- (NSData *)hash:(COMMON_DIGEST)commonDigest {
+	return [[self dataUsingEncoding:NSUTF8StringEncoding] hash:commonDigest];
+}
+
+- (NSString *)hashString:(COMMON_DIGEST)commonDigest {
+	return [[self dataUsingEncoding:NSUTF8StringEncoding] hashString:commonDigest];
 }
 
 @end

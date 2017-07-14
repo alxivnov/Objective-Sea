@@ -33,7 +33,7 @@
 
 @end
 
-#define URL_CACHE(url) [[[NSFileManager URLForDirectory:NSCachesDirectory] URLByAppendingPathComponent:[url.absoluteString hash:SHA256]] URLByAppendingPathExtension:url.pathExtension]
+#define URL_CACHE(url) [[[NSFileManager URLForDirectory:NSCachesDirectory] URLByAppendingPathComponent:[url.absoluteString hashString:SHA256]] URLByAppendingPathExtension:url.pathExtension]
 
 @interface NSURL (NSURLSession)
 

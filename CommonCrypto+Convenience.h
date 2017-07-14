@@ -25,10 +25,14 @@ typedef enum : NSUInteger {
 
 - (NSData *)hash:(COMMON_DIGEST)commonDigest;
 
+- (NSString *)hashString:(COMMON_DIGEST)commonDigest;
+
 @end
 
 @interface NSString (CommonCrypto)
 
-- (NSString *)hash:(COMMON_DIGEST)commonDigest;
+- (NSData *)hash:(COMMON_DIGEST)commonDigest;
+
+- (NSString *)hashString:(COMMON_DIGEST)commonDigest;
 
 @end
