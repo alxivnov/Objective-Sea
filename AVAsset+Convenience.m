@@ -8,8 +8,7 @@
 
 #import "AVAsset+Convenience.h"
 
-#define STEREO 2
-#define FREQUENCY 44100
+#define BUFFER_LENGTH 32768
 
 @implementation AVAsset (Convenience)
 
@@ -77,7 +76,10 @@
 }
 
 - (AVAssetReader *)readWithSettings:(NSDictionary<NSString *,id> *)settings queue:(dispatch_queue_t)queue handler:(void (^)(NSData *))handler {
-	NSMutableData *data = [NSMutableData dataWithCapacity:self.seconds * STEREO * FREQUENCY * sizeof(short)];
+	NSUInteger sampleRate = settings[AVSampleRateKey] ? [settings[AVSampleRateKey] integerValue] : 44100;
+	NSUInteger numberOfChannels = settings[AVNumberOfChannelsKey] ? [settings[AVNumberOfChannelsKey] integerValue] : 2;
+	NSUInteger bitDepth = settings[AVLinearPCMBitDepthKey] ? [settings[AVLinearPCMBitDepthKey] integerValue] : 16;
+	NSMutableData *data = [NSMutableData dataWithCapacity:self.seconds * sampleRate * numberOfChannels * bitDepth];
 
 	AVAssetReader *reader = [AVAssetReader assetReaderWithAsset:self timeRange:kCMTimeRangeInvalid mediaType:AVMediaTypeAudio settings:settings];
 	return [reader startReadingOnQueue:queue handler:^(void *buffer, size_t length) {
@@ -155,35 +157,41 @@
 }
 
 - (BOOL)startReadingOnQueue:(dispatch_queue_t)queue handler:(void (^)(void *, size_t))handler {
-	__block BOOL read = [self startReading];
+	if (![self startReading])
+		return NO;
 
 	[GCD queue:queue after:0.0 block:^{
+		void *buffer = malloc(BUFFER_LENGTH);
+
+		AVAssetReaderOutput *read = self.outputs.firstObject;
 		while (read) {
-			CMSampleBufferRef sampleBuffer = [self.outputs.firstObject copyNextSampleBuffer];
+			CMSampleBufferRef sampleBuffer = [read copyNextSampleBuffer];
 			if (sampleBuffer) {
 				CMBlockBufferRef blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);
 
 				size_t length = CMBlockBufferGetDataLength(blockBuffer);
-				void *buffer = malloc(length);
-				CMBlockBufferCopyDataBytes(blockBuffer, 0, length, buffer);
+
+				char *data = buffer;
+				CMBlockBufferAccessDataBytes(blockBuffer, 0, MIN(length, BUFFER_LENGTH), buffer, &data);
+//				CMBlockBufferCopyDataBytes(blockBuffer, 0, length, buffer);
+
+				handler(data, data == buffer ? MIN(length, BUFFER_LENGTH) : length);
 
 				CFRelease(sampleBuffer);
 				sampleBuffer = Nil;
-
-				handler(buffer, length);
-
-				free(buffer);
 			} else {
 				[self.error log:@"startReadingOnQueue:"];
 
 				handler(Nil, 0);
 
-				read = NO;
+				read = Nil;
 			}
 		}
+
+		free(buffer);
 	}];
 
-	return read;
+	return YES;
 }
 
 - (BOOL)startReading:(void (^)(void *, size_t))handler {
