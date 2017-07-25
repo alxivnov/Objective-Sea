@@ -125,3 +125,32 @@
 }
 
 @end
+
+@implementation NSError (StoreKit)
+
+- (NSString *)shortDescription {
+	if ([self.domain isEqualToString:SKErrorDomain]) {
+		if (self.code == SKErrorUnknown)
+			return @"SKErrorUnknown";
+		else if (self.code == SKErrorClientInvalid)
+			return @"SKErrorClientInvalid";
+		else if (self.code == SKErrorPaymentCancelled)
+			return @"SKErrorPaymentCancelled";
+		else if (self.code == SKErrorPaymentInvalid)
+			return @"SKErrorPaymentInvalid";
+		else if (self.code == SKErrorPaymentNotAllowed)
+			return @"SKErrorPaymentNotAllowed";
+		else if (self.code == SKErrorStoreProductNotAvailable)
+			return @"SKErrorStoreProductNotAvailable";
+		else if (self.code == SKErrorCloudServicePermissionDenied)
+			return @"SKErrorCloudServicePermissionDenied";
+		else if (self.code == SKErrorCloudServiceNetworkConnectionFailed)
+			return @"SKErrorCloudServiceNetworkConnectionFailed";
+		else if (self.code == SKErrorCloudServiceRevoked)
+			return @"SKErrorCloudServiceRevoked";
+	}
+
+	return [NSString stringWithFormat:@"%@ %ld", self.domain, (long)self.code];
+}
+
+@end

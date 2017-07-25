@@ -51,3 +51,10 @@
 - (SKStoreProductViewController *)presentProductWithIdentifier:(NSUInteger)identifier parameters:(NSDictionary *)parameters;
 
 @end
+
+
+@interface NSError (StoreKit)
+
+@property (strong, nonatomic, readonly) NSString *shortDescription;
+
+@end
