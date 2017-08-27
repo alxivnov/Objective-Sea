@@ -59,6 +59,7 @@
 - (CGRect)pathBoundingBox {
 	return CGPathGetPathBoundingBox(self.CGPath);
 }
+
 #if __has_include(<QuartzCore/QuartzCore.h>)
 
 - (NSString *)layerLineCap {
@@ -69,26 +70,39 @@
 	return self.lineJoinStyle == kCGLineJoinRound ? kCALineJoinRound : self.lineJoinStyle == kCGLineJoinBevel ? kCALineJoinBevel : kCALineJoinMiter;
 }
 
-- (CAShapeLayer *)layerWithStrokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth {
+- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth {
 	CAShapeLayer *layer = [CAShapeLayer layer];
-
-	layer.path = self.CGPath;
-	layer.lineWidth = lineWidth > 0.0 ? lineWidth : self.lineWidth;
-	layer.fillColor = (fillColor ? fillColor : [UIColor clearColor]).CGColor;
-	layer.strokeColor = (strokeColor ? strokeColor : [UIColor blackColor]).CGColor;
 
 	layer.lineCap = [self layerLineCap];
 	layer.lineJoin = [self layerLineJoin];
 
-	return layer;
+	layer.shadowColor = [UIColor blackColor].CGColor;
+	layer.shadowOpacity = 1.0;
+	layer.shadowRadius = 8.0;
+
+	layer.path = self.CGPath;
+	layer.lineWidth = lineWidth > 0.0 ? lineWidth : self.lineWidth;
+	layer.fillColor = (fillColor ? fillColor : [UIColor clearColor]).CGColor;
+	layer.strokeColor = (strokeColors.firstObject ? strokeColors.firstObject : [UIColor blackColor]).CGColor;
+
+//	if (strokeColors.count < 2)
+		return layer;
+/*
+	CAGradientLayer *gradient = [CAGradientLayer layer];
+	gradient.colors = [strokeColors map:^id(UIColor *obj) {
+		return obj.CGColor;
+	}];
+	gradient.frame = self.boundingBox;
+	gradient.mask = layer;
+	return gradient;
+*/}
+
+- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor {
+	return [self layerWithStrokeColors:strokeColors fillColor:fillColor lineWidth:0.0];
 }
 
-- (CAShapeLayer *)layerWithStrokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor {
-	return [self layerWithStrokeColor:strokeColor fillColor:fillColor lineWidth:0.0];
-}
-
-- (CAShapeLayer *)layerWithStrokeColor:(UIColor *)strokeColor {
-	return [self layerWithStrokeColor:strokeColor fillColor:Nil lineWidth:0.0];
+- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors {
+	return [self layerWithStrokeColors:strokeColors fillColor:Nil lineWidth:0.0];
 }
 
 #endif
