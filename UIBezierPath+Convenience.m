@@ -76,14 +76,16 @@
 	layer.lineCap = [self layerLineCap];
 	layer.lineJoin = [self layerLineJoin];
 
-	layer.shadowColor = [UIColor blackColor].CGColor;
-	layer.shadowOpacity = 1.0;
-	layer.shadowRadius = 8.0;
+	if (strokeColors.count > 1) {
+		layer.shadowColor = strokeColors.lastObject.CGColor;
+		layer.shadowOpacity = 1.0;
+		layer.shadowRadius = 8.0;
+	}
 
 	layer.path = self.CGPath;
 	layer.lineWidth = lineWidth > 0.0 ? lineWidth : self.lineWidth;
 	layer.fillColor = (fillColor ? fillColor : [UIColor clearColor]).CGColor;
-	layer.strokeColor = (strokeColors.firstObject ? strokeColors.firstObject : [UIColor blackColor]).CGColor;
+	layer.strokeColor = (strokeColors.count > 0 ? strokeColors.firstObject : [UIColor blackColor]).CGColor;
 
 //	if (strokeColors.count < 2)
 		return layer;

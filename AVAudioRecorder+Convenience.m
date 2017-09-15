@@ -16,10 +16,10 @@
 
 #if TARGET_OS_IOS
 - (void)requestRecordPermissionIfNeeded:(void (^)(NSNumber *granted))completionHandler {
-	if (self.recordPermissionGranted.boolValue) {
+/*	if (self.recordPermissionGranted.boolValue) {
 		if (completionHandler)
 			completionHandler(@YES);
-	} else if (self.recordPermissionGranted) {
+	} else*/ if (/*self.recordPermissionGranted*/self.recordPermission == AVAudioSessionRecordPermissionDenied) {
 		[UIApplication openSettings];
 
 		if (completionHandler)

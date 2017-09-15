@@ -16,6 +16,8 @@
 
 #define DEG_360 (2.0 * M_PI)
 
+#import "NSArray+Convenience.h"
+
 @interface UIBezierPath (Convenience)
 
 + (instancetype)bezierPathWithArcFrame:(CGRect)frame width:(CGFloat)width start:(CGFloat)start end:(CGFloat)end lineCap:(CGLineCap)lineCap lineJoin:(CGLineJoin)lineJoin;
@@ -26,9 +28,9 @@
 
 #if __has_include(<QuartzCore/QuartzCore.h>)
 
-- (CAShapeLayer *)layerWithStrokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
-- (CAShapeLayer *)layerWithStrokeColor:(UIColor *)strokeColor fillColor:(UIColor *)fillColor;
-- (CAShapeLayer *)layerWithStrokeColor:(UIColor *)strokeColor;
+- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
+- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor;
+- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors;
 
 #endif
 

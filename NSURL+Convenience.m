@@ -16,6 +16,18 @@
 
 @implementation NSURL (Convenience)
 
++ (instancetype)URLWithFormat:(NSString *)format, ... {
+	va_list args;
+	
+	va_start(args, format);
+
+	NSURL *url = [NSURL URLWithString:[[NSString alloc] initWithFormat:format arguments:args]];
+
+	va_end(args);
+
+	return url;
+}
+
 + (NSURL *)urlWithScheme:(NSString *)scheme andParameters:(NSDictionary *)parameters {
 	NSMutableString *url = [NSMutableString stringWithFormat:@"%@://", scheme];
 

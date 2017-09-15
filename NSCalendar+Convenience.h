@@ -67,7 +67,8 @@
 
 + (NSCalendarUnit)mostSignificantComponent:(NSTimeInterval)ti;
 
-+ (instancetype)dateComponentsWithValue:(NSUInteger)value forComponent:(NSCalendarUnit)unit;
++ (instancetype)dateComponentsWithValue:(NSInteger)value forComponent:(NSCalendarUnit)unit;
++ (instancetype)dateComponentsWithYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day;
 
 - (NSTimeInterval)secondsFromDate:(NSDate *)date;
 - (NSTimeInterval)secondsToDate:(NSDate *)date;

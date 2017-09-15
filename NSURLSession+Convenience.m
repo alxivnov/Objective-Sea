@@ -206,6 +206,30 @@ static id _instance = Nil;
 
 @end
 
+@implementation NSArray (JSON)
+
++ (instancetype)arrayWithJSONContentsOfURL:(NSURL *)url {
+	return cls(NSArray, [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:url]]);
+}
+
+- (BOOL)writeJSONToURL:(NSURL *)url atomically:(BOOL)atomically {
+	return [[NSJSONSerialization dataWithJSONObject:self] writeToURL:url atomically:atomically];
+}
+
+@end
+
+@implementation NSDictionary (JSON)
+
++ (instancetype)dictionaryWithJSONContentsOfURL:(NSURL *)url {
+	return cls(NSDictionary, [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:url]]);
+}
+
+- (BOOL)writeJSONToURL:(NSURL *)url atomically:(BOOL)atomically {
+	return [[NSJSONSerialization dataWithJSONObject:self] writeToURL:url atomically:atomically];
+}
+
+@end
+
 @implementation NSURL (NSURLRequest)
 
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *, NSURLResponse *))completion {

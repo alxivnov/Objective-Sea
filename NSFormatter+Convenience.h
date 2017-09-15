@@ -14,6 +14,8 @@
 
 + (NSDateFormatter *)defaultFormatter;
 + (NSDateFormatter *)RFC3339Formatter;
++ (NSDateFormatter *)GMTDateFormatter;
++ (NSDateFormatter *)GMTTimeFormatter;
 
 - (NSDate *)dateFromValue:(NSString *)string;
 - (NSString *)stringFromValue:(NSDate *)date;

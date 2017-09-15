@@ -18,7 +18,7 @@
 - (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style;
 - (UIView *)startActivityIndication;
 
-- (void)stopActivityIndication:(void (^)())completion;
+- (void)stopActivityIndication:(void (^)(void))completion;
 - (void)stopActivityIndication;
 
 @end
@@ -29,7 +29,7 @@
 - (UIView *)startActivityIndication:(UIActivityIndicatorViewStyle)style;
 - (UIView *)startActivityIndication;
 
-- (void)stopActivityIndication:(void (^)())completion;
+- (void)stopActivityIndication:(void (^)(void))completion;
 - (void)stopActivityIndication;
 
 @end

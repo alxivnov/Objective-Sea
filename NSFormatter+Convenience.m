@@ -25,6 +25,22 @@ __static(NSDateFormatter *, RFC3339Formatter, ({
 	formatter;
 }))
 
+__static(NSDateFormatter *, GMTDateFormatter, ({
+	NSDateFormatter *formatter = [NSDateFormatter new];
+	formatter.dateStyle = NSDateFormatterShortStyle;
+	formatter.timeStyle = NSDateFormatterMediumStyle;
+	formatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+	formatter;
+}))
+
+__static(NSDateFormatter *, GMTTimeFormatter, ({
+	NSDateFormatter *formatter = [NSDateFormatter new];
+	formatter.dateStyle = NSDateFormatterNoStyle;
+	formatter.timeStyle = NSDateFormatterMediumStyle;
+	formatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
+	formatter;
+}))
+
 - (NSDate *)dateFromValue:(NSString *)string {
 	return string ? [self dateFromString:string] : Nil;
 }

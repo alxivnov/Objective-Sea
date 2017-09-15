@@ -14,7 +14,7 @@
 	if (!url)
 		return Nil;
 
-	SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:url entersReaderIfAvailable:entersReaderIfAvailable];
+	SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:url /*entersReaderIfAvailable:entersReaderIfAvailable*/];
 //	safari.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	safari.modalPresentationStyle = UIModalPresentationPageSheet;
 

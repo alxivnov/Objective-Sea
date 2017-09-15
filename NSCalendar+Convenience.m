@@ -172,9 +172,18 @@
 	return NSCalendarUnitSecond;
 }
 
-+ (instancetype)dateComponentsWithValue:(NSUInteger)value forComponent:(NSCalendarUnit)unit {
++ (instancetype)dateComponentsWithValue:(NSInteger)value forComponent:(NSCalendarUnit)unit {
 	NSDateComponents *dateComponents = [NSDateComponents new];
 	[dateComponents setValue:value forComponent:unit];
+	return dateComponents;
+}
+
++ (instancetype)dateComponentsWithYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day {
+	NSDateComponents *dateComponents = [NSDateComponents new];
+	dateComponents.calendar = [NSCalendar currentCalendar];
+	dateComponents.year = year;
+	dateComponents.month = month;
+	dateComponents.day = day;
 	return dateComponents;
 }
 

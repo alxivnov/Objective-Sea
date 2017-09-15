@@ -17,6 +17,8 @@
 
 @interface NSURL (Convenience)
 
++ (instancetype)URLWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2);
+
 + (NSURL *)urlWithScheme:(NSString *)scheme andParameters:(NSDictionary *)parameters;
 
 - (NSDictionary *)queryDictionary;

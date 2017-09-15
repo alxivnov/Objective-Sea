@@ -60,6 +60,20 @@
 
 @end
 
+@interface NSArray (JSON)
+
++ (instancetype)arrayWithJSONContentsOfURL:(NSURL *)url;
+- (BOOL)writeJSONToURL:(NSURL *)url atomically:(BOOL)atomically;
+
+@end
+
+@interface NSDictionary (JSON)
+
++ (instancetype)dictionaryWithJSONContentsOfURL:(NSURL *)url;
+- (BOOL)writeJSONToURL:(NSURL *)url atomically:(BOOL)atomically;
+
+@end
+
 @interface NSURL (NSURLRequest)
 
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *data, NSURLResponse *response))completion;

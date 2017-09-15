@@ -56,7 +56,7 @@
 	return [self startActivityIndication:UIActivityIndicatorViewStyleWhiteLarge];
 }
 
-- (void)stopActivityIndication:(void (^)())completion {
+- (void)stopActivityIndication:(void (^)(void))completion {
 	UIActivityIndicatorView *indicator = (UIActivityIndicatorView *)[self subview:UISubviewKindOfClass(UIActivityIndicatorView)];
 	[indicator stopAnimating];
 
@@ -92,7 +92,7 @@
 	return [self startActivityIndication:UIActivityIndicatorViewStyleWhiteLarge];
 }
 
-- (void)stopActivityIndication:(void (^)())completion {
+- (void)stopActivityIndication:(void (^)(void))completion {
 	[self.containingViewController.view stopActivityIndication:completion];
 }
 
