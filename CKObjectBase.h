@@ -23,7 +23,7 @@
 - (NSString *)recordName;
 - (NSString *)recordType;
 
-- (void)load:(void(^)())completion;
+- (void)load:(void(^)(void))completion;
 
 @end
 

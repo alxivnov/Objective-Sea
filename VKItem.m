@@ -31,6 +31,13 @@
 	return [self.dictionary[@"id"] integerValue];
 }
 
+- (NSURL *)url {
+	NSString *screenName = self.dictionary[VK_PARAM_SCREEN_NAME];
+	NSNumber *ID = self.dictionary[VK_PARAM_ID];
+	NSString *url = screenName.length ? [NSString stringWithFormat:@"https://vk.com/%@", screenName] : ID.integerValue ? [NSString stringWithFormat:@"https://vk.com/id%ld", labs(ID.integerValue)] : Nil;
+	return url ? [NSURL URLWithString:url] : Nil;
+}
+
 @end
 
 #define VK_KEY_ARTIST @"artist"
@@ -65,6 +72,40 @@ __synthesize(NSURL *, assetURL, [NSURL URLWithString:self.dictionary[VK_KEY_URL]
 	return [NSString stringWithFormat:@"%@ - %@ (%@)", self.artist, self.title, @(self.duration)];
  }
 */
+@end
+
+#define VK_KEY_FIRST_NAME @"first_name"
+#define VK_KEY_LAST_NAME @"last_name"
+#define VK_KEY_COUNTERS @"counters"
+#define VK_KEY_FRIENDS @"friends"
+#define VK_KEY_SEX @"sex"
+
+@implementation VKUserItem
+
+- (NSString *)firstName {
+	return self.dictionary[VK_KEY_FIRST_NAME];
+}
+
+- (NSString *)lastName {
+	return self.dictionary[VK_KEY_LAST_NAME];
+}
+
+- (NSString *)fullName {
+	return [[NSArray arrayWithObject:self.firstName withObject:self.lastName withObject:Nil] componentsJoinedByString:STR_SPACE];
+}
+
+- (NSURL *)photo50 {
+	return [NSURL URLWithString:self.dictionary[VK_PARAM_PHOTO_50]];
+}
+
+- (NSInteger)friendsCount {
+	return [self.dictionary[VK_KEY_COUNTERS][VK_KEY_FRIENDS] integerValue];
+}
+
+- (NSInteger)sex {
+	return [self.dictionary[VK_KEY_SEX] integerValue];
+}
+
 @end
 
 #define VK_KEY_TEXT @"text"

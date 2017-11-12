@@ -73,3 +73,17 @@ static NSMutableArray *_composers;
 }
 
 @end
+
+@implementation TWTRAPIClient (Convenience)
+
+- (NSProgress *)sendTwitterRequestWithMethod:(NSString *)method URL:(NSString *)URLString parameters:(NSDictionary *)parameters completion:(TWTRNetworkCompletion)completion {
+	NSError *error = Nil;
+
+	NSProgress *progress = [self sendTwitterRequest:[self URLRequestWithMethod:method URL:URLString parameters:parameters error:&error] completion:completion];
+
+	NSLog(@"URLRequestWithMethod: %@", [error debugDescription]);
+
+	return progress;
+}
+
+@end

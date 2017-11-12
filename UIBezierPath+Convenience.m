@@ -70,7 +70,7 @@
 	return self.lineJoinStyle == kCGLineJoinRound ? kCALineJoinRound : self.lineJoinStyle == kCGLineJoinBevel ? kCALineJoinBevel : kCALineJoinMiter;
 }
 
-- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth {
+- (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth {
 	CAShapeLayer *layer = [CAShapeLayer layer];
 
 	layer.lineCap = [self layerLineCap];
@@ -99,11 +99,11 @@
 	return gradient;
 */}
 
-- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor {
+- (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor {
 	return [self layerWithStrokeColors:strokeColors fillColor:fillColor lineWidth:0.0];
 }
 
-- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors {
+- (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors {
 	return [self layerWithStrokeColors:strokeColors fillColor:Nil lineWidth:0.0];
 }
 

@@ -30,7 +30,7 @@
 	return [[self class] description];
 }
 
-- (void)load:(void (^)())completion {
+- (void)load:(void (^)(void))completion {
 	if (completion)
 		completion();
 }

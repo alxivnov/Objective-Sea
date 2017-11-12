@@ -117,6 +117,27 @@ __property(NSString *, version, @"5.64")
 	}] : Nil;
 }
 
+- (NSURLSessionDataTask *)getUsers:(NSArray *)userIDs fields:(NSArray *)fields nameCase:(NSString *)nameCase handler:(void (^)(NSArray<VKUserItem *> *))handler {
+	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:3];
+	if (userIDs)
+		params[VK_PARAM_USER_IDS] = [userIDs componentsJoinedByString:STR_COMMA];
+	if (fields)
+		params[VK_PARAM_FIELDS] = [fields componentsJoinedByString:STR_COMMA];
+	if (nameCase)
+		params[VK_PARAM_NAME_CASE] = nameCase;
+
+	return [self executeMethod:VK_METHOD_USERS_GET params:params handler:^(id response, NSError *error) {
+		NSDictionary *dic = cls(NSDictionary, response);
+
+		if (handler)
+			handler([dic[VK_PARAM_ITEMS] map:^id(id obj) {
+				return [[VKUserItem alloc] initWithDictionary:obj];
+			}]);
+
+		[error log:VK_METHOD_USERS_GET];
+	}];
+}
+
 - (NSURLSessionDataTask *)executeCode:(NSString *)code handler:(void(^)(id))handler {
 	return code ? [self executeMethod:@"execute" params:@{ @"code" : code } handler:^(id response, NSError *error) {
 		if (handler)

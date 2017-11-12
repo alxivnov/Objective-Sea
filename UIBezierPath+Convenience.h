@@ -28,9 +28,9 @@
 
 #if __has_include(<QuartzCore/QuartzCore.h>)
 
-- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
-- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor;
-- (CALayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors;
+- (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
+- (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor;
+- (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors;
 
 #endif
 

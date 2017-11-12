@@ -62,6 +62,8 @@ typedef enum : NSUInteger {
 - (NSURLSessionDataTask *)getAudio:(void (^)(NSArray<VKAudioItem *> *audio))handler;
 - (NSURLSessionDataTask *)searchAudio:(NSString *)query handler:(void(^)(NSArray<VKAudioItem *> *audio))handler;
 
+- (NSURLSessionDataTask *)getUsers:(NSArray *)userIDs fields:(NSArray *)fields nameCase:(NSString *)nameCase handler:(void(^)(NSArray<VKUserItem *> *users))handler;
+
 - (NSURLSessionDataTask *)executeCode:(NSString *)code handler:(void(^)(id response))handler;
 
 + (instancetype)api;

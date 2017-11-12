@@ -17,3 +17,9 @@
 
 - (void)showFromViewController:(UIViewController *)fromController completion:(TWTRComposerCompletion)completion;
 @end
+
+@interface TWTRAPIClient (Convenience)
+
+- (NSProgress *)sendTwitterRequestWithMethod:(NSString *)method URL:(NSString *)URLString parameters:(NSDictionary *)parameters completion:(TWTRNetworkCompletion)completion;
+
+@end

@@ -54,6 +54,7 @@
 #define VK_PARAM_SCREEN_NAME @"screen_name"
 #define VK_PARAM_MEMBER @"member"
 #define VK_PARAM_SEX @"sex"
+#define VK_PARAM_NAME_CASE @"name_case"
 
 #define VK_PARAM_FILTER_ADMIN @"admin"
 #define VK_PARAM_FILTER_EDITOR @"editor"
@@ -70,6 +71,8 @@
 
 @property (assign, nonatomic, readonly) NSInteger ID;
 
+@property (strong, nonatomic, readonly) NSURL *url;
+
 @end
 
 @interface VKAudioItem : VKItem
@@ -80,6 +83,17 @@
 @property (assign, nonatomic, readonly) NSTimeInterval duration;
 
 @property (strong, nonatomic, readonly) NSString *attachmentString;
+
+@end
+
+@interface VKUserItem : VKItem
+
+@property (strong, nonatomic, readonly) NSString *firstName;
+@property (strong, nonatomic, readonly) NSString *lastName;
+@property (strong, nonatomic, readonly) NSString *fullName;
+@property (strong, nonatomic, readonly) NSURL *photo50;
+@property (assign, nonatomic, readonly) NSInteger friendsCount;
+@property (assign, nonatomic, readonly) NSInteger sex;
 
 @end
 
