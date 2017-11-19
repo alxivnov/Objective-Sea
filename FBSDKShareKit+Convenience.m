@@ -133,6 +133,16 @@
 	return self;
 }
 
+- (BOOL)validate {
+	NSError *error = Nil;
+
+	BOOL validate = [self validateWithError:&error];
+
+	[error log:@"validateWithError:"];
+
+	return validate;
+}
+
 @end
 
 @implementation UIViewController (FBSDKShareKit)
@@ -176,7 +186,16 @@
 	dialog.content = content;
 	dialog.fromViewController = self;
 
-	return [dialog canShow] && [dialog validateWithError:Nil] && [dialog show] ? dialog : Nil;
+	if (![dialog canShow])
+		return Nil;
+
+	if (![dialog validate])
+		return Nil;
+
+	if (![dialog show])
+		return Nil;
+
+	return dialog;
 }
 
 - (FBSDKAppInviteDialog *)presentInviteContent:(FBSDKAppInviteContent *)content {

@@ -46,6 +46,8 @@
 
 - (AVAssetWriter *)exportAudioWithSettings:(NSDictionary<NSString *, id> *)settings timeRange:(CMTimeRange)timeRange metadata:(NSArray *)metadata to:(NSURL *)outputURL handler:(void (^)(double progress))handler;
 
+@property (assign, nonatomic, readonly) BOOL canRead;
+
 @end
 
 @interface AVAssetTrack (Convenience)
@@ -63,6 +65,8 @@
 @interface AVAssetReader (Convenience)
 
 + (AVAssetReader *)assetReaderWithAsset:(AVAsset *)asset timeRange:(CMTimeRange)timeRange mediaType:(NSString *)mediaType settings:(NSDictionary<NSString *,id> *)settings;
+
+@property (assign, nonatomic, readonly) BOOL canRead;
 
 - (BOOL)startReadingOnQueue:(dispatch_queue_t)queue handler:(void (^)(void *, size_t))handler;
 - (BOOL)startReading:(void (^)(void *, size_t))handler;

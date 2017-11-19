@@ -49,6 +49,8 @@
 
 - (instancetype)initWithCompletionHandler:(void (^)(BOOL success, NSError *error))completionHandler;
 
+- (BOOL)validate;
+
 @end
 
 @interface UIViewController (FBSDKShareKit)

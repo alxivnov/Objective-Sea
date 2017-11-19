@@ -108,6 +108,10 @@
 	}] ? writer : Nil;
 }
 
+- (BOOL)canRead {
+	return [AVAssetReader assetReaderWithAsset:self timeRange:kCMTimeRangeInvalid mediaType:AVMediaTypeAudio settings:Nil].canRead;
+}
+
 @end
 
 @implementation AVAssetTrack (Convenience)
@@ -154,6 +158,22 @@
 	[reader addOutput:output];
 
 	return reader;
+}
+
+- (BOOL)canRead {
+	if (![self startReading])
+		return NO;
+
+	CMSampleBufferRef sampleBuffer = [self.outputs.firstObject copyNextSampleBuffer];
+	if (sampleBuffer) {
+		CFRelease(sampleBuffer);
+
+		return YES;
+	} else {
+		[self.error log:@"canRead"];
+
+		return NO;
+	}
 }
 
 - (BOOL)startReadingOnQueue:(dispatch_queue_t)queue handler:(void (^)(void *, size_t))handler {
