@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonHMAC.h>
 
 typedef enum : NSUInteger {
 	MD2,
@@ -25,7 +26,7 @@ typedef enum : NSUInteger {
 
 - (NSData *)hash:(COMMON_DIGEST)commonDigest;
 
-- (NSString *)hashString:(COMMON_DIGEST)commonDigest;
+- (NSData *)hmac:(CCHmacAlgorithm)algorithm key:(NSData *)key;
 
 @end
 
@@ -33,6 +34,6 @@ typedef enum : NSUInteger {
 
 - (NSData *)hash:(COMMON_DIGEST)commonDigest;
 
-- (NSString *)hashString:(COMMON_DIGEST)commonDigest;
+- (NSData *)hmac:(CCHmacAlgorithm)algorithm key:(NSString *)key;
 
 @end

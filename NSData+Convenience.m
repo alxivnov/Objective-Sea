@@ -12,6 +12,42 @@
 
 @implementation NSData (Convenience)
 
++ (NSData *)dataFromHexString:(NSString *)hexString {
+	NSUInteger length = [hexString length] / 2;
+
+	NSMutableData *data = [[NSMutableData alloc] initWithCapacity:length];
+
+	unsigned char byte;
+	char *end;
+	for (NSUInteger index = 0; index < length; index++) {
+		NSString *str = [hexString substringWithRange:NSMakeRange(index * 2, 2)];
+		byte = strtoul([str UTF8String], &end, 16);
+		if (*end != '\0')
+			break;
+
+		[data appendBytes:&byte length:1];
+	}
+
+	return data;
+}
+
+- (NSString *)hexString {
+	NSMutableString *string = [[NSMutableString alloc] initWithCapacity:self.length * 2];
+
+	unsigned char byte;
+	for (NSUInteger index = 0; index < self.length; index++) {
+		[self getBytes:&byte range:NSMakeRange(index, 1)];
+
+		[string appendFormat:byte < 16 ? @"0%X" : @"%X", byte];
+	}
+
+	return string;
+}
+
+- (NSString *)stringUsingDotNetEncoding {
+	return [[NSString alloc] initWithData:self encoding:NSUTF16LittleEndianStringEncoding];
+}
+
 - (NSData *)getDataFromRange:(NSRange)range {
 	NSUInteger length = self.length;
 
@@ -28,24 +64,6 @@
 
 - (NSData *)getDataFromIndex:(NSUInteger)index {
 	return [self getDataFromRange:NSMakeRange(index, self.length - index)];
-}
-
-- (NSString *)string {
-	NSUInteger length = [self length];
-	NSMutableString *string = [[NSMutableString alloc] initWithCapacity:length * 2];
-
-	unsigned char byte;
-	for (NSUInteger index = 0; index < length; index++) {
-		[self getBytes:&byte range:NSMakeRange(index, 1)];
-
-		[string appendFormat:byte < 16 ? @"0%X" : @"%X", byte];
-	}
-
-	return string;
-}
-
-- (NSString *)stringUsingDotNetEncoding {
-	return [[NSString alloc] initWithData:self encoding:NSUTF16LittleEndianStringEncoding];
 }
 
 - (void)enumerateByteRangesUsingBlock:(void (^)(const void *bytes, NSRange range, BOOL *stop))block length:(NSUInteger)len {

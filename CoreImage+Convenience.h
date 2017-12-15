@@ -11,7 +11,7 @@
 
 @interface UIImage (CoreImage)
 
-- (NSArray *)featuresOfType:(NSString *)type options:(NSDictionary<NSString *, id> *)options;
+- (NSArray<CIFeature *> *)featuresOfType:(NSString *)type options:(NSDictionary<NSString *, id> *)options;
 
 - (CGRect)boundsForFeature:(CIFeature *)feature;
 

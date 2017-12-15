@@ -32,6 +32,10 @@
 
 #define CGRectRotate(rect) CGRectMake(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width)
 
+#define CGPointScale(point, scale) CGPointMake(point.x * scale, point.y * scale)
+#define CGSizeScale(size, scale) CGSizeMake(size.height * scale, size.width * scale)
+#define CGRectScale(rect, scale) CGRectMake(rect.origin.x * scale, rect.origin.y * scale, rect.size.height * scale, rect.size.width * scale)
+
 #define CGRectSetOrigin(rect, origin) ({ CGPoint __origin = (origin); CGRectMake(__origin.x, __origin.y, rect.size.width, rect.size.height); })
 #define CGRectSetSize(rect, size) ({ CGSize __size = (size); CGRectMake(rect.origin.x, rect.origin.y, __size.width, __size.height); })
 #define CGRectSetX(rect, x) ({ CGFloat __x = (x); CGRectMake(__x, rect.origin.y, rect.size.width, rect.size.height); })

@@ -10,11 +10,13 @@
 
 @interface NSData (Convenience)
 
++ (NSData *)dataFromHexString:(NSString *)hexString;
+- (NSString *)hexString;
+
+- (NSString *)stringUsingDotNetEncoding;
+
 - (NSData *)getDataFromRange:(NSRange)range;
 - (NSData *)getDataFromIndex:(NSUInteger)index;
-
-- (NSString *)string;
-- (NSString *)stringUsingDotNetEncoding;
 
 - (void)enumerateByteRangesUsingBlock:(void (^)(const void *bytes, NSRange range, BOOL *stop))block length:(NSUInteger)len;
 

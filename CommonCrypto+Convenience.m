@@ -80,19 +80,12 @@
 	return [NSData dataWithBytes:buffer length:digestLength];
 }
 
-- (NSString *)hashString:(COMMON_DIGEST)commonDigest {
-	NSData *hash = [self hash:commonDigest];
+- (NSData *)hmac:(CCHmacAlgorithm)algorithm key:(NSData *)key {
+	NSMutableData *macOut = [NSMutableData dataWithLength:algorithm == kCCHmacAlgSHA1 ? CC_SHA1_DIGEST_LENGTH : algorithm == kCCHmacAlgMD5 ? CC_MD5_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA256 ? CC_SHA256_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA384 ? CC_SHA384_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA512 ? CC_SHA512_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA224 ? CC_SHA224_DIGEST_LENGTH : 0];
 
-	NSMutableString *string = [[NSMutableString alloc] initWithCapacity:hash.length * 2];
+	CCHmac(algorithm, key.bytes, key.length, self.bytes, self.length, macOut.mutableBytes);
 
-	unsigned char byte;
-	for (NSUInteger index = 0; index < hash.length; index++) {
-		[hash getBytes:&byte range:NSMakeRange(index, 1)];
-
-		[string appendFormat:byte < 16 ? @"0%X" : @"%X", byte];
-	}
-
-	return string;
+	return macOut;
 }
 
 @end
@@ -103,8 +96,15 @@
 	return [[self dataUsingEncoding:NSUTF8StringEncoding] hash:commonDigest];
 }
 
-- (NSString *)hashString:(COMMON_DIGEST)commonDigest {
-	return [[self dataUsingEncoding:NSUTF8StringEncoding] hashString:commonDigest];
+- (NSData *)hmac:(CCHmacAlgorithm)algorithm key:(NSString *)key {
+	const char *str = [self cStringUsingEncoding:NSUTF8StringEncoding];
+	const char *keyStr  = [key cStringUsingEncoding:NSUTF8StringEncoding];
+
+	NSMutableData *macOut = [NSMutableData dataWithLength:algorithm == kCCHmacAlgSHA1 ? CC_SHA1_DIGEST_LENGTH : algorithm == kCCHmacAlgMD5 ? CC_MD5_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA256 ? CC_SHA256_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA384 ? CC_SHA384_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA512 ? CC_SHA512_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA224 ? CC_SHA224_DIGEST_LENGTH : 0];
+
+	CCHmac(algorithm, keyStr, strlen(keyStr), str, strlen(str), macOut.mutableBytes);
+
+	return macOut;
 }
 
 @end

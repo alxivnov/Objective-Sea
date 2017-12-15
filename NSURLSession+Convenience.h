@@ -11,6 +11,7 @@
 #import "CommonCrypto+Convenience.h"
 #import "Dispatch+Convenience.h"
 //#import "LocalAuthentication+Convenience.h"
+#import "NSData+Convenience.h"
 #import "NSFileManager+Convenience.h"
 #import "NSObject+Convenience.h"
 #import "NSString+Convenience.h"
@@ -33,7 +34,7 @@
 
 @end
 
-#define URL_CACHE(url) [[[NSFileManager URLForDirectory:NSCachesDirectory] URLByAppendingPathComponent:[url.absoluteString hashString:SHA256]] URLByAppendingPathExtension:url.pathExtension]
+#define URL_CACHE(url) [[[NSFileManager URLForDirectory:NSCachesDirectory] URLByAppendingPathComponent:[[url.absoluteString hash:SHA256] hexString]] URLByAppendingPathExtension:url.pathExtension]
 
 @interface NSURL (NSURLSession)
 

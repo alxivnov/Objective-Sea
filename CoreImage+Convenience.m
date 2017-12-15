@@ -10,7 +10,7 @@
 
 @implementation UIImage (CoreImage)
 
-- (NSArray *)featuresOfType:(NSString *)type options:(NSDictionary<NSString *, id> *)options {
+- (NSArray<CIFeature *> *)featuresOfType:(NSString *)type options:(NSDictionary<NSString *, id> *)options {
 	return [[CIDetector detectorOfType:type context:Nil options:options] featuresInImage:self.CIImage ?: [CIImage imageWithCGImage:self.CGImage] options:options];
 }
 
