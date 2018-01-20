@@ -43,22 +43,13 @@
 
 @interface UITableView (Sections)
 
-- (void)insertSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)insertSectionsInRange:(NSRange)range;
-
-- (void)insertSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)insertSection:(NSUInteger)section;
 
-- (void)deleteSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)deleteSectionsInRange:(NSRange)range;
-
-- (void)deleteSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)deleteSection:(NSUInteger)section;
 
-- (void)reloadSectionsInRange:(NSRange)range withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadSectionsInRange:(NSRange)range;
-
-- (void)reloadSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)animation;
 - (void)reloadSection:(NSUInteger)section;
 
 - (void)setHeaderText:(NSString *)text forSection:(NSUInteger)section;
@@ -71,38 +62,24 @@
 
 @interface UITableView (Rows)
 
-- (UITableViewCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier forRow:(NSInteger)row inSection:(NSInteger)section;
-
-- (void)selectRow:(NSInteger)row inSection:(NSInteger)section;
-- (void)deselectRow:(NSInteger)row inSection:(NSInteger)section;
 - (void)deselectRows:(BOOL)animated;
 
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath withAnimation:(UITableViewRowAnimation)animation;
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)deleteRow:(NSInteger)row inSection:(NSInteger)section;
-
-- (void)insertRowAtIndexPath:(NSIndexPath *)indexPath withAnimation:(UITableViewRowAnimation)animation;
 - (void)insertRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)insertRow:(NSInteger)row inSection:(NSInteger)section;
 
-- (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath withAnimation:(UITableViewRowAnimation)animation;
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath;
+
 - (void)reloadRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)reloadRow:(NSInteger)row inSection:(NSInteger)section;
 
 - (void)moveRowAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath inReverse:(BOOL)reverse;
 
-- (UITableViewCell *)cellForRow:(NSInteger)row inSection:(NSInteger)section;
-
 - (void)scrollToRowAtIndexPath:(NSIndexPath *)indexPath;
-- (void)scrollToRow:(NSInteger)row inSection:(NSInteger)section;
 
 - (NSIndexPath *)indexPathForNullableCell:(UITableViewCell *)cell;
 
 @end
 
-@interface UITableViewRowAction (Category)
+@interface UITableViewController (Convenience)
 
-+ (instancetype)destructiveRowActionWithTitle:(NSString *)title handler:(void (^)(UITableViewRowAction *action, NSIndexPath *indexPath))handler;
-+ (instancetype)normalRowActionWithTitle:(NSString *)title handler:(void (^)(UITableViewRowAction *action, NSIndexPath *indexPath))handler;
+- (void)addRefreshTarget:(id)target action:(SEL)action;
 
 @end

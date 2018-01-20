@@ -68,3 +68,9 @@
 - (NSString *)description:(NSDateComponentsFormatterUnitsStyle)unitStyle;
 
 @end
+
+@interface NSNumber (NSNumberFormatter)
+
+- (NSString *)localizedStringWithNumberStyle:(NSNumberFormatterStyle)style;
+
+@end

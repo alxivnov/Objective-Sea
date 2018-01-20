@@ -82,9 +82,16 @@
 #define IS_SIMULATOR NO
 #endif
 
-#define NSStringFromInteger(d) [NSString stringWithFormat:@"%ld", d]
-#define NSStringFromUnsignedInteger(u) [NSString stringWithFormat:@"%lu", (unsigned long)u]
-#define NSStringFromDouble(f, p) [NSString stringWithFormat:p ? @"%.##pf" : @"%.0f", f]
+#define str(d) [NSString stringWithFormat:@"%ld", (long)d]
+#define fstr(f) [NSString stringWithFormat:@"%f", (double)f]
+
+#define NSDateEqualToDate(d1, d2) (d1 == d2 || [d1 isEqualToDate:d2])
+#define NSNumberEqualToNumber(n1, n2) (n1 == n2 || [n1 isEqualToNumber:n2])
+#define NSStringEqualToString(s1, s2) (s1 == s2 || [s1 isEqualToString:s2])
+
+#define NSDateCompareToDate(d1, d2) (d1 == d2 ? NSOrderedSame : d1 == Nil ? NSOrderedAscending : d2 == Nil ? NSOrderedDescending : [d1 compare:d2])
+#define NSNumberCompareToNumber(n1, n2) (n1 == n2 ? NSOrderedSame : n1 == Nil ? NSOrderedAscending : n2 == Nil ? NSOrderedDescending : [n1 compare:n2])
+#define NSStringCompareToString(s1, s2) (s1 == s2 ? NSOrderedSame : s1 == Nil ? NSOrderedAscending : s2 == Nil ? NSOrderedDescending : [s1 compare:s2])
 
 #define DEG_360 (2.0 * M_PI)
 

@@ -17,6 +17,8 @@
 
 - (void)setAccessoryView:(UIView *)accessoryView insets:(UIEdgeInsets)insets;
 
+@property (strong, nonatomic, readonly) UILabel *accessoryLabel;
+
 @end
 
 @interface UISwitchTableViewCell : UITableViewCell

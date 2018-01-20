@@ -160,3 +160,11 @@ __static(NSDateComponentsFormatter *, ssShortFormatter, [NSDateComponentsFormatt
 }
 
 @end
+
+@implementation NSNumber (NSNumberFormatter)
+
+- (NSString *)localizedStringWithNumberStyle:(NSNumberFormatterStyle)style {
+	return [NSNumberFormatter localizedStringFromNumber:self numberStyle:style];
+}
+
+@end

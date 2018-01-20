@@ -31,6 +31,19 @@
 	[self.accessoryView addSubview:accessoryView];
 }
 
+- (UILabel *)accessoryLabel {
+	UILabel *label = cls(UILabel, self.accessoryView);
+	if (!label) {
+		label = [[UILabel alloc] init];
+		label.backgroundColor = self.textLabel.backgroundColor;
+		label.font = [UIFont monospacedDigitSystemFontOfSize:self.textLabel.font.pointSize weight:UIFontWeightRegular];
+		label.opaque = self.textLabel.opaque;
+		label.textColor = self.textLabel.textColor;
+		self.accessoryView = label;
+	}
+	return label;
+}
+
 @end
 
 @implementation UISwitchTableViewCell

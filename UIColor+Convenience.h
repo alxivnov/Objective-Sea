@@ -24,7 +24,7 @@
 #define HEX_IOS_WHITE 0xFAFAFF
 #define HEX_IOS_LIGHT_GRAY 0xEFEFF4
 #define HEX_IOS_GRAY 0xC7C7CC
-#define HEX_IOS_DARK_GRAY 0x8E8E93	// not shure
+#define HEX_IOS_DARK_GRAY 0x8E8E93	// not sure
 #define HEX_IOS_BLACK 0x171717
 
 #define HEX_NCS_BLUE 0x0087BD
