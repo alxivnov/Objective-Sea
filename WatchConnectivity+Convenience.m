@@ -37,6 +37,16 @@
 	}];
 }
 
+- (BOOL)updateApplicationContext:(NSDictionary<NSString *,id> *)applicationContext {
+	NSError *error = Nil;
+
+	BOOL update = [self updateApplicationContext:applicationContext error:&error];
+
+	[error log:@"updateApplicationContext:"];
+
+	return update;
+}
+
 @end
 
 @implementation WCSessionDelegate

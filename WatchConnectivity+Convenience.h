@@ -24,6 +24,8 @@
 
 - (void)sendMessage:(NSDictionary<NSString *, id> *)message;
 
+- (BOOL)updateApplicationContext:(NSDictionary<NSString *,id> *)applicationContext;
+
 @end
 
 @interface WCSessionDelegate : NSObject <WCSessionDelegate>
