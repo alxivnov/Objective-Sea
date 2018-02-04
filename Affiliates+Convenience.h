@@ -55,6 +55,8 @@
 
 @interface AFMediaItem : NSObject
 
+@property (strong, nonatomic, readonly) NSDictionary *dictionary;
+
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 @property (strong, nonatomic, readonly) NSString *wrapperType;

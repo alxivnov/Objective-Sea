@@ -211,3 +211,40 @@ __static(NSMutableDictionary *, templates, [NSMutableDictionary new])
 }
 
 @end
+
+#if __has_include("UIImageEffects.h")
+
+#import "UIImageEffects.h"
+
+@implementation UIImage (UIImageEffects)
+
+- (UIImage*)imageByApplyingLightEffect:(UIImage *)maskImage {
+	UIColor *tintColor = [UIColor colorWithWhite:1.0 alpha:0.3];
+	return [UIImageEffects imageByApplyingBlurToImage:self withRadius:60 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:maskImage];
+}
+
+- (UIImage*)imageByApplyingExtraLightEffect:(UIImage *)maskImage {
+	UIColor *tintColor = [UIColor colorWithWhite:0.97 alpha:0.82];
+	return [UIImageEffects imageByApplyingBlurToImage:self withRadius:40 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:maskImage];
+}
+
+- (UIImage*)imageByApplyingDarkEffect:(UIImage *)maskImage {
+	UIColor *tintColor = [UIColor colorWithWhite:0.11 alpha:0.73];
+	return [UIImageEffects imageByApplyingBlurToImage:self withRadius:40 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:maskImage];
+}
+
+- (UIImage*)imageByApplyingLightEffect {
+	return [self imageByApplyingLightEffect:Nil];
+}
+
+- (UIImage*)imageByApplyingExtraLightEffect {
+	return [self imageByApplyingExtraLightEffect:Nil];
+}
+
+- (UIImage*)imageByApplyingDarkEffect {
+	return [self imageByApplyingDarkEffect:Nil];
+}
+
+@end
+
+#endif

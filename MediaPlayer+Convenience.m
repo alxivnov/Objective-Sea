@@ -150,7 +150,7 @@
 @implementation UIViewController (MPMediaPickerController)
 
 - (MPMediaPicker *)presentMediaPicker:(MPMediaType)types showsCloudItems:(BOOL)showsCloudItems completion:(void(^)(MPMediaPicker *sender, MPMediaItemCollection *items))completion from:(id)source {
-	MPMediaPicker *picker = [[MPMediaPicker alloc] init];
+	MPMediaPicker *picker = [[MPMediaPicker alloc] initWithMediaTypes:types];
 	picker.completion = completion;
 	picker.showsCloudItems = showsCloudItems;
 

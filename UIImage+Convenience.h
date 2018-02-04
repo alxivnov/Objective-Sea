@@ -70,3 +70,19 @@ typedef enum : NSUInteger {
 + (NSURL *)URLForResource:(NSString *)name;
 
 @end
+
+#if __has_include("UIImageEffects.h")
+
+@interface UIImage (UIImageEffects)
+
+- (UIImage*)imageByApplyingLightEffect:(UIImage *)maskImage;
+- (UIImage*)imageByApplyingExtraLightEffect:(UIImage *)maskImage;
+- (UIImage*)imageByApplyingDarkEffect:(UIImage *)maskImage;
+
+- (UIImage*)imageByApplyingLightEffect;
+- (UIImage*)imageByApplyingExtraLightEffect;
+- (UIImage*)imageByApplyingDarkEffect;
+
+@end
+
+#endif
