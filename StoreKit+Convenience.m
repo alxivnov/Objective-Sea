@@ -65,7 +65,7 @@
 @implementation SKStoreProductViewController (Convenience)
 
 - (void)loadProductWithIdentifier:(NSUInteger)identifier parameters:(NSDictionary *)parameters completionBlock:(void(^)(BOOL, NSError *))block {
-	NSMutableDictionary *mutableParameters = [parameters mutableCopy];
+	NSMutableDictionary *mutableParameters = [parameters mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:1];
 	mutableParameters[SKStoreProductParameterITunesItemIdentifier] = @(identifier);
 
 	[self loadProductWithParameters:mutableParameters completionBlock:block];

@@ -15,6 +15,7 @@
 #define RGB(r, g, b) [UIColor colorWithRed:r / 255.0 green:g / 255.0 blue:b / 255.0 alpha:1.0]
 
 #define HEX(v) [UIColor colorWithRed:((v & 0xFF0000) >> 16) / 255.0 green:((v & 0x00FF00) >> 8) / 255.0 blue:((v & 0x0000FF) >> 0) / 255.0 alpha:1.0]
+#define MIX(c1, c2) (((((c1 & 0xFF0000) >> 16) + ((c2 & 0xFF0000) >> 16)) / 2) << 16 | ((((c1 & 0x00FF00) >> 8) + ((c2 & 0x00FF00) >> 8)) / 2) << 8 | ((c1 & 0x0000FF) + (c2 & 0x0000FF)) / 2)
 
 #define HEX_IOS_BLUE 0x007AFF
 #define HEX_IOS_GREEN 0x4CD964
@@ -50,5 +51,7 @@
 - (CGFloat)alphaComponent;
 
 + (UIColor *)color:(NSUInteger)hex;
++ (UIColor *)colorWithR:(NSUInteger)red G:(NSUInteger)green B:(NSUInteger)blue;
++ (UIColor *)colorWithW:(NSUInteger)white;
 
 @end

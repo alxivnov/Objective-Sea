@@ -18,13 +18,13 @@
 #define dic_(key0, val0) ({ __typeof__(key0) __key0 = (key0); __typeof__(val0) __val0 = (val0); __key0 && __val0 ? @{ __key0 : __val0 } : Nil; })
 #define dic__(key0, val0, key1, val1) ({ __typeof__(key0) __key0 = (key0); __typeof__(val0) __val0 = (val0); __typeof__(key1) __key1 = (key1); __typeof__(val1) __val1 = (val1); __key0 && __val0 && __key1 && __val1 ? @{ __key0 : __val0, __key1 : __val1 } : __key0 && __val0 ? @{ __key0 : __val0 } : __key1 && __val1 ? @{ __key1 : __val1 } : Nil; })
 
-#define sel(obj, sel) ({ id __obj = (obj); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel)] : Nil; })
-#define sel_(obj, sel, arg) ({ id __obj = (obj); id __arg= (arg); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel) withObject:__arg] : Nil; })
-#define sel__(obj, sel, arg1, arg2) ({ id __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2] : Nil; })
+#define ret(obj, sel) ({ id __obj = (obj); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel)] : Nil; })
+#define ret_(obj, sel, arg) ({ id __obj = (obj); id __arg= (arg); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel) withObject:__arg] : Nil; })
+#define ret__(obj, sel, arg1, arg2) ({ id __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2] : Nil; })
 
-#define _sel(obj, sel) { id __obj = (obj); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel)]; } }
-#define _sel_(obj, sel, arg) { id __obj = (obj); id __arg= (arg); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg]; } }
-#define _sel__(obj, sel, arg1, arg2) { id __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2]; } }
+#define sel(obj, sel) ({ id __obj = (obj); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel)]; } })
+#define sel_(obj, sel, arg) ({ id __obj = (obj); id __arg= (arg); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg]; } })
+#define sel__(obj, sel, arg1, arg2) ({ id __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2]; } })
 
 #define NOW(var) NSDate *var = [NSDate date]
 
@@ -64,9 +64,17 @@
 #define NSLocalize(key) NSLocalizedString(key, Nil)
 #define NSLocalizeMethod(method, key) + (NSString *)method { return NSLocalizedString(key, Nil); }
 
-#define NSDataIsEqualToData(d1, d2) ({ NSData *__d1 = (d1); NSData *__d2 = (d2); __d1 == __d2 || (__d2 != Nil && [__d1 isEqualToData:__d2]); })
+#define NSDateIsEqualToDate(d1, d2) ({ NSDate *__d1 = (d1); NSDate *__d2 = (d2); __d1 == __d2 || (__d2 != Nil && [__d1 isEqualToDate:__d2]); })
 #define NSNumberIsEqualToNumber(n1, n2) ({ NSNumber *__n1 = (n1); NSNumber *__n2 = (n2); __n1 == __n2 || (__n2 != Nil && [__n1 isEqualToNumber:__n2]); })
 #define NSStringIsEqualToString(s1, s2) ({ NSString *__s1 = (s1); NSString *__s2 = (s2); __s1 == __s2 || (__s2 != Nil && [__s1 isEqualToString:__s2]); })
+/*
+ #define NSDateEqualToDate(d1, d2) (d1 == d2 || [d1 isEqualToDate:d2])
+ #define NSNumberEqualToNumber(n1, n2) (n1 == n2 || [n1 isEqualToNumber:n2])
+ #define NSStringEqualToString(s1, s2) (s1 == s2 || [s1 isEqualToString:s2])
+ */
+#define NSDateCompareToDate(d1, d2) (d1 == d2 ? NSOrderedSame : d1 == Nil ? NSOrderedAscending : d2 == Nil ? NSOrderedDescending : [d1 compare:d2])
+#define NSNumberCompareToNumber(n1, n2) (n1 == n2 ? NSOrderedSame : n1 == Nil ? NSOrderedAscending : n2 == Nil ? NSOrderedDescending : [n1 compare:n2])
+#define NSStringCompareToString(s1, s2) (s1 == s2 ? NSOrderedSame : s1 == Nil ? NSOrderedAscending : s2 == Nil ? NSOrderedDescending : [s1 compare:s2])
 
 #define MEM_PAGE_SIZE 4096
 
@@ -85,15 +93,9 @@
 #define str(d) [NSString stringWithFormat:@"%ld", (long)d]
 #define fstr(f) [NSString stringWithFormat:@"%f", (double)f]
 
-#define NSDateEqualToDate(d1, d2) (d1 == d2 || [d1 isEqualToDate:d2])
-#define NSNumberEqualToNumber(n1, n2) (n1 == n2 || [n1 isEqualToNumber:n2])
-#define NSStringEqualToString(s1, s2) (s1 == s2 || [s1 isEqualToString:s2])
-
-#define NSDateCompareToDate(d1, d2) (d1 == d2 ? NSOrderedSame : d1 == Nil ? NSOrderedAscending : d2 == Nil ? NSOrderedDescending : [d1 compare:d2])
-#define NSNumberCompareToNumber(n1, n2) (n1 == n2 ? NSOrderedSame : n1 == Nil ? NSOrderedAscending : n2 == Nil ? NSOrderedDescending : [n1 compare:n2])
-#define NSStringCompareToString(s1, s2) (s1 == s2 ? NSOrderedSame : s1 == Nil ? NSOrderedAscending : s2 == Nil ? NSOrderedDescending : [s1 compare:s2])
-
 #define DEG_360 (2.0 * M_PI)
+
+#define VER(major, minor) [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){ major, minor }]
 
 @interface NSObject (Convenience)
 

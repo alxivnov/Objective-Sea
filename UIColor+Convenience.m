@@ -77,4 +77,12 @@ __static(NSMutableDictionary *, colors, [NSMutableDictionary new])
 	return value;
 }
 
++ (UIColor *)colorWithR:(NSUInteger)red G:(NSUInteger)green B:(NSUInteger)blue {
+	return [self color:red << 16 | green << 8 | blue];
+}
+
++ (UIColor *)colorWithW:(NSUInteger)white {
+	return [self color:white << 16 | white << 8 | white];
+}
+
 @end

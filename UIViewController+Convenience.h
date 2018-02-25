@@ -36,7 +36,7 @@
 - (void)setToolbar:(NSArray<UIBarButtonItem *> *)toolbarItems;
 
 + (CGFloat)statusBarHeight;
-+ (BOOL)inCallingStatusBar;
++ (BOOL)isCallingStatusBar;
 
 - (void)presentViewControllerWithIdentifier:(NSString *)viewControllerIdentifier animated:(BOOL)flag completion:(void (^)(UIViewController *viewController))completion;
 
@@ -46,16 +46,12 @@
 
 @interface UIViewController (UIPopoverPresentationController)
 
+- (BOOL)popoverViewController:(UIViewController *)vc from:(id)source completion:(void(^)(UIViewController *vc))completion;
 - (BOOL)popoverViewController:(UIViewController *)vc from:(id)source;
-- (BOOL)popoverViewController:(UIViewController *)vc fromView:(UIView *)view;
-- (BOOL)popoverViewController:(UIViewController *)vc fromButton:(UIBarButtonItem *)button;
-- (BOOL)popoverViewController:(UIViewController *)vc completion:(void(^)(UIViewController *vc))completion;
 - (BOOL)popoverViewController:(UIViewController *)vc;
 
+- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier from:(id)source completion:(void(^)(UIViewController *vc))completion;
 - (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier from:(id)source;
-- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier fromView:(UIView *)view;
-- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier fromButton:(UIBarButtonItem *)button;
-- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier completion:(void(^)(UIViewController *vc))completion;
 - (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier;
 
 @end

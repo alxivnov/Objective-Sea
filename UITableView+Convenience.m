@@ -8,6 +8,19 @@
 
 #import "UITableView+Convenience.h"
 
+@implementation UIContextualAction (Convenience)
+
++ (instancetype)contextualActionWithStyle:(UIContextualActionStyle)style title:(NSString *)title image:(UIImage *)image color:(UIColor *)color handler:(UIContextualActionHandler)handler {
+	UIContextualAction *action = [UIContextualAction contextualActionWithStyle:style title:title handler:handler];
+	if (image)
+		action.image = image;
+	if (color)
+		action.backgroundColor = color;
+	return action;
+}
+
+@end
+
 @implementation NSIndexPath (Convenience)
 
 - (BOOL)isEqualToIndexPath:(NSIndexPath *)indexPath {

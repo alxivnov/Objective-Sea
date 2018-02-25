@@ -184,26 +184,32 @@
 	}];
 }
 
-+ (BOOL)lookup:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *))handler {
-	if (!ID)
++ (BOOL)lookup:(NSDictionary *)parameters handler:(void(^)(NSArray<AFMediaItem *> *))handler {
+	if (!parameters.count)
 		return NO;
 
-	NSDictionary *parameters = @{ KEY_ID : @(ID) };
 	NSURL *url = [[NSURL URLWithString:URL_LOOKUP] URLByAppendingQueryDictionary:parameters];
 	[self sendAsynchronousRequestWithURL:url handler:handler];
 
 	return YES;
 }
 
-+ (BOOL)search:(NSString *)tearm handler:(void(^)(NSArray<AFMediaItem *> *))handler {
-	if (!tearm.length)
++ (BOOL)lookupByID:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *))handler {
+	return ID ? [self lookup:@{ KEY_ID : @(ID) } handler:handler] : NO;
+}
+
++ (BOOL)search:(NSDictionary *)parameters handler:(void(^)(NSArray<AFMediaItem *> *))handler {
+	if (!parameters.count)
 		return NO;
 
-	NSDictionary *parameters = @{ KEY_TERM : tearm, KEY_MEDIA : kMediaMusic, KEY_ENTITY : kEntitySong };
 	NSURL *url = [[NSURL URLWithString:URL_SEARCH] URLByAppendingQueryDictionary:parameters];
 	[self sendAsynchronousRequestWithURL:url handler:handler];
 
 	return YES;
+}
+
++ (BOOL)searchForSong:(NSString *)term handler:(void(^)(NSArray<AFMediaItem *> *))handler {
+	return term.length ? [self search:@{ KEY_TERM : term, KEY_MEDIA : kMediaMusic, KEY_ENTITY : kEntitySong } handler:handler] : NO;
 }
 
 @end

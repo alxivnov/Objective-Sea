@@ -96,7 +96,7 @@
 	return application.statusBarHidden ? 0.0 : fminf(application.statusBarFrame.size.height, application.statusBarFrame.size.width);
 }
 
-+ (BOOL)inCallingStatusBar {
++ (BOOL)isCallingStatusBar {
 	return [self statusBarHeight] > GUI_STATUS_BAR_HEIGHT;
 }
 
@@ -148,18 +148,6 @@
 	return [self popoverViewController:vc from:source completion:Nil];
 }
 
-- (BOOL)popoverViewController:(UIViewController *)vc fromView:(UIView *)view {
-	return [self popoverViewController:vc from:view];
-}
-
-- (BOOL)popoverViewController:(UIViewController *)vc fromButton:(UIBarButtonItem *)button {
-	return [self popoverViewController:vc from:button];
-}
-
-- (BOOL)popoverViewController:(UIViewController *)vc completion:(void (^)(UIViewController *vc))completion {
-	return [self popoverViewController:vc from:Nil completion:completion];
-}
-
 - (BOOL)popoverViewController:(UIViewController *)vc {
 	return [self popoverViewController:vc from:Nil];
 }
@@ -174,18 +162,6 @@
 
 - (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier from:(id)source {
 	return [self popoverViewControllerWithIdentifier:identifier from:source completion:Nil];
-}
-
-- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier fromView:(UIView *)view {
-	return [self popoverViewControllerWithIdentifier:identifier from:view];
-}
-
-- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier fromButton:(UIBarButtonItem *)button {
-	return [self popoverViewControllerWithIdentifier:identifier from:button];
-}
-
-- (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier completion:(void (^)(UIViewController *vc))completion {
-	return [self popoverViewControllerWithIdentifier:identifier from:Nil completion:completion];
 }
 
 - (UIViewController *)popoverViewControllerWithIdentifier:(NSString *)identifier {

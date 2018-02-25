@@ -8,7 +8,7 @@
 
 #import "NSString+Convenience.h"
 
-@implementation NSString (Calculation)
+@implementation NSString (Convenience)
 
 - (NSUInteger)numberOfLines {
 	__block NSUInteger count = 0;

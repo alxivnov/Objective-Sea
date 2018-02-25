@@ -145,7 +145,7 @@
 
 #define CGPointWithDirection(direction, offset) CGPointMake(direction == UIDirectionLeft ? -offset : direction == UIDirectionRight ? offset : 0.0, direction == UIDirectionUp ? offset : direction == UIDirectionDown ? -offset : 0.0)
 
-- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion {
+- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
 	if (self.hidden)
 		return;
 
@@ -164,8 +164,8 @@
 				CGPoint origin = CGPointWithDirection(direction, 13.0 * offset);
 				self.frame = CGRectOffsetOrigin(self.frame, origin);
 
-				if (animation)
-					animation();
+				if (animations)
+					animations();
 			} completion:^(BOOL finished) {
 				[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
 					CGPoint origin = CGPointWithDirection(direction, -8.0 * offset);
@@ -182,10 +182,10 @@
 }
 
 - (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
-	[self shake:direction duration:duration delay:0.0 animation:Nil completion:completion];
+	[self shake:direction duration:duration delay:0.0 animations:Nil completion:completion];
 }
 
-- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion {
+- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
 	if (self.hidden)
 		return;
 
@@ -198,17 +198,17 @@
 		[UIView animateWithDuration:duration delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
 			self.transform = transform;
 
-			if (animation)
-				animation();
+			if (animations)
+				animations();
 		} completion:completion];
 	}];
 }
 
 - (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
-	[self burst:scale duration:duration delay:0.0 animation:Nil completion:completion];
+	[self burst:scale duration:duration delay:0.0 animations:Nil completion:completion];
 }
 
-- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion {
+- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion {
 	if (self.hidden)
 		return;
 
@@ -219,14 +219,14 @@
 		[UIView animateWithDuration:duration < 0.0 ? 1.0 - duration : duration / 2.0 delay:0.0 usingSpringWithDamping:ANIMATION_DAMPING initialSpringVelocity:ANIMATION_VELOCITY options:ANIMATION_OPTIONS animations:^{
 			self.backgroundColor = backgroundColor;
 
-			if (animation)
-				animation();
+			if (animations)
+				animations();
 		} completion:completion];
 	}];
 }
 
 - (void)blink:(UIColor *)color duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion {
-	[self blink:color duration:duration delay:0.0 animation:Nil completion:completion];
+	[self blink:color duration:duration delay:0.0 animations:Nil completion:completion];
 }
 
 - (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration damping:(CGFloat)damping velocity:(CGFloat)velocity options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion {
@@ -239,6 +239,14 @@
 
 - (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL))completion {
 	[self animate:transform duration:duration damping:ANIMATION_DAMPING velocity:ANIMATION_VELOCITY options:options completion:completion];
+}
+
+- (BOOL)iPad {
+	return self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular && self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular;
+}
+
+- (BOOL)iPhone {
+	return !self.iPad;
 }
 
 @end

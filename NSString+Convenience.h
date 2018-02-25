@@ -11,7 +11,7 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
-@interface NSString (Calculation)
+@interface NSString (Convenience)
 
 - (NSUInteger)numberOfLines;
 

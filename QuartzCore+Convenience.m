@@ -16,7 +16,8 @@
 }
 
 - (void)roundCornersWithRatio:(CGFloat)ratio {
-	[self roundCorners:fminf(self.frame.size.width, self.frame.size.height) / (2.0 * ratio)];
+	if (ratio > 0.0)
+		[self roundCorners:fminf(self.frame.size.width, self.frame.size.height) / (2.0 * ratio)];
 }
 
 - (void)setBorderWidth:(CGFloat)width color:(CGColorRef)color {

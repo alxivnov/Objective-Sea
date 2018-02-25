@@ -43,6 +43,8 @@ typedef NS_OPTIONS(NSUInteger, UIPosition) {
 #define UIPositionHorizontal(a) (a & (UIPositionLeft | UIPositionRight))
 #define UIPositionVertical(a) (a & (UIPositionBottom | UIPositionTop))
 
+#define UIViewSubview(cls) ^BOOL(UIView *subview) { return [subview isKindOfClass:[cls class]]; }
+
 @interface UIView (Convenience)
 
 - (void)hideSubviews;
@@ -74,16 +76,19 @@ typedef NS_OPTIONS(NSUInteger, UIPosition) {
 - (void)setHidden:(BOOL)hidden duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
 - (void)setHidden:(BOOL)hidden duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
 
-- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion;
+- (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
 - (void)shake:(UIDirection)direction duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
 
-- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion;
+- (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
 - (void)burst:(CGFloat)scale duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
 
-- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animation:(void (^)(void))animation completion:(void (^)(BOOL finished))completion;
+- (void)blink:(UIColor *)color duration:(NSTimeInterval)duration delay:(NSTimeInterval)delay animations:(void (^)(void))animations completion:(void (^)(BOOL finished))completion;
 - (void)blink:(UIColor *)color duration:(NSTimeInterval)duration completion:(void (^)(BOOL finished))completion;
 
 - (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration damping:(CGFloat)damping velocity:(CGFloat)velocity options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
 - (void)animate:(CGAffineTransform)transform duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
+
+@property (assign, nonatomic, readonly) BOOL iPad;
+@property (assign, nonatomic, readonly) BOOL iPhone;
 
 @end

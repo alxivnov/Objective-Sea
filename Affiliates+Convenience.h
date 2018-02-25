@@ -113,6 +113,10 @@
 #define kEntityMix @"mix"
 #define kEntitySong @"song"
 
+#define kEntitySoftware @"software"
+#define kEntityIPadSoftware @"iPadSoftware"
+#define kEntityMacSoftware @"macSoftware"
+
 #define kAttributeMixTerm @"mixTerm"
 #define kAttributeGenreIndex @"genreIndex"
 #define kAttributeArtistTerm @"artistTerm"
@@ -121,7 +125,12 @@
 #define kAttributeRatingIndex @"ratingIndex"
 #define kAttributeSongTerm @"songTerm"
 
-+ (BOOL)lookup:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
-+ (BOOL)search:(NSString *)tearm handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
+#define kAttributeSoftwareDeveloper @"softwareDeveloper"
+
++ (BOOL)lookup:(NSDictionary *)parameters handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
++ (BOOL)lookupByID:(NSUInteger)ID handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
+
++ (BOOL)search:(NSDictionary *)parameters handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
++ (BOOL)searchForSong:(NSString *)term handler:(void(^)(NSArray<AFMediaItem *> *results))handler;
 
 @end

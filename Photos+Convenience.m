@@ -8,17 +8,6 @@
 
 #import "Photos+Convenience.h"
 
-@implementation PHFetchOptions (Convenience)
-
-+ (instancetype)fetchOptionsWithPredicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors {
-	PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
-	fetchOptions.predicate = predicate;
-	fetchOptions.sortDescriptors = sortDescriptors;
-	return fetchOptions;
-}
-
-@end
-
 @implementation PHFetchResult (Convenience)
 
 - (NSArray<PHAsset *> *)array {
@@ -30,22 +19,34 @@
 
 @end
 
-@implementation PHImageRequestOptions (Convenience)
+@implementation PHFetchOptions (Convenience)
 
-+ (instancetype)optionsWithNetworkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous progressHandler:(PHAssetImageProgressHandler)progressHandler {
-	PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
-	options.networkAccessAllowed = networkAccessAllowed;
-	options.synchronous = synchronous;
-	options.progressHandler = progressHandler;
-	return options;
++ (instancetype)fetchOptionsWithPredicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors {
+	PHFetchOptions *fetchOptions = [[PHFetchOptions alloc] init];
+	fetchOptions.predicate = predicate;
+	fetchOptions.sortDescriptors = sortDescriptors;
+	return fetchOptions;
 }
 
-+ (instancetype)optionsWithNetworkAccessAllowed:(BOOL)networkAccessAllowed synchronous:(BOOL)synchronous {
-	return [self optionsWithNetworkAccessAllowed:networkAccessAllowed synchronous:synchronous progressHandler:Nil];
+@end
+
+@implementation PHAssetCollection (Convenience)
+
++ (PHAssetCollection *)fetchAssetCollectionWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options {
+	return identifier ? [self fetchAssetCollectionsWithLocalIdentifiers:@[ identifier ] options:options].firstObject : Nil;
 }
 
-+ (instancetype)optionsWithNetworkAccessAllowed:(BOOL)networkAccessAllowed {
-	return [self optionsWithNetworkAccessAllowed:networkAccessAllowed synchronous:NO progressHandler:Nil];
++ (PHAssetCollection *)fetchAssetCollectionsWithALAssetGroupURL:(NSURL *)assetGroupURL options:(PHFetchOptions *)options {
+	return assetGroupURL ? [self fetchAssetCollectionsWithALAssetGroupURLs:@[ assetGroupURL ] options:options].firstObject : Nil;
+}
+
+@end
+
+@implementation PHAssetCollectionChangeRequest (Convenience)
+
+- (void)insertAssets:(NSArray *)assets {
+	if (assets.count)
+		[self insertAssets:assets atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, assets.count)]];
 }
 
 @end
@@ -53,8 +54,27 @@
 @implementation PHPhotoLibrary (Convenience)
 
 + (NSNumber *)authorization {
-	PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+	PHAuthorizationStatus status = [self authorizationStatus];
 	return status == PHAuthorizationStatusAuthorized ? @YES : status == PHAuthorizationStatusDenied ? @NO : Nil;
+}
+
++ (void)deleteAssets:(id<NSFastEnumeration>)assets completionHandler:(void(^)(BOOL success))completionHandler {
+	[[self sharedPhotoLibrary] performChanges:^{
+		[PHAssetChangeRequest deleteAssets:assets];
+	} completionHandler:^(BOOL success, NSError *error) {
+		if (completionHandler)
+			completionHandler(success);
+
+		[error log:@"deleteAssets:"];
+	}];
+}
+
++ (void)insertAssets:(id<NSFastEnumeration>)assets atIndexes:(NSIndexSet *)indexes intoAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler {
+	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+		[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection]  insertAssets:assets atIndexes:indexes];
+	} completionHandler:^(BOOL success, NSError * _Nullable error) {
+		[error log:@"insertAssets:"];
+	}];
 }
 
 @end
@@ -87,6 +107,43 @@
 	}];
 
 	return data;
+}
+
+@end
+
+@implementation NSIndexSet (UICollectionView)
+
+- (NSArray<NSIndexPath *> *)indexPathsInSection:(NSUInteger)section {
+	NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:self.count];
+	[self enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+		[indexPaths addObject:[NSIndexPath indexPathForItem:idx inSection:section]];
+	}];
+	return indexPaths;
+}
+
+@end
+
+@implementation UICollectionView (Photos)
+
+- (void)performFetchResultChanges:(PHFetchResultChangeDetails *)changes inSection:(NSUInteger)section {
+	if (changes.hasIncrementalChanges)
+		[self performBatchUpdates:^{
+			if (changes.insertedIndexes.count)
+				[self insertItemsAtIndexPaths:[changes.insertedIndexes indexPathsInSection:section]];
+
+			if (changes.removedIndexes.count)
+				[self deleteItemsAtIndexPaths:[changes.removedIndexes indexPathsInSection:section]];
+
+			if (changes.changedIndexes.count)
+				[self reloadItemsAtIndexPaths:[changes.changedIndexes indexPathsInSection:section]];
+
+			if (changes.hasMoves)
+				[changes enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
+					[self moveItemAtIndexPath:[NSIndexPath indexPathForItem:fromIndex inSection:section] toIndexPath:[NSIndexPath indexPathForItem:toIndex inSection:section]];
+				}];
+		} completion:Nil];
+	else
+		[self reloadData];
 }
 
 @end

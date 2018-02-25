@@ -26,6 +26,12 @@
 
 @end
 
+@interface UIContextualAction (Convenience)
+
++ (instancetype)contextualActionWithStyle:(UIContextualActionStyle)style title:(NSString *)title image:(UIImage *)image color:(UIColor *)color handler:(UIContextualActionHandler)handler;
+
+@end
+
 @interface NSIndexPath (Convenience)
 
 - (BOOL)isEqualToIndexPath:(NSIndexPath *)indexPath;
