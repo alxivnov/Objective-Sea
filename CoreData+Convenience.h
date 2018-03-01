@@ -16,6 +16,12 @@
 
 @end
 
+@interface NSManagedObject (Convenience)
+
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)context;
+
+@end
+
 @interface NSManagedObjectContext (Convenience)
 
 - (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors fetchLimit:(NSUInteger)fetchLimit;
@@ -29,7 +35,7 @@
 - (__kindof NSManagedObject *)executeFetchRequestWithEntityName:(NSString *)entityName firstObject:(NSString *)attributeName;
 - (__kindof NSManagedObject *)executeFetchRequestWithEntityName:(NSString *)entityName lastObject:(NSString *)attributeName;
 
-- (__kindof NSManagedObject *)insertObjectForName:(NSString *)name;
+- (__kindof NSManagedObject *)insertObjectForName:(NSString *)entityName;
 
 - (BOOL)save;
 

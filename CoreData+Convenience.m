@@ -12,24 +12,32 @@
 
 - (void)loadPersistentStores:(void (^)(NSPersistentStoreDescription *))block {
 	[self loadPersistentStoresWithCompletionHandler:^(NSPersistentStoreDescription *description, NSError *error) {
-		[error log:@"loadPersistentStoresWithCompletionHandler:"];
-
 		if (block)
 			block(description);
+
+		[error log:@"loadPersistentStoresWithCompletionHandler:"];
 	}];
+}
+
+@end
+
+@implementation NSManagedObject (Convenience)
+
++ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)context {
+	return [NSEntityDescription insertNewObjectForEntityForName:[self description] inManagedObjectContext:context];
 }
 
 @end
 
 @implementation NSManagedObjectContext (Convenience)
 
-- (NSManagedObject *)insertObjectForName:(NSString *)name {
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Block" inManagedObjectContext:self];
+- (NSManagedObject *)insertObjectForName:(NSString *)entityName {
+	return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:self];
 }
 
 - (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors fetchLimit:(NSUInteger)fetchLimit {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	fetchRequest.entity = [NSEntityDescription entityForName:@"Block" inManagedObjectContext:self];
+	fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self];
 	fetchRequest.predicate = predicate;
 	fetchRequest.sortDescriptors = sortDescriptors;
 	fetchRequest.fetchLimit = fetchLimit;
@@ -43,7 +51,7 @@
 	return fetchedObjects;
 }
 
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate  sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors{
+- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors{
 	return [self executeFetchRequestWithEntityName:entityName predicate:predicate sortDescriptors:sortDescriptors fetchLimit:0];
 }
 
@@ -65,7 +73,7 @@
 
 - (NSUInteger)countForFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	fetchRequest.entity = [NSEntityDescription entityForName:@"Block" inManagedObjectContext:self];
+	fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self];
 	fetchRequest.predicate = predicate;
 
 	NSError *error = Nil;

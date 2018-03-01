@@ -86,6 +86,9 @@
 	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
 		[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection]  insertAssets:assets atIndexes:indexes];
 	} completionHandler:^(BOOL success, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(success);
+		
 		[error log:@"insertAssets:"];
 	}];
 }
