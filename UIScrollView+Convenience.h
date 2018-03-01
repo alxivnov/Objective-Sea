@@ -1,5 +1,5 @@
 //
-//  UICenteredScrollView.h
+//  UICenteredScrollView+Convenience.h
 //  Poisk
 //
 //  Created by Alexander Ivanov on 15.06.17.
@@ -9,6 +9,13 @@
 #import <UIKit/UIKit.h>
 
 #define UICenteredScrollViewTag 'scrl'
+
+@interface UIScrollView (Convenience)
+
+@property (assign, nonatomic, readonly) CGFloat fillZoom;
+@property (assign, nonatomic, readonly) CGFloat fitZoom;
+
+@end
 
 @interface UICenteredScrollView : UIScrollView
 

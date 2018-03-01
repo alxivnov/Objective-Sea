@@ -1,12 +1,24 @@
 //
-//  UICenteredScrollView.m
+//  UIScrollView+Convenience.m
 //  Poisk
 //
 //  Created by Alexander Ivanov on 15.06.17.
 //  Copyright © 2017 Pine 9. All rights reserved.
 //
 
-#import "UICenteredScrollView.h"
+#import "UIScrollView+Convenience.h"
+
+@implementation UIScrollView (Convenience)
+
+- (CGFloat)fillZoom {
+	return fmax(self.bounds.size.width / self.contentSize.width, self.bounds.size.height / self.contentSize.height);
+}
+
+- (CGFloat)fitZoom {
+	return fmin(self.bounds.size.width / self.contentSize.width, self.bounds.size.height / self.contentSize.height);
+}
+
+@end
 
 @implementation UICenteredScrollView
 

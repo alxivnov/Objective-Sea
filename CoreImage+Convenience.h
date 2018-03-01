@@ -22,23 +22,3 @@
 - (UIImage *)filterWithName:(NSString *)name;
 
 @end
-
-#if __has_include(<Vision/Vision.h>)
-
-@import Vision;
-
-#import "NSObject+Convenience.h"
-
-#define VNImageOptionReportCharacterBoxes @"VNImageOptionReportCharacterBoxes"
-
-@interface UIImage (Vision)
-
-- (VNImageRequestHandler *)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options handler:(void(^)(NSArray<VNTextObservation *> *results))handler;
-
-- (CGRect)boundsForObservation:(VNDetectedObjectObservation *)observation;
-
-- (UIImage *)imageWithObservation:(VNDetectedObjectObservation *)observation;
-
-@end
-
-#endif

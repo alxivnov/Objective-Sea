@@ -69,6 +69,19 @@
 	}];
 }
 
++ (void)createAssetCollectionWithTitle:(NSString *)title completionHandler:(void(^)(NSString *localIdentifier))completionHandler {
+	__block NSString *localIdentifier = Nil;
+
+	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+		localIdentifier = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:title].placeholderForCreatedAssetCollection.localIdentifier;
+	} completionHandler:^(BOOL success, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(success ? localIdentifier : Nil);
+		
+		[error log:@"creationRequestForAssetCollectionWithTitle:"];
+	}];
+}
+
 + (void)insertAssets:(id<NSFastEnumeration>)assets atIndexes:(NSIndexSet *)indexes intoAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler {
 	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
 		[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection]  insertAssets:assets atIndexes:indexes];

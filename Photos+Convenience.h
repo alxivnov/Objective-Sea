@@ -44,6 +44,8 @@
 
 + (void)insertAssets:(id<NSFastEnumeration>)assets atIndexes:(NSIndexSet *)indexes intoAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler;
 
++ (void)createAssetCollectionWithTitle:(NSString *)title completionHandler:(void(^)(NSString *localIdentifier))completionHandler;
+
 @end
 
 @interface PHImageManager (Convenience)
