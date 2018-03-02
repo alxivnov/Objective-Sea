@@ -10,6 +10,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "NSObject+Convenience.h"
+
 @interface NSAttributedString (Convenience)
 
 - (NSAttributedString *)font:(UIFont *)font forRange:(NSRange)range;
@@ -25,5 +27,8 @@
 
 + (instancetype)attributedStringWithString:(NSString *)str attributes:(NSDictionary<NSString *, id> *)attrs;
 + (instancetype)attributedStringWithString:(NSString *)str;
+
++ (instancetype)attributedStringWithHTMLString:(NSString *)htmlString encoding:(NSStringEncoding)encoding;
++ (instancetype)attributedStringWithHTMLString:(NSString *)htmlString;
 
 @end

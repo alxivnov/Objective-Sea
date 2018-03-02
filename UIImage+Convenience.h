@@ -36,6 +36,8 @@ typedef enum : NSUInteger {
 
 
 
+- (UIImage *)drawImage:(void(^)(CGContextRef context))draw;
+
 - (UIImage *)imageWithBackground:(UIColor *)color;
 - (UIImage *)imageWithTintColor:(UIColor *)color;
 

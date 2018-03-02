@@ -47,6 +47,17 @@
 
 
 
+- (UIImage *)drawImage:(void(^)(CGContextRef context))draw {
+	CGRect rect = CGRectMakeWithSize(self.size);
+
+	return [UIImage imageWithSize:self.size opaque:NO scale:self.scale draw:^(CGContextRef context) {
+		[self drawInRect:rect];
+
+		if (draw)
+			draw(UIGraphicsGetCurrentContext());
+	}];
+}
+
 - (UIImage *)imageWithBackground:(UIColor *)color {
 	CGRect rect = CGRectMakeWithSize(self.size);
 

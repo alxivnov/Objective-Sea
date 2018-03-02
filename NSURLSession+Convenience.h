@@ -16,6 +16,7 @@
 #import "NSObject+Convenience.h"
 #import "NSString+Convenience.h"
 #import "NSURL+Convenience.h"
+#import "NSXMLDictionary.h"
 
 @interface NSURLSession (Convenience)
 
@@ -78,7 +79,8 @@
 @interface NSURL (NSURLRequest)
 
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *data, NSURLResponse *response))completion;
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *, NSURLResponse *response))completion;
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id json, NSURLResponse *response))completion;
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *, NSURLResponse *response))completion; // FORM
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id json, NSURLResponse *response))completion; // JSON
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method contract:(NSString *)contract action:(NSString *)action parameters:(NSDictionary *)parameters completion:(void(^)(id, NSURLResponse *))completion; // SOAP
 
 @end

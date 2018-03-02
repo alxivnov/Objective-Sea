@@ -253,6 +253,7 @@ static id _instance = Nil;
 	return task;
 }
 
+// FORM
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *, NSURLResponse *))completion {
 	NSMutableString *body = Nil;
 
@@ -283,6 +284,7 @@ static id _instance = Nil;
 	}];
 }
 
+// JSON
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id, NSURLResponse *))completion {
 	if (json) {
 		NSMutableDictionary *dictionary = [header mutableCopy] ?: [NSMutableDictionary dictionaryWithCapacity:header.count + 1];
@@ -297,5 +299,33 @@ static id _instance = Nil;
 			completion(object, response);
 	}];
 }
+
+#if __has_include("NSXMLDictionary.h")
+// SOAP
+- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method contract:(NSString *)contract action:(NSString *)action parameters:(NSDictionary *)parameters completion:(void(^)(id, NSURLResponse *))completion {
+	NSMutableString *params = [NSMutableString string];
+	for (NSObject *key in parameters)
+		[params appendFormat:@"<%@>%@</%@>", key, parameters[key], key];
+
+	NSString *body = [NSString stringWithFormat:@"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"><s:Body><%@ xmlns=\"http://tempuri.org/\">%@</%@></s:Body></s:Envelope>", action, params, action];
+
+	NSDictionary *header = @{ @"soapAction" : [NSString stringWithFormat:@"http://tempuri.org/%@/%@", contract, method], @"Content-Type" : @"text/xml; charset=utf-8", @"Content-Length" : str(body.length) };
+
+	return [self sendRequestWithMethod:method header:header body:[body dataUsingEncoding:NSUTF8StringEncoding] completion:^(NSData *data, NSURLResponse *response) {
+		NSDictionary *dictionary = [NSXMLDictionary parseData:data];
+		NSDictionary *sBody = dictionary[@"s:Body"];
+
+		NSString *sFault = sBody[@"s:Fault"];
+		if (sFault)
+			NSLog(@"s:Fault: %@", sFault);
+
+		NSDictionary *sResponse = sBody[[NSString stringWithFormat:@"%@Response", action]];
+		id sResult = sResponse[[NSString stringWithFormat:@"%@Result", action]];
+
+		if (completion)
+			completion(sResult, response);
+	}];
+}
+#endif
 
 @end

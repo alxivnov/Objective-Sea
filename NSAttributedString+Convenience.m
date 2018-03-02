@@ -64,4 +64,20 @@
 	return str ? [[self alloc] initWithString:str] : Nil;
 }
 
++ (instancetype)attributedStringWithHTMLString:(NSString *)htmlString encoding:(NSStringEncoding)encoding {
+	NSData *data = [htmlString dataUsingEncoding:encoding];
+
+	NSError *error = Nil;
+
+	NSAttributedString *string = [[NSAttributedString alloc] initWithData:data options:@{ NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType, NSCharacterEncodingDocumentAttribute : @(encoding) } documentAttributes:Nil error:&error];
+
+	[error log:@"initWithData:"];
+
+	return string;
+}
+
++ (instancetype)attributedStringWithHTMLString:(NSString *)htmlString {
+	return [self attributedStringWithHTMLString:htmlString encoding:NSUTF8StringEncoding];
+}
+
 @end

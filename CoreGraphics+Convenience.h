@@ -32,9 +32,9 @@
 
 #define CGRectRotate(rect) CGRectMake(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width)
 
-#define CGPointScale(point, scale) CGPointMake(point.x * scale, point.y * scale)
-#define CGSizeScale(size, scale) CGSizeMake(size.height * scale, size.width * scale)
-#define CGRectScale(rect, scale) CGRectMake(rect.origin.x * scale, rect.origin.y * scale, rect.size.height * scale, rect.size.width * scale)
+#define CGPointScale(point, dx, dy) CGPointMake(point.x * dx, point.y * dy)
+#define CGSizeScale(size, dx, dy) CGSizeMake(size.height * dx, size.width * dy)
+#define CGRectScale(rect, dx, dy) CGRectMake(rect.origin.x * dx, rect.origin.y * dy, rect.size.width * dx, rect.size.height * dy)
 
 #define CGRectSetOrigin(rect, origin) ({ CGPoint __origin = (origin); CGRectMake(__origin.x, __origin.y, rect.size.width, rect.size.height); })
 #define CGRectSetSize(rect, size) ({ CGSize __size = (size); CGRectMake(rect.origin.x, rect.origin.y, __size.width, __size.height); })
