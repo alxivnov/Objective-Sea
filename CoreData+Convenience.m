@@ -23,13 +23,75 @@
 
 @implementation NSManagedObject (Convenience)
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)context {
++ (NSString *)entityName {
+	return [self description];
+}
+
++ (instancetype)insertInContext:(NSManagedObjectContext *)context {
 	return [NSEntityDescription insertNewObjectForEntityForName:[self description] inManagedObjectContext:context];
+}
+
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors fetchLimit:(NSUInteger)fetchLimit {
+	return [context executeFetchRequestWithEntityName:[self entityName] predicate:predicate sortDescriptors:sortDescriptors fetchLimit:fetchLimit];
+}
+
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors {
+	return [context executeFetchRequestWithEntityName:[self entityName] predicate:predicate sortDescriptors:sortDescriptors fetchLimit:0];
+}
+
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate {
+	return [context executeFetchRequestWithEntityName:[self entityName] predicate:predicate sortDescriptors:Nil fetchLimit:0];
+}
+
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicateWithFormat:(NSString *)format, ... {
+	va_list args;
+
+	va_start(args, format);
+
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:format arguments:args];
+
+	va_end(args);
+
+	return [context executeFetchRequestWithEntityName:[self entityName] predicate:predicate sortDescriptors:Nil fetchLimit:0];
+}
+
++ (__kindof NSManagedObject *)executeFetchRequestInContext:(NSManagedObjectContext *)context firstObject:(NSString *)attributeName {
+	return [context executeFetchRequestWithEntityName:[self entityName] predicate:Nil sortDescriptors:@[ [[NSSortDescriptor alloc] initWithKey:attributeName ascending:YES] ] fetchLimit:1].firstObject;
+}
+
++ (__kindof NSManagedObject *)executeFetchRequestInContext:(NSManagedObjectContext *)context lastObject:(NSString *)attributeName {
+	return [context executeFetchRequestWithEntityName:[self entityName] predicate:Nil sortDescriptors:@[ [[NSSortDescriptor alloc] initWithKey:attributeName ascending:NO] ] fetchLimit:1].lastObject;
+}
+
++ (NSUInteger)countForFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate {
+	return [context countForFetchRequestWithEntityName:[self entityName] predicate:predicate];
+}
+
++ (NSUInteger)countForFetchRequestInContext:(NSManagedObjectContext *)context predicateWithFormat:(NSString *)format, ... {
+	va_list args;
+
+	va_start(args, format);
+
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:format arguments:args];
+
+	va_end(args);
+
+	return [context countForFetchRequestWithEntityName:[self entityName] predicate:predicate];
 }
 
 @end
 
 @implementation NSManagedObjectContext (Convenience)
+
+- (BOOL)save {
+	NSError *error = Nil;
+
+	BOOL save = [self save:&error];
+
+	[error log:@"save:"];
+
+	return save;
+}
 
 - (NSManagedObject *)insertObjectForName:(NSString *)entityName {
 	return [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:self];
@@ -51,26 +113,6 @@
 	return fetchedObjects;
 }
 
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors{
-	return [self executeFetchRequestWithEntityName:entityName predicate:predicate sortDescriptors:sortDescriptors fetchLimit:0];
-}
-
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate {
-	return [self executeFetchRequestWithEntityName:entityName predicate:predicate sortDescriptors:Nil fetchLimit:0];
-}
-
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicateWithFormat:(NSString *)format, ... {
-	va_list args;
-
-	va_start(args, format);
-
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:format arguments:args];
-
-	va_end(args);
-
-	return [self executeFetchRequestWithEntityName:entityName predicate:predicate];
-}
-
 - (NSUInteger)countForFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	fetchRequest.entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:self];
@@ -83,36 +125,6 @@
 	[error log:@"countForFetchRequest:"];
 
 	return count;
-}
-
-- (NSUInteger)countForFetchRequestWithEntityName:(NSString *)entityName predicateWithFormat:(NSString *)format, ... {
-	va_list args;
-
-	va_start(args, format);
-
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:format arguments:args];
-
-	va_end(args);
-
-	return [self countForFetchRequestWithEntityName:entityName predicate:predicate];
-}
-
-- (NSManagedObject *)executeFetchRequestWithEntityName:(NSString *)entityName firstObject:(NSString *)attributeName {
-	return [self executeFetchRequestWithEntityName:entityName predicate:Nil sortDescriptors:@[ [[NSSortDescriptor alloc] initWithKey:attributeName ascending:YES] ] fetchLimit:1].firstObject;
-}
-
-- (NSManagedObject *)executeFetchRequestWithEntityName:(NSString *)entityName lastObject:(NSString *)attributeName {
-	return [self executeFetchRequestWithEntityName:entityName predicate:Nil sortDescriptors:@[ [[NSSortDescriptor alloc] initWithKey:attributeName ascending:NO] ] fetchLimit:1].lastObject;
-}
-
-- (BOOL)save {
-	NSError *error = Nil;
-
-	BOOL save = [self save:&error];
-
-	[error log:@"save:"];
-
-	return save;
 }
 
 @end

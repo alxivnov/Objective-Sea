@@ -18,25 +18,29 @@
 
 @interface NSManagedObject (Convenience)
 
-+ (instancetype)insertInManagedObjectContext:(NSManagedObjectContext *)context;
++ (instancetype)insertInContext:(NSManagedObjectContext *)context;
+
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors fetchLimit:(NSUInteger)fetchLimit;
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors;
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate;
++ (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicateWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3);
+
++ (__kindof NSManagedObject *)executeFetchRequestInContext:(NSManagedObjectContext *)context firstObject:(NSString *)attributeName;
++ (__kindof NSManagedObject *)executeFetchRequestInContext:(NSManagedObjectContext *)context lastObject:(NSString *)attributeName;
+
++ (NSUInteger)countForFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate;
++ (NSUInteger)countForFetchRequestInContext:(NSManagedObjectContext *)context predicateWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3);
 
 @end
 
 @interface NSManagedObjectContext (Convenience)
 
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors fetchLimit:(NSUInteger)fetchLimit;
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors;
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate;
-- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicateWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3);
-
-- (NSUInteger)countForFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate;
-- (NSUInteger)countForFetchRequestWithEntityName:(NSString *)entityName predicateWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3);
-
-- (__kindof NSManagedObject *)executeFetchRequestWithEntityName:(NSString *)entityName firstObject:(NSString *)attributeName;
-- (__kindof NSManagedObject *)executeFetchRequestWithEntityName:(NSString *)entityName lastObject:(NSString *)attributeName;
+- (BOOL)save;
 
 - (__kindof NSManagedObject *)insertObjectForName:(NSString *)entityName;
 
-- (BOOL)save;
+- (NSArray *)executeFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate sortDescriptors:(NSArray<NSSortDescriptor *> *)sortDescriptors fetchLimit:(NSUInteger)fetchLimit;
+
+- (NSUInteger)countForFetchRequestWithEntityName:(NSString *)entityName predicate:(NSPredicate *)predicate;
 
 @end
