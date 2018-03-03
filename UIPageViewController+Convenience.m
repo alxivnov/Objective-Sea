@@ -33,8 +33,20 @@
 	return NSNotFound;
 }
 
-- (NSUInteger)initialIndex {
-	return 0;
+- (NSUInteger)numberOfPages {
+	return [self respondsToSelector:@selector(presentationCountForPageViewController:)] ? [self presentationCountForPageViewController:self] : NSNotFound;
+}
+
+- (NSUInteger)currentPage {
+	return [self indexForViewController:self.viewControllers.firstObject];
+}
+
+- (void)setCurrentPage:(NSUInteger)currentPage animated:(BOOL)animated completion:(void (^)(BOOL))completion {
+	[self setViewController:[self viewControllerForIndex:currentPage] direction:self.currentPage < currentPage ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse animated:animated completion:completion];
+}
+
+- (void)setCurrentPage:(NSUInteger)currentPage {
+	[self setCurrentPage:currentPage animated:NO completion:Nil];
 }
 
 - (void)viewDidLoad {
@@ -44,7 +56,7 @@
 	self.dataSource = self;
 	self.delegate = self;
 
-	[self setViewController:[self viewControllerForIndex:[self initialIndex]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:Nil];
+	[self setViewController:[self viewControllerForIndex:[self currentPage]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:Nil];
 	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
 }
 
@@ -63,6 +75,14 @@
 	NSUInteger index = [self indexForViewController:viewController];
 
 	return [self viewControllerForIndex:index - 1];
+}
+/*
+- (NSInteger)presentationCountForPageViewController:(UIPageViewController *)pageViewController {
+	return self.numberOfPages;
+}
+*/
+- (NSInteger)presentationIndexForPageViewController:(UIPageViewController *)pageViewController {
+	return [self indexForViewController:pageViewController.viewControllers.firstObject];
 }
 
 - (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed {

@@ -58,6 +58,17 @@
 	return status == PHAuthorizationStatusAuthorized ? @YES : status == PHAuthorizationStatusDenied ? @NO : Nil;
 }
 
++ (void)toggleFavoriteOnAsset:(PHAsset *)asset completionHandler:(void(^)(BOOL success))completionHandler {
+	[[self sharedPhotoLibrary] performChanges:^{
+		[PHAssetChangeRequest changeRequestForAsset:asset].favorite = !asset.isFavorite;
+	} completionHandler:^(BOOL success, NSError *error) {
+		if (completionHandler)
+			completionHandler(success);
+
+		[error log:@"toggleFavoriteOnAsset:"];
+	}];
+}
+
 + (void)deleteAssets:(id<NSFastEnumeration>)assets completionHandler:(void(^)(BOOL success))completionHandler {
 	[[self sharedPhotoLibrary] performChanges:^{
 		[PHAssetChangeRequest deleteAssets:assets];
@@ -77,7 +88,7 @@
 	} completionHandler:^(BOOL success, NSError * _Nullable error) {
 		if (completionHandler)
 			completionHandler(success ? localIdentifier : Nil);
-		
+
 		[error log:@"creationRequestForAssetCollectionWithTitle:"];
 	}];
 }
@@ -90,6 +101,17 @@
 			completionHandler(success);
 		
 		[error log:@"insertAssets:"];
+	}];
+}
+
++ (void)removeAssets:(NSArray *)assets fromAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler {
+	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+		[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection] removeAssets:assets];
+	} completionHandler:^(BOOL success, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(success);
+
+		[error log:@"removeAssets:"];
 	}];
 }
 

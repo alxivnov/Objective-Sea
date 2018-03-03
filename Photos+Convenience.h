@@ -40,11 +40,15 @@
 
 + (NSNumber *)authorization;
 
++ (void)toggleFavoriteOnAsset:(PHAsset *)asset completionHandler:(void(^)(BOOL success))completionHandler;
+
 + (void)deleteAssets:(id<NSFastEnumeration>)assets completionHandler:(void(^)(BOOL success))completionHandler;
+
++ (void)createAssetCollectionWithTitle:(NSString *)title completionHandler:(void(^)(NSString *localIdentifier))completionHandler;
 
 + (void)insertAssets:(id<NSFastEnumeration>)assets atIndexes:(NSIndexSet *)indexes intoAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler;
 
-+ (void)createAssetCollectionWithTitle:(NSString *)title completionHandler:(void(^)(NSString *localIdentifier))completionHandler;
++ (void)removeAssets:(NSArray *)assets fromAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler;
 
 @end
 

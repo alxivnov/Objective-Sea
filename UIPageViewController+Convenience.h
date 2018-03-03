@@ -10,16 +10,17 @@
 
 @interface UIPageViewController (Convenience)
 
-- (void)setViewController:(UIViewController *)viewController direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated completion:(void (^)(BOOL))completion;
+- (void)setViewController:(UIViewController *)viewController direction:(UIPageViewControllerNavigationDirection)direction animated:(BOOL)animated completion:(void (^)(BOOL finished))completion;
 
 @end
 
 @interface UIPagingController : UIPageViewController <UIPageViewControllerDataSource, UIPageViewControllerDelegate>
 
 - (UIViewController *)viewControllerForIndex:(NSUInteger)index;
-
 - (NSUInteger)indexForViewController:(UIViewController *)viewController;
 
-- (NSUInteger)initialIndex;
+@property (assign, nonatomic, readonly) NSUInteger numberOfPages;
+@property (assign, nonatomic) NSUInteger currentPage;
+- (void)setCurrentPage:(NSUInteger)currentPage animated:(BOOL)animated completion:(void (^)(BOOL finished))completion;
 
 @end
