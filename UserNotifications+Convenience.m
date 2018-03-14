@@ -29,7 +29,7 @@
 		if (settings.authorization.boolValue) {
 			if (completionHandler)
 				completionHandler(@YES);
-		} else if (settings.authorization) {
+		} else if (settings.authorization != Nil) {
 			[UIApplication openSettings];
 
 			if (completionHandler)
@@ -222,12 +222,13 @@
 @implementation UNNotificationContent (Convenience)
 
 + (instancetype)contentWithTitle:(NSString *)title subtitle:(NSString *)subtitle body:(NSString *)body badge:(NSNumber *)badge sound:(NSString *)sound attachments:(NSArray<NSURL *> *)attachments userInfo:(NSDictionary *)userInfo categoryIdentifier:(NSString *)categoryIdentifier {
-	if (!body && !badge && !sound)
+	if (!body && badge == Nil && !sound)
 		return Nil;
 
 	UNMutableNotificationContent *content = [UNMutableNotificationContent new];
 	content.title = title;
-	content.subtitle = subtitle;
+	if (subtitle)
+		content.subtitle = subtitle;
 	if (body)
 		content.body = body;
 	content.badge = badge;
@@ -239,8 +240,10 @@
 	content.attachments = [attachments map:^id(NSURL *obj) {
 		return [UNNotificationAttachment attachmentWithURL:obj];
 	}];
-	content.userInfo = userInfo;
-	content.categoryIdentifier = categoryIdentifier;
+	if (userInfo)
+		content.userInfo = userInfo;
+	if (categoryIdentifier)
+		content.categoryIdentifier = categoryIdentifier;
 
 	return content;
 }

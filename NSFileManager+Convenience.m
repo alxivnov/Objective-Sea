@@ -212,3 +212,41 @@
 }
 
 @end
+
+@implementation NSArray (Write)
+
+- (NSArray *)removeNull {
+	NSMutableArray *arr = [self mutableCopy];
+	for (NSInteger idx = arr.count - 1; idx >= 0; idx--)
+		if (arr[idx] == [NSNull null])
+			[arr removeObjectAtIndex:idx];
+	return arr;
+}
+
+- (BOOL)writeToURL:(NSURL *)url {
+	NSError *error = Nil;
+	BOOL write = [self writeToURL:url error:&error];
+	[error log:@"writeToURL:"];
+	return write;
+}
+
+@end
+
+@implementation NSDictionary (Write)
+
+- (NSDictionary *)removeNull {
+	NSMutableDictionary *dic = [self mutableCopy];
+	for (id<NSCopying> key in dic.allKeys)
+		if (dic[key] == [NSNull null])
+			dic[key] = Nil;
+	return dic;
+}
+
+- (BOOL)writeToURL:(NSURL *)url {
+	NSError *error = Nil;
+	BOOL write = [self writeToURL:url error:&error];
+	[error log:@"writeToURL:"];
+	return write;
+}
+
+@end

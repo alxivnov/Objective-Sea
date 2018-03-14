@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CommonCrypto+Convenience.h"
-#import "Dispatch+Convenience.h"
+//#import "Dispatch+Convenience.h"
 //#import "LocalAuthentication+Convenience.h"
 #import "NSData+Convenience.h"
 #import "NSFileManager+Convenience.h"
@@ -45,9 +45,9 @@
 
 - (void)download:(NSURL *)url priority:(float)priority handler:(void (^)(NSURL *))handler;
 - (void)download:(NSURL *)url handler:(void (^)(NSURL *url))handler;
-- (void)cache:(void (^)(NSURL *url))handler;
-
 - (BOOL)download:(NSURL *)url;
+
+- (void)cache:(BOOL)read handler:(void (^)(NSURL *url))handler;
 - (NSURL *)cache;
 
 @end

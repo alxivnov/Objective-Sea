@@ -61,3 +61,19 @@
 - (void)clearDirectory;
 
 @end
+
+@interface NSArray (Write)
+
+- (NSArray *)removeNull;
+
+- (BOOL)writeToURL:(NSURL *)url;
+
+@end
+
+@interface NSDictionary (Write)
+
+- (NSDictionary *)removeNull;
+
+- (BOOL)writeToURL:(NSURL *)url;
+
+@end

@@ -104,9 +104,9 @@ static id _instance = Nil;
 			[error log:@"dataTaskWithURL:"];
 		}];
 	else if (handler)
-		[GCD global:^{
+//		[GCD global:^{
 			handler(Nil);
-		}];
+//		}];
 }
 
 - (void)download:(NSURL *)url priority:(float)priority handler:(void (^)(NSURL *))handler {
@@ -134,24 +134,13 @@ static id _instance = Nil;
 			[error log:@"dataWithContentsOfURL:"];
 		}];
 */	else if (handler)
-		 [GCD global:^{
+//		 [GCD global:^{
 			 handler(Nil);
-		 }];
+//		 }];
 }
 
 - (void)download:(NSURL *)url handler:(void (^)(NSURL *))handler {
 	[self download:url priority:NSURLSessionTaskPriorityDefault handler:handler];
-}
-
-- (void)cache:(void (^)(NSURL *))handler {
-	NSURL *url = self.isWebAddress ? URL_CACHE(self) : self;
-
-	if (self.isWebAddress && !url.isExistingFile)
-		[self download:url handler:handler];
-	else if (handler)
-		[GCD global:^{
-			handler(url);
-		}];
 }
 
 - (BOOL)download:(NSURL *)url {
@@ -163,6 +152,20 @@ static id _instance = Nil;
 	[error log:@"dataWithContentsOfURL:"];
 	BOOL written = [data writeToURL:url ? url : URL_CACHE(self) atomically:YES];
 	return written;
+}
+
+- (void)cache:(BOOL)read handler:(void (^)(NSURL *))handler {
+	NSURL *url = self.isWebAddress ? URL_CACHE(self) : self;
+
+	BOOL download = self.isWebAddress && !url.isExistingFile;
+
+	if (!download || read)
+//		[GCD global:^{
+			handler(url);
+//		}];
+
+	if (download)
+		[self download:url handler:handler];
 }
 
 - (NSURL *)cache {
