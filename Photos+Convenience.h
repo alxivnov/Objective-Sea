@@ -23,6 +23,12 @@
 
 @end
 
+@interface PHAsset (Convenience)
+
++ (PHFetchResult<PHAsset *> *)fetchAssetsWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options;
+
+@end
+
 @interface PHAssetCollection (Convenience)
 
 + (PHAssetCollection *)fetchAssetCollectionWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options;
@@ -39,6 +45,8 @@
 @interface PHPhotoLibrary (Convenience)
 
 + (NSNumber *)authorization;
+
++ (void)createAssetWithImage:(UIImage *)image completionHandler:(void(^)(NSString *localIdentifier))completionHandler;
 
 + (void)toggleFavoriteOnAsset:(PHAsset *)asset completionHandler:(void(^)(BOOL success))completionHandler;
 

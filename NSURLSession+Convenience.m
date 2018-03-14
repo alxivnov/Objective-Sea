@@ -168,6 +168,10 @@ static id _instance = Nil;
 		[self download:url handler:handler];
 }
 
+- (void)cache:(void (^)(NSURL *))handler {
+	[self cache:NO handler:handler];
+}
+
 - (NSURL *)cache {
 	NSURL *url = self.isWebAddress ? URL_CACHE(self) : self;
 

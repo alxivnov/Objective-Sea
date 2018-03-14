@@ -8,8 +8,8 @@
 
 #import "UIImagePickerController+Convenience.h"
 
-@interface UIImagePicker ()
-@property (nonatomic, copy) void (^completion)(NSDictionary *info);
+@interface UIImagePicker : UIImagePickerController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (nonatomic, copy) void (^completion)(UIImage *image, NSDictionary *info);
 @end
 
 @implementation UIImagePicker
@@ -25,26 +25,34 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	[self dismissViewControllerAnimated:YES completion:^{
+		UIImage *image = Nil;
+
+		if (info[UIImagePickerControllerMediaURL])
+			image = [UIImage imageWithContentsOfURL:info[UIImagePickerControllerMediaURL]];
+		else
+			image = info[UIImagePickerControllerEditedImage] ?: info[UIImagePickerControllerOriginalImage];
+
 		if (self.completion)
-			self.completion(info);
+			self.completion(image, info);
 	}];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
 	[self dismissViewControllerAnimated:YES completion:^{
 		if (self.completion)
-			self.completion(Nil);
+			self.completion(Nil, Nil);
 	}];
 }
 
-+ (instancetype)imagePicker:(void (^)(NSDictionary *info))completion sourceType:(UIImagePickerControllerSourceType)sourceType {
++ (instancetype)imagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType mediaTypes:(NSArray<NSString *> *)mediaTypes completion:(void (^)(UIImage *image, NSDictionary *info))completion {
 	if (![UIImagePickerController isSourceTypeAvailable:sourceType])
 		return Nil;
 
 	UIImagePicker *instance = [UIImagePicker new];
-	instance.completion = completion;
 	instance.sourceType = sourceType;
-	instance.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:sourceType];
+	if (mediaTypes)
+		instance.mediaTypes = mediaTypes;// ?: [UIImagePickerController availableMediaTypesForSourceType:sourceType];
+	instance.completion = completion;
 	return instance;
 }
 
@@ -52,44 +60,27 @@
 
 @implementation UIViewController (UIImagePickerController)
 
-- (instancetype)presentImagePicker:(void (^)(UIImage *image))completion sourceType:(UIImagePickerControllerSourceType)sourceType from:(id)source {
-	UIImagePicker *picker = [UIImagePicker imagePicker:^(NSDictionary *info) {
-		UIImage *image = Nil;
-
-		if (info[UIImagePickerControllerMediaURL])
-			image = [UIImage imageWithContentsOfURL:info[UIImagePickerControllerMediaURL]];
-		else if (info[UIImagePickerControllerEditedImage])
-			image = info[UIImagePickerControllerEditedImage];
-		else
-			image = info[UIImagePickerControllerOriginalImage];
-
+- (instancetype)presentImagePickerWithSourceType:(UIImagePickerControllerSourceType)sourceType mediaTypes:(NSArray<NSString *> *)mediaTypes from:(id)from completion:(void (^)(UIImage *image))completion {
+	UIImagePicker *picker = [UIImagePicker imagePickerWithSourceType:sourceType mediaTypes:mediaTypes completion:^(UIImage *image, NSDictionary *info) {
 		if (completion)
 			completion(image);
-	} sourceType:sourceType];
+	}];
 
 	if (self.iPhone || sourceType == UIImagePickerControllerSourceTypeCamera)
 		[self presentViewController:picker animated:YES completion:Nil];
 	else
-		[self popoverViewController:picker from:source];
+		[self popoverViewController:picker from:from];
 
 	return picker;
 }
 
-- (instancetype)presentImagePicker:(void (^)(UIImage *image))completion sourceType:(UIImagePickerControllerSourceType)sourceType fromView:(UIView *)view {
-	return [self presentImagePicker:completion sourceType:sourceType from:view];
-}
-
-- (instancetype)presentImagePicker:(void (^)(UIImage *image))completion sourceType:(UIImagePickerControllerSourceType)sourceType fromButton:(UIBarButtonItem *)button {
-	return [self presentImagePicker:completion sourceType:sourceType from:button];
-}
-
-- (void)presentImagePicker:(void (^)(UIImage *image))completion sourceTypes:(NSArray *)sourceTypes from:(id)source {
-	sourceTypes = [sourceTypes query:^BOOL(id item) {
-		return [UIImagePickerController isSourceTypeAvailable:[item integerValue]];
+- (void)presentImagePickerWithSourceTypes:(NSArray<NSNumber *> *)sourceTypes mediaTypes:(NSArray<NSString *> *)mediaTypes from:(id)from completion:(void (^)(UIImage *image))completion {
+	sourceTypes = [sourceTypes query:^BOOL(NSNumber *obj) {
+		return [UIImagePickerController isSourceTypeAvailable:obj.integerValue];
 	}];
 
 	if (sourceTypes.count == 1)
-		[self presentImagePicker:completion sourceType:[sourceTypes.firstObject integerValue] from:source];
+		[self presentImagePickerWithSourceType:sourceTypes.firstObject.integerValue mediaTypes:mediaTypes from:from completion:completion];
 	else
 		[self presentAlertControllerWithTitle:Nil message:Nil preferredStyle:UIAlertControllerStyleActionSheet cancelActionTitle:NSLocalizedString(@"Cancel", @"Cancel button title in Image Picker.") destructiveActionTitle:Nil otherActionTitles:[sourceTypes map:^id(id item) {
 			switch ([item integerValue]) {
@@ -102,18 +93,10 @@
 				default:
 					return Nil;
 			}
-		}] from:source configuration:Nil completion:^(UIAlertController *instance, NSInteger index) {
+		}] from:from configuration:Nil completion:^(UIAlertController *instance, NSInteger index) {
 			if (index >= 0 && index < sourceTypes.count)
-				[self presentImagePicker:completion sourceType:[sourceTypes[index] integerValue] from:source];
+				[self presentImagePickerWithSourceType:sourceTypes[index].integerValue mediaTypes:mediaTypes from:from completion:completion];
 		}];
-}
-
-- (void)presentImagePicker:(void (^)(UIImage *image))completion sourceTypes:(NSArray *)sourceTypes fromView:(UIView *)view {
-	[self presentImagePicker:completion sourceTypes:sourceTypes from:view];
-}
-
-- (void)presentImagePicker:(void (^)(UIImage *image))completion sourceTypes:(NSArray *)sourceTypes fromButton:(UIBarButtonItem *)button {
-	[self presentImagePicker:completion sourceTypes:sourceTypes from:button];
 }
 
 @end

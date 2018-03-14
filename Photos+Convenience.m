@@ -30,6 +30,14 @@
 
 @end
 
+@implementation PHAsset (Convenience)
+
++ (PHFetchResult<PHAsset *> *)fetchAssetsWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options {
+	return identifier ? [self fetchAssetsWithLocalIdentifiers:@[ identifier ] options:options] : Nil;
+}
+
+@end
+
 @implementation PHAssetCollection (Convenience)
 
 + (PHAssetCollection *)fetchAssetCollectionWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options {
@@ -56,6 +64,19 @@
 + (NSNumber *)authorization {
 	PHAuthorizationStatus status = [self authorizationStatus];
 	return status == PHAuthorizationStatusAuthorized ? @YES : status == PHAuthorizationStatusDenied ? @NO : Nil;
+}
+
++ (void)createAssetWithImage:(UIImage *)image completionHandler:(void(^)(NSString *localIdentifier))completionHandler {
+	__block NSString *localIdentifier = Nil;
+
+	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+		localIdentifier = [PHAssetChangeRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
+	} completionHandler:^(BOOL success, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(success ? localIdentifier : Nil);
+
+		[error log:@"creationRequestForAssetFromImage:"];
+	}];
 }
 
 + (void)toggleFavoriteOnAsset:(PHAsset *)asset completionHandler:(void(^)(BOOL success))completionHandler {
@@ -95,7 +116,10 @@
 
 + (void)insertAssets:(id<NSFastEnumeration>)assets atIndexes:(NSIndexSet *)indexes intoAssetCollection:(PHAssetCollection *)assetCollection completionHandler:(void(^)(BOOL success))completionHandler {
 	[[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-		[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection]  insertAssets:assets atIndexes:indexes];
+		if (indexes)
+			[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection]  insertAssets:assets atIndexes:indexes];
+		else
+			[[PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection]  addAssets:assets];
 	} completionHandler:^(BOOL success, NSError * _Nullable error) {
 		if (completionHandler)
 			completionHandler(success);

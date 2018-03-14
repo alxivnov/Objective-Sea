@@ -20,24 +20,44 @@
 
 @end
 
+@implementation VNImageRequestHandler (Convenience)
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests {
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests error:&error];
+	[error log:@"VNRequest performRequests:"];
+	return success;
+}
+
+@end
+
+@implementation VNRequest (Convenience)
+
++ (instancetype)requestWithCompletionHandler:(void(^)(NSArray *results))completionHandler {
+	return [[self alloc] initWithCompletionHandler:^(VNRequest * _Nonnull request, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(request.results.count ? request.results : Nil);
+
+		[error log:@"VNRequest initWithCompletionHandler:"];
+	}];
+}
+
+@end
+
 @implementation UIImage (Vision)
 
-- (VNImageRequestHandler *)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options handler:(void(^)(NSArray<VNTextObservation *> *results))handler {
-	VNImageRequestHandler *h = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage options:options];
-	VNDetectTextRectanglesRequest *r = [[VNDetectTextRectanglesRequest alloc] initWithCompletionHandler:^(VNRequest * _Nonnull request, NSError * _Nullable error) {
-		if (handler)
-			handler(request.results.count ? request.results : Nil);
-
-		[error log:@"VNDetectTextRectanglesRequest initWithCompletionHandler:"];
-	}];
+- (BOOL)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNTextObservation *> *results))completionHandler {
+	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage options:options];
+	VNDetectTextRectanglesRequest *request = [VNDetectTextRectanglesRequest requestWithCompletionHandler:completionHandler];
 	if (options[VNImageOptionReportCharacterBoxes])
-		r.reportCharacterBoxes = [options[VNImageOptionReportCharacterBoxes] boolValue];
+		request.reportCharacterBoxes = [options[VNImageOptionReportCharacterBoxes] boolValue];
+	return [handler performRequests:@[ request ]];
+}
 
-	NSError *error = Nil;
-	BOOL success = [h performRequests:@[ r ] error:&error];
-	[error log:@"VNDetectTextRectanglesRequest performRequests:"];
-
-	return success ? h : Nil;
+- (BOOL)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNRectangleObservation *> *results))completionHandler {
+	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage options:options];
+	VNDetectRectanglesRequest *request = [VNDetectRectanglesRequest requestWithCompletionHandler:completionHandler];
+	return [handler performRequests:@[ request ]];
 }
 
 - (CGRect)boundsForObservation:(VNDetectedObjectObservation *)observation {
