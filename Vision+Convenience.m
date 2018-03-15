@@ -46,8 +46,31 @@
 
 @implementation UIImage (Vision)
 
+- (CGImagePropertyOrientation)orientation {
+	switch (self.imageOrientation) {
+		case UIImageOrientationUp:
+			return kCGImagePropertyOrientationUp;
+		case UIImageOrientationDown:
+			return kCGImagePropertyOrientationDown;
+		case UIImageOrientationLeft:
+			return kCGImagePropertyOrientationLeft;
+		case UIImageOrientationRight:
+			return kCGImagePropertyOrientationRight;
+		case UIImageOrientationUpMirrored:
+			return kCGImagePropertyOrientationUpMirrored;
+		case UIImageOrientationDownMirrored:
+			return kCGImagePropertyOrientationDownMirrored;
+		case UIImageOrientationLeftMirrored:
+			return kCGImagePropertyOrientationLeftMirrored;
+		case UIImageOrientationRightMirrored:
+			return kCGImagePropertyOrientationRightMirrored;
+		default:
+			return kCGImagePropertyOrientationUp;
+	}
+}
+
 - (BOOL)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNTextObservation *> *results))completionHandler {
-	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage options:options];
+	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage orientation:[self orientation] options:options];
 	VNDetectTextRectanglesRequest *request = [VNDetectTextRectanglesRequest requestWithCompletionHandler:completionHandler];
 	if (options[VNImageOptionReportCharacterBoxes])
 		request.reportCharacterBoxes = [options[VNImageOptionReportCharacterBoxes] boolValue];
@@ -55,7 +78,7 @@
 }
 
 - (BOOL)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNRectangleObservation *> *results))completionHandler {
-	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage options:options];
+	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage orientation:[self orientation] options:options];
 	VNDetectRectanglesRequest *request = [VNDetectRectanglesRequest requestWithCompletionHandler:completionHandler];
 	return [handler performRequests:@[ request ]];
 }
