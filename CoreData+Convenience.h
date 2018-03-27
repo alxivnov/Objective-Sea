@@ -14,6 +14,8 @@
 
 - (void)loadPersistentStores:(void (^)(NSPersistentStoreDescription *description))block;
 
++ (void)loadPersistentContainerWithName:(NSString *)name completionHandler:(void (^)(NSPersistentContainer *container, NSPersistentStoreDescription *description))block;
+
 @end
 
 @interface NSManagedObject (Convenience)

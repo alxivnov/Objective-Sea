@@ -23,11 +23,134 @@
 @implementation VNImageRequestHandler (Convenience)
 
 - (BOOL)performRequests:(NSArray<VNRequest *> *)requests {
+	if (!requests.count)
+		return NO;
+
 	NSError *error = Nil;
 	BOOL success = [self performRequests:requests error:&error];
 	[error log:@"VNRequest performRequests:"];
+
 	return success;
 }
+
+@end
+
+@implementation VNSequenceRequestHandler (Convenience)
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onCVPixelBuffer:(CVPixelBufferRef)pixelBuffer {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onCVPixelBuffer:pixelBuffer error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onCVPixelBuffer:(CVPixelBufferRef)pixelBuffer orientation:(CGImagePropertyOrientation)orientation {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onCVPixelBuffer:pixelBuffer orientation:orientation error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onCGImage:(CGImageRef)image {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onCGImage:image error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onCGImage:(CGImageRef)image orientation:(CGImagePropertyOrientation)orientation {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onCGImage:image orientation:orientation error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onCIImage:(CIImage*)image {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onCIImage:image error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onCIImage:(CIImage*)image orientation:(CGImagePropertyOrientation)orientation {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onCIImage:image orientation:orientation error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onImageURL:(NSURL*)imageURL {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onImageURL:imageURL error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onImageURL:(NSURL*)imageURL orientation:(CGImagePropertyOrientation)orientation {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onImageURL:imageURL orientation:orientation error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onImageData:(NSData*)imageData {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onImageData:imageData error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
+- (BOOL)performRequests:(NSArray<VNRequest *> *)requests onImageData:(NSData*)imageData orientation:(CGImagePropertyOrientation)orientation {
+	if (!requests.count)
+		return NO;
+
+	NSError *error = Nil;
+	BOOL success = [self performRequests:requests onImageData:imageData orientation:orientation error:&error];
+	[error log:@"VNSequenceRequestHandler performRequests:"];
+
+	return success;
+}
+
 
 @end
 

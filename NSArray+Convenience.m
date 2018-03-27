@@ -239,3 +239,25 @@
 }
 
 @end
+
+@implementation NSMutableArray (Convenience)
+
+- (id)fifo {
+	if (!self.count)
+		return Nil;
+
+	id obj = self.firstObject;
+	[self removeObjectAtIndex:0];
+	return obj;
+}
+
+- (id)lifo {
+	if (!self.count)
+		return Nil;
+
+	id obj = self.lastObject;
+	[self removeObjectAtIndex:self.count - 1];
+	return obj;
+}
+
+@end

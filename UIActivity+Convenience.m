@@ -87,10 +87,10 @@ __static(NSMutableDictionary *, hashtagArrs, [NSMutableDictionary new])
 	if ([NSBundle isPreferredLocalization:LNG_RU])
 		[activities addObject:[VKWebActivity new]];
 
-	if (![SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook])
+//	if (![SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook])
 		[activities addObject:[FBWebActivity new]];
 
-	if (![SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+//	if (![SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
 		[activities addObject:[TWWebActivity new]];
 
 	[activities addObject:[GPWebActivity new]];

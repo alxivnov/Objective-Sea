@@ -19,6 +19,15 @@
 	}];
 }
 
++ (void)loadPersistentContainerWithName:(NSString *)name completionHandler:(void (^)(NSPersistentContainer *, NSPersistentStoreDescription *))block {
+	NSPersistentContainer *container = [NSPersistentContainer persistentContainerWithName:name];
+
+	[container loadPersistentStores:^(NSPersistentStoreDescription *description) {
+		if (block)
+			block(container, description);
+	}];
+}
+
 @end
 
 @implementation NSManagedObject (Convenience)

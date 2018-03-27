@@ -57,3 +57,10 @@
 - (ObjectType)randomObject;
 
 @end
+
+@interface NSMutableArray<ObjectType> (Convenience)
+
+- (ObjectType)fifo; //queue
+- (ObjectType)lifo; //stack
+
+@end
