@@ -30,12 +30,27 @@
 	return image;
 }
 
+CGImagePropertyOrientation CGImagePropertyOrientationForUIImageOrientation(UIImageOrientation uiOrientation) {
+	switch (uiOrientation) {
+		case UIImageOrientationUp: return kCGImagePropertyOrientationUp;
+		case UIImageOrientationDown: return kCGImagePropertyOrientationDown;
+		case UIImageOrientationLeft: return kCGImagePropertyOrientationLeft;
+		case UIImageOrientationRight: return kCGImagePropertyOrientationRight;
+		case UIImageOrientationUpMirrored: return kCGImagePropertyOrientationUpMirrored;
+		case UIImageOrientationDownMirrored: return kCGImagePropertyOrientationDownMirrored;
+		case UIImageOrientationLeftMirrored: return kCGImagePropertyOrientationLeftMirrored;
+		case UIImageOrientationRightMirrored: return kCGImagePropertyOrientationRightMirrored;
+	}
+
+	return kCGImagePropertyOrientationUp;
+}
+
 - (UIImage *)filterWithName:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params createCGImage:(BOOL)flag {
 	if (!name)
 		return self;
 
 	NSMutableDictionary *dic = params ? [params mutableCopy] : [NSMutableDictionary dictionaryWithCapacity:1];
-	dic[kCIInputImageKey] = self.CIImage ?: [CIImage imageWithCGImage:self.CGImage];
+	dic[kCIInputImageKey] = self.CIImage ? self.CIImage : [[CIImage imageWithCGImage:self.CGImage] imageByApplyingCGOrientation:CGImagePropertyOrientationForUIImageOrientation(self.imageOrientation)];
 
 	CIFilter *filter = [CIFilter filterWithName:name withInputParameters:dic];
 
@@ -44,7 +59,7 @@
 
 	CGImageRef cgImage = [[CIContext contextWithOptions:Nil] createCGImage:filter.outputImage fromRect:filter.outputImage.extent];
 
-	UIImage *image = [UIImage imageWithCGImage:cgImage scale:self.scale orientation:self.imageOrientation];
+	UIImage *image = [UIImage imageWithCGImage:cgImage scale:self.scale orientation:self.CIImage ? self.imageOrientation : UIImageOrientationUp];
 
 	CGImageRelease(cgImage);
 

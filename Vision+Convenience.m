@@ -195,6 +195,8 @@
 - (BOOL)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNTextObservation *> *results))completionHandler {
 	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage orientation:[self orientation] options:options];
 	VNDetectTextRectanglesRequest *request = [VNDetectTextRectanglesRequest requestWithCompletionHandler:completionHandler];
+	if (options[VNImageOptionPreferBackgroundProcessing])
+		request.reportCharacterBoxes = [options[VNImageOptionPreferBackgroundProcessing] boolValue];
 	if (options[VNImageOptionReportCharacterBoxes])
 		request.reportCharacterBoxes = [options[VNImageOptionReportCharacterBoxes] boolValue];
 	return [handler performRequests:@[ request ]];

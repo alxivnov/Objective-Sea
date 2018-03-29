@@ -48,6 +48,7 @@
 
 @end
 
+#define VNImageOptionPreferBackgroundProcessing @"VNImageOptionPreferBackgroundProcessing"
 #define VNImageOptionReportCharacterBoxes @"VNImageOptionReportCharacterBoxes"
 
 @interface UIImage (Vision)
