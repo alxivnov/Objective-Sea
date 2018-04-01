@@ -27,8 +27,8 @@
 + (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate;
 + (NSArray *)executeFetchRequestInContext:(NSManagedObjectContext *)context predicateWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3);
 
-+ (__kindof NSManagedObject *)executeFetchRequestInContext:(NSManagedObjectContext *)context firstObject:(NSString *)attributeName;
-+ (__kindof NSManagedObject *)executeFetchRequestInContext:(NSManagedObjectContext *)context lastObject:(NSString *)attributeName;
++ (instancetype)executeFetchRequestInContext:(NSManagedObjectContext *)context firstObject:(NSString *)attributeName;
++ (instancetype)executeFetchRequestInContext:(NSManagedObjectContext *)context lastObject:(NSString *)attributeName;
 
 + (NSUInteger)countForFetchRequestInContext:(NSManagedObjectContext *)context predicate:(NSPredicate *)predicate;
 + (NSUInteger)countForFetchRequestInContext:(NSManagedObjectContext *)context predicateWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(2, 3);

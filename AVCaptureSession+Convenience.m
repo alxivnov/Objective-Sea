@@ -82,7 +82,7 @@ UIImageOrientation UIImageOrientationForCGImagePropertyOrientation(CGImageProper
 }
 
 - (UIImage *)image {
-	return Nil;[UIImage imageWithCGImage:self.CGImageRepresentation scale:0.0 orientation:UIImageOrientationForCGImagePropertyOrientation([self.metadata[(NSString *)kCGImagePropertyOrientation] intValue])];
+	return [UIImage imageWithCGImage:self.CGImageRepresentation scale:0.0 orientation:UIImageOrientationForCGImagePropertyOrientation([self.metadata[(NSString *)kCGImagePropertyOrientation] intValue])];
 }
 
 @end

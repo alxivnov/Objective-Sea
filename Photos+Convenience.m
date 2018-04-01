@@ -66,6 +66,26 @@
 	return status == PHAuthorizationStatusAuthorized ? @YES : status == PHAuthorizationStatusDenied ? @NO : Nil;
 }
 
+#if __has_include("UIApplication+Convenience.h")
+
++ (void)requestAuthorizationIfNeeded:(void (^)(PHAuthorizationStatus))handler {
+	PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+
+	if (status == PHAuthorizationStatusAuthorized) {
+		if (handler)
+			handler(status);
+	} else if (status == PHAuthorizationStatusDenied) {
+		[UIApplication openSettings];
+
+		if (handler)
+			handler(status);
+	} else {
+		[PHPhotoLibrary requestAuthorization:handler];
+	}
+}
+
+#endif
+
 + (void)createAssetWithImage:(UIImage *)image completionHandler:(void(^)(NSString *localIdentifier))completionHandler {
 	__block NSString *localIdentifier = Nil;
 

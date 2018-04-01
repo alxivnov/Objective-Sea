@@ -63,9 +63,9 @@
 
 @implementation UIDocumentPicker
 
-- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentAtURL:(NSURL *)url {
+- (void)documentPicker:(UIDocumentPickerViewController *)controller didPickDocumentsAtURLs:(NSArray <NSURL *>*)urls {
 	if (self.completion)
-		self.completion(url);
+		self.completion(urls.firstObject);
 }
 
 - (void)documentPickerWasCancelled:(UIDocumentPickerViewController *)controller {

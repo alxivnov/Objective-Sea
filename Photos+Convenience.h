@@ -11,6 +11,15 @@
 #import "Dispatch+Convenience.h"
 #import "NSObject+Convenience.h"
 
+#define PHPhotoLibraryNotDetermined(status) (status == NSNotFound ? [PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusNotDetermined : status == PHAuthorizationStatusNotDetermined)
+#define PHPhotoLibraryAuthorized(status) (status == NSNotFound ? [PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusAuthorized : status == PHAuthorizationStatusAuthorized)
+#define PHPhotoLibraryRestricted(status) (status == NSNotFound ? [PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusRestricted : status == PHAuthorizationStatusRestricted)
+#define PHPhotoLibraryDenied(status) (status == NSNotFound ? [PHPhotoLibrary authorizationStatus] == PHAuthorizationStatusDenied : status == PHAuthorizationStatusDenied)
+
+#if __has_include("UIApplication+Convenience.h")
+#import "UIApplication+Convenience.h"
+#endif
+
 @interface PHFetchResult (Convenience)
 
 @property (strong, nonatomic, readonly) NSArray<PHAsset *> *array;
@@ -45,6 +54,10 @@
 @interface PHPhotoLibrary (Convenience)
 
 + (NSNumber *)authorization;
+
+#if __has_include("UIApplication+Convenience.h")
++ (void)requestAuthorizationIfNeeded:(void (^)(PHAuthorizationStatus status))handler;
+#endif
 
 + (void)createAssetWithImage:(UIImage *)image completionHandler:(void(^)(NSString *localIdentifier))completionHandler;
 
