@@ -102,7 +102,7 @@
 
 @end
 
-@implementation HKSleepAnalysis
+@implementation HKDataSleepAnalysis
 
 + (NSString *)identifier {
 	return HKCategoryTypeIdentifierSleepAnalysis;

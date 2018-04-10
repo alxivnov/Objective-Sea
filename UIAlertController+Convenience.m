@@ -23,6 +23,10 @@
 
 @implementation UIAlertController (Convenience)
 
+- (void)setContent:(UIViewController *)viewController {
+	[self trySetValue:viewController forKey:@"contentViewController"];
+}
+
 + (instancetype)alertControllerWithTitle:(NSString *)title message:(NSString *)message preferredStyle:(UIAlertControllerStyle)preferredStyle cancelActionTitle:(NSString *)cancelActionTitle destructiveActionTitle:(NSString *)destructiveActionTitle otherActionTitles:(NSArray *)otherActionTitles completion:(void (^)(UIAlertController *instance, NSInteger index))completion {
 	UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:preferredStyle];
 

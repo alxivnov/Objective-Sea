@@ -38,7 +38,7 @@
 
 @end
 
-@interface HKSleepAnalysis : HKData
+@interface HKDataSleepAnalysis : HKData
 
 + (HKCategorySample *)sampleWithStartDate:(NSDate *)start endDate:(NSDate *)end value:(HKCategoryValueSleepAnalysis)value metadata:(NSDictionary *)metadata;
 

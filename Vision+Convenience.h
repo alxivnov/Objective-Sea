@@ -9,6 +9,9 @@
 #import <Vision/Vision.h>
 #import <UIKit/UIKit.h>
 
+#import "CoreGraphics+Convenience.h"
+#import "CoreImage+Convenience.h"
+
 #import "NSObject+Convenience.h"
 
 @interface VNImageRequestHandler (Convenience)
@@ -59,5 +62,7 @@
 - (CGRect)boundsForObservation:(VNDetectedObjectObservation *)observation;
 
 - (UIImage *)imageWithObservation:(VNDetectedObjectObservation *)observation;
+
+- (UIImage *)imageWithRectangle:(VNRectangleObservation *)rectangle;
 
 @end

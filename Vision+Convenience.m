@@ -233,4 +233,18 @@
 	return image;
 }
 
+- (UIImage *)imageWithRectangle:(VNRectangleObservation *)rectangle {
+	if (!rectangle)
+		return Nil;
+
+	CGPoint topLeft = CGPointScale(rectangle.topLeft, self.size.width, self.size.height);
+	CGPoint topRight = CGPointScale(rectangle.topRight, self.size.width, self.size.height);
+	CGPoint bottomRight = CGPointScale(rectangle.bottomRight, self.size.width, self.size.height);
+	CGPoint bottomLeft = CGPointScale(rectangle.bottomLeft, self.size.width, self.size.height);
+
+	UIImage *image = [self filterWithName:@"CIPerspectiveCorrection" parameters:@{ @"inputTopLeft" : [[CIVector alloc] initWithCGPoint:topLeft], @"inputTopRight" : [[CIVector alloc] initWithCGPoint:topRight], @"inputBottomRight" : [[CIVector alloc] initWithCGPoint:bottomRight], @"inputBottomLeft" : [[CIVector alloc] initWithCGPoint:bottomLeft] } createCGImage:YES];
+
+	return image;
+}
+
 @end

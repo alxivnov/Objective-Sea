@@ -10,7 +10,7 @@
 
 @interface WKInterfaceTable (Convenience)
 
-- (void)setRows:(NSDictionary *)dictionary;
+- (void)setRows:(NSDictionary<NSString *, NSNumber *> *)dictionary;
 
 @end
 

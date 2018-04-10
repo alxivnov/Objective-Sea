@@ -19,12 +19,12 @@
 	}];
 }
 
-+ (void)loadPersistentContainerWithName:(NSString *)name completionHandler:(void (^)(NSPersistentContainer *, NSPersistentStoreDescription *))block {
++ (void)loadPersistentContainerWithName:(NSString *)name completionHandler:(void (^)(NSPersistentContainer *))block {
 	NSPersistentContainer *container = [NSPersistentContainer persistentContainerWithName:name];
 
 	[container loadPersistentStores:^(NSPersistentStoreDescription *description) {
 		if (block)
-			block(container, description);
+			block(container);
 	}];
 }
 

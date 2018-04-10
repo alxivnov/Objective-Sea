@@ -208,16 +208,25 @@
 @implementation UICollectionView (Photos)
 
 - (void)performFetchResultChanges:(PHFetchResultChangeDetails *)changes inSection:(NSUInteger)section {
+	if (!changes)
+		return;
+
 	if (changes.hasIncrementalChanges)
 		[self performBatchUpdates:^{
-			if (changes.insertedIndexes.count)
-				[self insertItemsAtIndexPaths:[changes.insertedIndexes indexPathsInSection:section]];
+			NSArray *removedIndexes = [changes.removedIndexes indexPathsInSection:section];
+//			[removedIndexes log:@"removedIndexes:"];
+			if (removedIndexes.count)
+				[self deleteItemsAtIndexPaths:removedIndexes];
 
-			if (changes.removedIndexes.count)
-				[self deleteItemsAtIndexPaths:[changes.removedIndexes indexPathsInSection:section]];
+			NSArray *insertedIndexes = [changes.insertedIndexes indexPathsInSection:section];
+//			[insertedIndexes log:@"insertedIndexes:"];
+			if (insertedIndexes.count)
+				[self insertItemsAtIndexPaths:insertedIndexes];
 
-			if (changes.changedIndexes.count)
-				[self reloadItemsAtIndexPaths:[changes.changedIndexes indexPathsInSection:section]];
+			NSArray *changedIndexes = [changes.changedIndexes indexPathsInSection:section];
+//			[changedIndexes log:@"changedIndexes:"];
+			if (changedIndexes.count)
+				[self reloadItemsAtIndexPaths:changedIndexes];
 
 			if (changes.hasMoves)
 				[changes enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {

@@ -10,11 +10,11 @@
 
 @implementation WKInterfaceTable (Convenience)
 
-- (void)setRows:(NSDictionary *)dictionary {
+- (void)setRows:(NSDictionary<NSString *, NSNumber *> *)dictionary {
 	NSMutableArray *array = [NSMutableArray array];
 
 	for (NSString *key in dictionary) {
-		NSUInteger count = [dictionary[key] unsignedIntegerValue];
+		NSUInteger count = dictionary[key].unsignedIntegerValue;
 
 		for (NSUInteger index = 0; index < count; index++)
 			[array addObject:key];
