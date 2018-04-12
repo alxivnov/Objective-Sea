@@ -45,6 +45,23 @@ CGImagePropertyOrientation CGImagePropertyOrientationForUIImageOrientation(UIIma
 	return kCGImagePropertyOrientationUp;
 }
 
++ (UIImage *)imageWithFilter:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params scale:(CGFloat)scale orientation:(UIImageOrientation)orientation {
+	if (!name)
+		return Nil;
+
+	CIFilter *filter = [CIFilter filterWithName:name withInputParameters:params];
+
+	return [UIImage imageWithCIImage:filter.outputImage scale:scale orientation:orientation];
+}
+
++ (UIImage *)imageWithFilter:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params scale:(CGFloat)scale {
+	return [self imageWithFilter:name parameters:params scale:scale orientation:UIImageOrientationUp];
+}
+
++ (UIImage *)imageWithFilter:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params {
+	return [self imageWithFilter:name parameters:params scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+}
+
 - (UIImage *)filterWithName:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params createCGImage:(BOOL)flag {
 	if (!name)
 		return self;
@@ -72,6 +89,14 @@ CGImagePropertyOrientation CGImagePropertyOrientationForUIImageOrientation(UIIma
 
 - (UIImage *)filterWithName:(NSString *)name {
 	return [self filterWithName:name parameters:Nil createCGImage:NO];
+}
+
+@end
+
+@implementation NSData (CoreImage)
+
+- (UIImage *)qrCode:(NSString *)inputCorrectionLevel {
+	return [UIImage imageWithFilter:@"CIQRCodeGenerator" parameters:@{ @"inputMessage" : self, @"inputCorrectionLevel" : inputCorrectionLevel ?: @"L" }];
 }
 
 @end

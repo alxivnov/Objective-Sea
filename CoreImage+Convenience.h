@@ -17,8 +17,18 @@
 
 - (UIImage *)imageWithFeature:(CIFeature *)feature;
 
++ (UIImage *)imageWithFilter:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params scale:(CGFloat)scale orientation:(UIImageOrientation)orientation;
++ (UIImage *)imageWithFilter:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params scale:(CGFloat)scale;
++ (UIImage *)imageWithFilter:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params;
+
 - (UIImage *)filterWithName:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params createCGImage:(BOOL)flag;
 - (UIImage *)filterWithName:(NSString *)name parameters:(NSDictionary<NSString *, id> *)params;
 - (UIImage *)filterWithName:(NSString *)name;
+
+@end
+
+@interface NSData (CoreImage)
+
+- (UIImage *)qrCode:(NSString *)inputCorrectionLevel;
 
 @end

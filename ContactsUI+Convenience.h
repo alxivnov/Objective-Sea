@@ -8,10 +8,23 @@
 
 #import <ContactsUI/ContactsUI.h>
 
+#import "NSObject+Convenience.h"
+
 @interface CNContact (Convenience)
 
 @property (strong, nonatomic, readonly) NSString *fullName;
 @property (strong, nonatomic, readonly) NSString *phoneticFullName;
+
+@property (strong, nonatomic, readonly) UIImage *image;
+@property (strong, nonatomic, readonly) UIImage *thumbnailImage;
+
+@end
+
+@interface CNContactVCardSerialization (Convenience)
+
++ (NSArray<CNContact *> *)contactsWithData:(NSData *)data;
+
++ (NSData *)dataWithContacts:(NSArray<CNContact *> *)contacts;
 
 @end
 

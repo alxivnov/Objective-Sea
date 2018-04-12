@@ -61,8 +61,8 @@
 #define FLT_EQUALS(x, y) ({ float __x = (x); float __y = y; fabsf(__x - __y) < FLT_EPSILON; })
 #define DBL_EQUALS(x, y) ({ double __x = (x); double __y = y; fabs(__x - __y) < DBL_EPSILON; })
 
-#define NSLocalize(key) NSLocalizedString(key, Nil)
-#define NSLocalizeMethod(method, key) + (NSString *)method { return NSLocalizedString(key, Nil); }
+#define loc(key) NSLocalizedString(key, Nil)
+#define NSLocalizedMethod(method, key) + (NSString *)method { return NSLocalizedString(key, Nil); }
 
 #define NSDateIsEqualToDate(d1, d2) ({ NSDate *__d1 = (d1); NSDate *__d2 = (d2); __d1 == __d2 || (__d2 != Nil && [__d1 isEqualToDate:__d2]); })
 #define NSNumberIsEqualToNumber(n1, n2) ({ NSNumber *__n1 = (n1); NSNumber *__n2 = (n2); __n1 == __n2 || (__n2 != Nil && [__n1 isEqualToNumber:__n2]); })

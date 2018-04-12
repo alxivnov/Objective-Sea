@@ -18,6 +18,38 @@
 	return [CNContactFormatter stringFromContact:self style:CNContactFormatterStylePhoneticFullName];
 }
 
+- (UIImage *)image {
+	return self.imageData ? [UIImage imageWithData:self.imageData] : Nil;
+}
+
+- (UIImage *)thumbnailImage {
+	return self.imageData ? [UIImage imageWithData:self.thumbnailImageData] : Nil;
+}
+
+@end
+
+@implementation CNContactVCardSerialization (Convenience)
+
++ (NSArray<CNContact *> *)contactsWithData:(NSData *)data {
+	if (!data)
+		return Nil;
+
+	NSError *error = Nil;
+	NSArray<CNContact *> *contacts = [self contactsWithData:data error:&error];
+	[error log:@"dataWithContacts:"];
+	return contacts;
+}
+
++ (NSData *)dataWithContacts:(NSArray<CNContact *> *)contacts {
+	if (!contacts)
+		return Nil;
+
+	NSError *error = Nil;
+	NSData *data = [self dataWithContacts:contacts error:&error];
+	[error log:@"dataWithContacts:"];
+	return data;
+}
+
 @end
 
 @interface CNContactPickerViewControllerEx : CNContactPickerViewController <CNContactPickerDelegate>
