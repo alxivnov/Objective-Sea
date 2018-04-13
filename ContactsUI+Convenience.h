@@ -8,6 +8,7 @@
 
 #import <ContactsUI/ContactsUI.h>
 
+#import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
 @interface CNContact (Convenience)
@@ -18,6 +19,9 @@
 @property (strong, nonatomic, readonly) UIImage *image;
 @property (strong, nonatomic, readonly) UIImage *thumbnailImage;
 
+- (CNSocialProfile *)socialProfileWithService:(NSString *)service;
+- (CNInstantMessageAddress *)instantMessageAddressWithService:(NSString *)service;
+
 @end
 
 @interface CNContactVCardSerialization (Convenience)
@@ -27,6 +31,23 @@
 + (NSData *)dataWithContacts:(NSArray<CNContact *> *)contacts;
 
 @end
+
+@interface CNSocialProfile (Convenience)
+
++ (instancetype)facebookProfileWithUsername:(NSString *)username;
++ (instancetype)flickrProfileWithUsername:(NSString *)username;
++ (instancetype)linkedInProfileWithUsername:(NSString *)username;
++ (instancetype)twitterProfileWithUsername:(NSString *)username;
+
+@end
+
+@interface NSArray<ObjectType> (CNLabeledValue)
+
+- (NSArray<ObjectType> *)allLabeled:(NSString *)label;
+- (ObjectType)firstLabeled:(NSString *)label;
+
+@end
+
 
 @interface UIViewController (ContactsUI)
 

@@ -26,6 +26,18 @@
 	return self.imageData ? [UIImage imageWithData:self.thumbnailImageData] : Nil;
 }
 
+- (CNSocialProfile *)socialProfileWithService:(NSString *)service {
+	return service ? [self.socialProfiles firstObject:^BOOL(CNLabeledValue<CNSocialProfile *> *obj) {
+		return [obj.value.service isEqualToString:service];
+	}].value : Nil;
+}
+
+- (CNInstantMessageAddress *)instantMessageAddressWithService:(NSString *)service {
+	return service ? [self.instantMessageAddresses firstObject:^BOOL(CNLabeledValue<CNInstantMessageAddress *> *obj) {
+		return [obj.value.service isEqualToString:service];
+	}].value : Nil;
+}
+
 @end
 
 @implementation CNContactVCardSerialization (Convenience)
@@ -51,6 +63,43 @@
 }
 
 @end
+
+@implementation CNSocialProfile (Convenience)
+
++ (instancetype)facebookProfileWithUsername:(NSString *)username {
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.facebook.com/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceFacebook];
+}
+
++ (instancetype)flickrProfileWithUsername:(NSString *)username {
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.flickr.com/photos/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceFlickr];
+}
+
++ (instancetype)linkedInProfileWithUsername:(NSString *)username {
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.linkedin.com/in/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceLinkedIn];
+}
+
++ (instancetype)twitterProfileWithUsername:(NSString *)username {
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://twitter.com/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceTwitter];
+}
+
+@end
+
+@implementation NSArray (CNLabeledValue)
+
+- (NSArray *)allLabeled:(NSString *)label {
+	return [self query:^BOOL(id obj) {
+		return [obj isKindOfClass:[CNLabeledValue class]] ? [((CNLabeledValue *)obj).label isEqualToString:label] : NO;
+	}];
+}
+
+- (id)firstLabeled:(NSString *)label {
+	return [self firstObject:^BOOL(id obj) {
+		return [obj isKindOfClass:[CNLabeledValue class]] ? [((CNLabeledValue *)obj).label isEqualToString:label] : NO;
+	}];
+}
+
+@end
+
 
 @interface CNContactPickerViewControllerEx : CNContactPickerViewController <CNContactPickerDelegate>
 @property void (^completion)(CNContact *);

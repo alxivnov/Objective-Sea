@@ -41,6 +41,7 @@ typedef enum : NSUInteger {
 - (UIImage *)imageWithBackground:(UIColor *)color;
 - (UIImage *)imageWithTintColor:(UIColor *)color;
 
+- (UIImage *)imageWithSize:(CGSize)size mode:(UIImageScale)mode interpolation:(CGInterpolationQuality)interpolation;
 - (UIImage *)imageWithSize:(CGSize)size mode:(UIImageScale)mode;
 - (UIImage *)imageWithSize:(CGSize)size;
 

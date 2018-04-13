@@ -78,7 +78,7 @@
 	}];
 }
 
-- (UIImage *)imageWithSize:(CGSize)size mode:(UIImageScale)mode {
+- (UIImage *)imageWithSize:(CGSize)size mode:(UIImageScale)mode interpolation:(CGInterpolationQuality)interpolation {
 	if (CGSizeEqualToSize(self.size, size))
 		return self;
 
@@ -86,12 +86,18 @@
 	CGRect rect = CGSizeCenterInSize(originalSize, size);
 
 	return [UIImage imageWithSize:size opaque:NO scale:0.0 draw:^(CGContextRef context) {
+		CGContextSetInterpolationQuality(context, interpolation);
+		
 		[self drawInRect:rect];
 	}];
 }
 
+- (UIImage *)imageWithSize:(CGSize)size mode:(UIImageScale)mode {
+	return [self imageWithSize:size mode:mode interpolation:kCGInterpolationDefault];
+}
+
 - (UIImage *)imageWithSize:(CGSize)size {
-	return [self imageWithSize:size mode:UIImageScaleNone];
+	return [self imageWithSize:size mode:UIImageScaleNone interpolation:kCGInterpolationDefault];
 }
 
 + (UIImage *)imageWithImages:(NSArray<UIImage *> *)images {
