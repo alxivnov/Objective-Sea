@@ -53,7 +53,7 @@
 
 @interface CLPlacemark (Convenience)
 
-@property (strong, nonatomic, readonly) NSArray *formattedAddressLines;
+//@property (strong, nonatomic, readonly) NSArray *formattedAddressLines;
 @property (strong, nonatomic, readonly) NSString *formattedAddress;
 
 @end

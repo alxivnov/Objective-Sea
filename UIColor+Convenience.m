@@ -10,6 +10,17 @@
 
 @implementation UIColor (Convenience)
 
+- (NSString *)cssString {
+	CGFloat r = 0.0;
+	CGFloat g = 0.0;
+	CGFloat b = 0.0;
+	CGFloat a = 1.0;
+	if (![self getRed:&r green:&g blue:&b alpha:&a])
+		return Nil;
+	
+	return [NSString stringWithFormat:@"rgb(%.f,%.f,%.f)", r * 255.0, g * 255.0, b * 255.0];
+}
+
 - (UIColor *)mixWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue value:(CGFloat)value {
 	CGFloat r = 0.0;
 	CGFloat g = 0.0;

@@ -40,6 +40,8 @@
 
 @interface UIColor (Convenience)
 
+@property (strong, nonatomic, readonly) NSString *cssString;
+
 - (UIColor *)mixWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue value:(CGFloat)value;
 - (UIColor *)mixWithColor:(UIColor *)anotherColor value:(CGFloat)value;
 - (UIColor *)shaded:(CGFloat)value;

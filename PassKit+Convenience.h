@@ -9,6 +9,14 @@
 #import <PassKit/PassKit.h>
 
 #import "NSURLSession+Convenience.h"
+#import "UIColor+Convenience.h"
+
+@interface UIViewController (PassKit)
+
+- (PKAddPassesViewController *)presentPasses:(NSArray<PKPass *> *)passes;
+- (PKAddPassesViewController *)presentPass:(PKPass *)pass;
+
+@end
 
 @interface PKMutableObject : NSObject
 
@@ -102,34 +110,21 @@
 
 @end
 
-@interface PKMutablePassStyle : PKMutableObject
+@interface PKMutablePassBarcode : PKMutableObject
 
-+ (instancetype)boardingPass;//	Information specific to a boarding pass.
-+ (instancetype)coupon;//		Information specific to a coupon.
-+ (instancetype)eventTicket;//	Information specific to an event ticket.
-+ (instancetype)generic;//		Information specific to a generic pass.
-+ (instancetype)storeCard;//	Information specific to a store card.
+// Required. Barcode format. For the barcode dictionary, you can use only the following values: PKBarcodeFormatQR, PKBarcodeFormatPDF417, or PKBarcodeFormatAztec. For dictionaries in the barcodes array, you may also use PKBarcodeFormatCode128.
+@property (strong, nonatomic, readonly) NSString *format;
+// Required. Message or payload to be displayed as a barcode.
+@property (strong, nonatomic, readonly) NSString *message;
+// Required. Text encoding that is used to convert the message from the string representation to a data representation to render the barcode. The value is typically iso-8859-1, but you may use another encoding that is supported by your barcode scanning infrastructure.
+@property (strong, nonatomic, readonly) NSString *messageEncoding;
 
-@property (strong, nonatomic, readonly) NSString *key;
+// Optional. Text displayed near the barcode. For example, a human-readable version of the barcode data in case the barcode doesn’t scan.
+@property (strong, nonatomic, readonly) NSString *altText;
 
-
-// Pass Structure Dictionary Keys
-// Keys that define the structure of the pass.
-// These keys are used for all pass styles and partition the fields into the various parts of the pass.
-
-// Optional. Additional fields to be displayed on the front of the pass.
-@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *auxiliaryFields;
-// Optional. Fields to be on the back of the pass.
-@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *backFields;
-// Optional. Fields to be displayed in the header on the front of the pass.
-// Use header fields sparingly; unlike all other fields, they remain visible when a stack of passes are displayed.
-@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *headerFields;
-// Optional. Fields to be displayed prominently on the front of the pass.
-@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *primaryFields;
-// Optional. Fields to be displayed on the front of the pass.
-@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *secondaryFields;
-// Required for boarding passes; otherwise not allowed. Type of transit. Must be one of the following values: PKTransitTypeAir, PKTransitTypeBoat, PKTransitTypeBus, PKTransitTypeGeneric,PKTransitTypeTrain.
-@property (strong, nonatomic) NSString *transitType;
++ (instancetype)qr:(NSString *)message;
++ (instancetype)pdf417:(NSString *)message;
++ (instancetype)aztec:(NSString *)message;
 
 @end
 
@@ -156,7 +151,41 @@
 // Style Keys
 // Keys that specify the pass style
 // Provide exactly one key—the key that corresponds with the pass’s type. The value of this key is a dictionary containing the keys in Pass Structure Dictionary Keys.
-@property (strong, nonatomic) PKMutablePassStyle *style;
+@property (strong, nonatomic) NSString *style;
+
+// Pass Structure Dictionary Keys
+// Keys that define the structure of the pass.
+// These keys are used for all pass styles and partition the fields into the various parts of the pass.
+
+// Optional. Additional fields to be displayed on the front of the pass.
+@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *auxiliaryFields;
+// Optional. Fields to be on the back of the pass.
+@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *backFields;
+// Optional. Fields to be displayed in the header on the front of the pass.
+// Use header fields sparingly; unlike all other fields, they remain visible when a stack of passes are displayed.
+@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *headerFields;
+// Optional. Fields to be displayed prominently on the front of the pass.
+@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *primaryFields;
+// Optional. Fields to be displayed on the front of the pass.
+@property (strong, nonatomic, readonly) NSMutableArray<PKMutablePassField *> *secondaryFields;
+// Required for boarding passes; otherwise not allowed. Type of transit. Must be one of the following values: PKTransitTypeAir, PKTransitTypeBoat, PKTransitTypeBus, PKTransitTypeGeneric,PKTransitTypeTrain.
+@property (strong, nonatomic) NSString *transitType;
+
+
+// Optional. Background color of the pass, specified as an CSS-style RGB triple. For example, rgb(23, 187, 82).
+@property (strong, nonatomic) UIColor *backgroundColor;
+// Optional. Foreground color of the pass, specified as a CSS-style RGB triple. For example, rgb(100, 10, 110).
+@property (strong, nonatomic) UIColor *foregroundColor;
+// Optional. Color of the label text, specified as a CSS-style RGB triple. For example, rgb(255, 255, 255).
+// If omitted, the label color is determined automatically.
+@property (strong, nonatomic) UIColor *labelColor;
+
+// Optional. Text displayed next to the logo on the pass.
+@property (strong, nonatomic) NSString *localizedLogoText;
+
+// Information about a pass’s barcode.
+@property (strong, nonatomic) PKMutablePassBarcode *barcode;
+
 
 @property (strong, nonatomic, readonly) NSData *data;
 

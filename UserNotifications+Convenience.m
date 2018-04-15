@@ -289,6 +289,9 @@
 - (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats completion:(void (^)(BOOL success))completion {
 	if (date)
 		[UNUserNotificationCenter addNotificationRequestWithIdentifier:identifier content:self trigger:[UNCalendarNotificationTrigger triggerWithDateMatchingComponents:[[NSCalendar currentCalendar] components:NSCalendarUnitDateAndTime fromDate:date] repeats:repeats] completion:completion];
+	else
+		if (completion)
+			completion(NO);
 }
 
 - (void)scheduleWithIdentifier:(NSString *)identifier date:(NSDate *)date repeats:(BOOL)repeats {
