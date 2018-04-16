@@ -8,12 +8,6 @@
 
 #import "Accelerate+Convenience.h"
 
-#if __has_include(<Accelerate/Accelerate.h>)
-
-@import Accelerate;
-
-#endif
-
 @implementation NSArray (Accelerate)
 
 #if __has_include(<Accelerate/Accelerate.h>)

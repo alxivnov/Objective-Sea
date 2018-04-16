@@ -63,3 +63,35 @@
 }
 
 @end
+
+@implementation WKExtension (Convenience)
+
+- (void)scheduleBackgroundRefreshWithPreferredDate:(NSDate *)preferredFireDate userInfo:(id<NSSecureCoding,NSObject>)userInfo {
+	if (preferredFireDate)
+		[self scheduleBackgroundRefreshWithPreferredDate:preferredFireDate userInfo:userInfo scheduledCompletion:^(NSError *error) {
+			[error log:@"scheduleBackgroundRefreshWithPreferredDate:"];
+		}];
+}
+
+- (void)scheduleBackgroundRefreshWithPreferredDate:(NSDate *)preferredFireDate {
+	if (preferredFireDate)
+		[self scheduleBackgroundRefreshWithPreferredDate:preferredFireDate userInfo:Nil scheduledCompletion:^(NSError *error) {
+			[error log:@"scheduleBackgroundRefreshWithPreferredDate:"];
+		}];
+}
+
+- (void)scheduleSnapshotRefreshWithPreferredDate:(NSDate *)preferredFireDate userInfo:(id<NSSecureCoding,NSObject>)userInfo {
+	if (preferredFireDate)
+		[self scheduleSnapshotRefreshWithPreferredDate:preferredFireDate userInfo:userInfo scheduledCompletion:^(NSError *error) {
+			[error log:@"scheduleBackgroundRefreshWithPreferredDate:"];
+		}];
+}
+
+- (void)scheduleSnapshotRefreshWithPreferredDate:(NSDate *)preferredFireDate {
+	if (preferredFireDate)
+		[self scheduleSnapshotRefreshWithPreferredDate:preferredFireDate userInfo:Nil scheduledCompletion:^(NSError *error) {
+			[error log:@"scheduleBackgroundRefreshWithPreferredDate:"];
+		}];
+}
+
+@end

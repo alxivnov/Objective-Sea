@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#if __has_include(<Accelerate/Accelerate.h>)
+
+@import Accelerate;
+
+#endif
+
 #import "NSArray+Convenience.h"
 
 @interface NSArray<ObjectType> (Accelerate)

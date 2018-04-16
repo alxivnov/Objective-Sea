@@ -194,9 +194,7 @@
 
 	[uuid getUUIDBytes:bytes];
 
-	NSData *value = [self initWithBytes:bytes length:NSUUIDSize];
-
-	free(bytes);
+	NSData *value = [self initWithBytesNoCopy:bytes length:NSUUIDSize];
 
 	return value;
 }

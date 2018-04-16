@@ -8,6 +8,8 @@
 
 #import <WatchKit/WatchKit.h>
 
+#import "NSObject+Convenience.h"
+
 @interface WKInterfaceTable (Convenience)
 
 - (void)setRows:(NSDictionary<NSString *, NSNumber *> *)dictionary;
@@ -29,5 +31,15 @@
 @interface WKInterfacePicker (Convenience)
 
 - (void)setItemsWithTitles:(NSArray<NSString *> *)titles;
+
+@end
+
+@interface WKExtension (Convenience)
+
+- (void)scheduleBackgroundRefreshWithPreferredDate:(NSDate *)preferredFireDate userInfo:(id<NSSecureCoding,NSObject>)userInfo;
+- (void)scheduleBackgroundRefreshWithPreferredDate:(NSDate *)preferredFireDate;
+
+- (void)scheduleSnapshotRefreshWithPreferredDate:(NSDate *)preferredFireDate userInfo:(id<NSSecureCoding,NSObject>)userInfo;
+- (void)scheduleSnapshotRefreshWithPreferredDate:(NSDate *)preferredFireDate;
 
 @end
