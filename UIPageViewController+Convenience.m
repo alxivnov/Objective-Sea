@@ -43,6 +43,8 @@
 
 - (void)setCurrentPage:(NSUInteger)currentPage animated:(BOOL)animated completion:(void (^)(BOOL))completion {
 	[self setViewController:[self viewControllerForIndex:currentPage] direction:self.currentPage < currentPage ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse animated:animated completion:completion];
+
+	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
 }
 
 - (void)setCurrentPage:(NSUInteger)currentPage {
@@ -57,7 +59,7 @@
 	self.delegate = self;
 
 	[self setViewController:[self viewControllerForIndex:[self currentPage]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:Nil];
-	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
+//	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,9 +91,24 @@
 	if (!completed)
 		return;
 
-	self.navigationItem.title = self.viewControllers.firstObject.navigationItem.title;
-	self.navigationItem.rightBarButtonItems = self.viewControllers.firstObject.navigationItem.rightBarButtonItems;
-	self.toolbarItems = self.viewControllers.firstObject.toolbarItems;
+	UIViewController *vc = self.viewControllers.firstObject;
+
+	if (vc.navigationItem.title)
+		self.navigationItem.title = vc.navigationItem.title;
+	if (vc.navigationItem.titleView)
+		self.navigationItem.titleView = vc.navigationItem.titleView;
+	if (vc.navigationItem.prompt)
+		self.navigationItem.prompt = vc.navigationItem.prompt;
+	if (vc.navigationItem.backBarButtonItem)
+		self.navigationItem.backBarButtonItem = vc.navigationItem.backBarButtonItem;
+
+	if (vc.navigationItem.leftBarButtonItems)
+		self.navigationItem.leftBarButtonItems = vc.navigationItem.leftBarButtonItems;
+	if (vc.navigationItem.rightBarButtonItems)
+		self.navigationItem.rightBarButtonItems = vc.navigationItem.rightBarButtonItems;
+
+	if (vc.toolbarItems)
+		self.toolbarItems = vc.toolbarItems;
 }
 
 /*
