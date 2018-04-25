@@ -42,4 +42,10 @@
 - (void)scheduleSnapshotRefreshWithPreferredDate:(NSDate *)preferredFireDate userInfo:(id<NSSecureCoding,NSObject>)userInfo;
 - (void)scheduleSnapshotRefreshWithPreferredDate:(NSDate *)preferredFireDate;
 
+- (void)scheduleBackgroundRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs userInfo:(id<NSSecureCoding,NSObject>)userInfo;
+- (void)scheduleBackgroundRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs;
+
+- (void)scheduleSnapshotRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs userInfo:(id<NSSecureCoding,NSObject>)userInfo;
+- (void)scheduleSnapshotRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs;
+
 @end

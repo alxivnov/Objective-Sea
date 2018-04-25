@@ -42,6 +42,9 @@
 }
 
 - (void)setCurrentPage:(NSUInteger)currentPage animated:(BOOL)animated completion:(void (^)(BOOL))completion {
+	if (self.currentPage == currentPage)
+		return;
+
 	[self setViewController:[self viewControllerForIndex:currentPage] direction:self.currentPage < currentPage ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse animated:animated completion:completion];
 
 	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
@@ -59,7 +62,7 @@
 	self.delegate = self;
 
 	[self setViewController:[self viewControllerForIndex:[self currentPage]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:Nil];
-//	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
+	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
 }
 
 - (void)didReceiveMemoryWarning {

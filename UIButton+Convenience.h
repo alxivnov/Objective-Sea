@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#import "QuartzCore+Convenience.h"
+#import "UIView+Convenience.h"
+
 @interface UIButton (Convenience)
 
 - (void)setTitle:(NSString *)title;
@@ -18,5 +21,9 @@
 - (void)setAttributedTitle:(NSAttributedString *)title;
 
 - (void)layoutVertically:(CGFloat)padding;
+
+@end
+
+@interface UIBorderButton : UIButton
 
 @end

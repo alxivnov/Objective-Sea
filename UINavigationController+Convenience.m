@@ -50,10 +50,10 @@
 
 - (void)setProgress:(float)progress animated:(BOOL)animated {
 	UIProgressView *progressView = self.progressView;
-	if (progress < 0.0)
-		[progressView setProgress:0.0 animated:NO];
+	if (progress <= 0.0)
+		[progressView setProgress:0.0 animated:animated];
 	else if (progress >= 1.0)
-		[progressView setProgress:0.0 animated:NO];
+		[progressView setProgress:1.0 animated:animated];
 	else
 		[progressView setProgress:progress animated:animated];
 }

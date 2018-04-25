@@ -10,6 +10,14 @@
 
 @implementation UITableViewCell (Convenience)
 
+- (void)removeSeparators {
+	NSArray<UIView *> *subviews = self.subviews;
+
+	for (UIView *subview in subviews)
+		if (subview != self.contentView)
+			[subview removeFromSuperview];
+}
+
 - (UITableView *)tableView {
 	UIView *superview = self.superview;
 	while (superview)
@@ -42,6 +50,17 @@
 		self.accessoryView = label;
 	}
 	return label;
+}
+
+- (UISwitch *)accessorySwitch {
+	UISwitch *view = cls(UISwitch, self.accessoryView);
+	if (!view) {
+		view = [[UISwitch alloc] init];
+		view.backgroundColor = self.textLabel.backgroundColor;
+		view.opaque = self.textLabel.opaque;
+		self.accessoryView = view;
+	}
+	return view;
 }
 
 @end

@@ -10,6 +10,10 @@
 
 @implementation NSObject (Convenience)
 
+- (id)cast:(Class)type {
+	return [self isKindOfClass:type] ? self : Nil;
+}
+
 - (void)log:(NSString *)message {
 	NSLog(message ? [message stringByAppendingString:@" %@"] : self.debugDescription, self.debugDescription);
 }

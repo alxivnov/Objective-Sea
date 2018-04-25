@@ -94,4 +94,20 @@
 		}];
 }
 
+- (void)scheduleBackgroundRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs userInfo:(id<NSSecureCoding,NSObject>)userInfo {
+	[self scheduleBackgroundRefreshWithPreferredDate:[NSDate dateWithTimeIntervalSinceNow:secs] userInfo:userInfo];
+}
+
+- (void)scheduleBackgroundRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs {
+	[self scheduleBackgroundRefreshWithPreferredDate:[NSDate dateWithTimeIntervalSinceNow:secs] userInfo:Nil];
+}
+
+- (void)scheduleSnapshotRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs userInfo:(id<NSSecureCoding,NSObject>)userInfo {
+	[self scheduleSnapshotRefreshWithPreferredDate:[NSDate dateWithTimeIntervalSinceNow:secs] userInfo:userInfo];
+}
+
+- (void)scheduleSnapshotRefreshWithTimeIntervalSinceNow:(NSTimeInterval)secs {
+	[self scheduleSnapshotRefreshWithPreferredDate:[NSDate dateWithTimeIntervalSinceNow:secs] userInfo:Nil];
+}
+
 @end

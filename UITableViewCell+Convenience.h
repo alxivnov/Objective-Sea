@@ -13,11 +13,14 @@
 
 @interface UITableViewCell (Convenience)
 
+- (void)removeSeparators;
+
 - (UITableView *)tableView;
 
 - (void)setAccessoryView:(UIView *)accessoryView insets:(UIEdgeInsets)insets;
 
 @property (strong, nonatomic, readonly) UILabel *accessoryLabel;
+@property (strong, nonatomic, readonly) UISwitch *accessorySwitch;
 
 @end
 

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define cls(cls, obj) ({ id __obj = (obj); [__obj isKindOfClass:[cls class]] ? (cls *)__obj : Nil; })
+#define cls(cls, obj) ((cls *)[obj cast:[cls class]])
 
 #define arr_(obj) ({ __typeof__(obj) __obj = (obj); __obj ? @[ __obj ] : Nil; })
 #define arr__(obj0, obj1) ({ __typeof__(obj0) __obj0 = (obj0); __typeof__(obj1) __obj1 = (obj1); __obj0 && __obj1 ? @[ __obj0, __obj1 ] : __obj0 ? @[ __obj0 ] : __obj1 ? @[ __obj1 ] : Nil; })
@@ -98,6 +98,8 @@
 #define VER(major, minor) [[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion:(NSOperatingSystemVersion){ major, minor }]
 
 @interface NSObject (Convenience)
+
+- (id)cast:(Class)type;
 
 - (void)log:(NSString *)message;
 

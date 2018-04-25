@@ -43,3 +43,69 @@
 }
 
 @end
+
+@interface UIBorderButton ()
+@property (assign, nonatomic) BOOL touch;
+@end
+
+@implementation UIBorderButton
+
+- (void)setTouch:(BOOL)touch {
+	if (_touch == touch)
+		return;
+
+	_touch = touch;
+
+	if (touch) {
+		[self setTitleColor:[self rootBackgroundColor] forState:UIControlStateNormal];
+		super.backgroundColor = self.tintColor;
+	} else {
+		super.backgroundColor = self.titleLabel.textColor;
+		[self setTitleColor:self.tintColor forState:UIControlStateNormal];
+	}
+}
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor {
+	if (self.touch)
+		[self setTitleColor:backgroundColor forState:UIControlStateNormal];
+	else
+		[super setBackgroundColor:backgroundColor];
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+	[super setTintColor:tintColor];
+
+	if (self.touch)
+		self.backgroundColor = tintColor;
+	else
+		[self setTitleColor:tintColor forState:UIControlStateNormal];
+
+	[self.layer setBorderWidth:2.0 color:self.tintColor.CGColor];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+
+	if (self) {
+		[self.layer setBorderWidth:2.0 color:self.tintColor.CGColor];
+		[self.layer roundCorners:8.0];
+
+		[self setTitleColor:self.tintColor forState:UIControlStateNormal];
+
+		[self addTarget:self action:@selector(touchDown:) forControlEvents:UIControlEventTouchDown];
+		[self addTarget:self action:@selector(touchUp:) forControlEvents:UIControlEventTouchUpInside];
+		[self addTarget:self action:@selector(touchUp:) forControlEvents:UIControlEventTouchDragOutside];
+	}
+
+	return self;
+}
+
+- (IBAction)touchDown:(id)sender {
+	self.touch = YES;
+}
+
+- (IBAction)touchUp:(id)sender {
+	self.touch = NO;
+}
+
+@end
