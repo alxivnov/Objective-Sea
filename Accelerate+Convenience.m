@@ -32,7 +32,8 @@
 
 	double sum = 0.0;
 
-	vDSP_sveD(vector.bytes, 1, &sum, vector.length / sizeof(double));
+	if (vector.length)
+		vDSP_sveD(vector.bytes, 1, &sum, vector.length / sizeof(double));
 
 	return sum;
 }
@@ -43,7 +44,8 @@
 	double mean = 0.0;
 	double standardDeviation = 0.0;
 
-	vDSP_normalizeD(vector.bytes, 1, NULL, 1, &mean, &standardDeviation, vector.length / sizeof(double));
+	if (vector.length)
+		vDSP_normalizeD(vector.bytes, 1, NULL, 1, &mean, &standardDeviation, vector.length / sizeof(double));
 
 	return @[ @(mean), @(standardDeviation) ];
 }
