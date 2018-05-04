@@ -67,19 +67,19 @@
 @implementation CNSocialProfile (Convenience)
 
 + (instancetype)facebookProfileWithUsername:(NSString *)username {
-	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.facebook.com/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceFacebook];
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.facebook.com/%@", username] username:username userIdentifier:Nil service:CNSocialProfileServiceFacebook];
 }
 
 + (instancetype)flickrProfileWithUsername:(NSString *)username {
-	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.flickr.com/photos/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceFlickr];
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.flickr.com/photos/%@", username] username:username userIdentifier:Nil service:CNSocialProfileServiceFlickr];
 }
 
 + (instancetype)linkedInProfileWithUsername:(NSString *)username {
-	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.linkedin.com/in/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceLinkedIn];
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://www.linkedin.com/in/%@", username] username:username userIdentifier:Nil service:CNSocialProfileServiceLinkedIn];
 }
 
 + (instancetype)twitterProfileWithUsername:(NSString *)username {
-	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://twitter.com/%@", username] username:Nil userIdentifier:Nil service:CNSocialProfileServiceTwitter];
+	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://twitter.com/%@", username] username:username userIdentifier:Nil service:CNSocialProfileServiceTwitter];
 }
 
 @end

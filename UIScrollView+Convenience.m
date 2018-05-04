@@ -18,6 +18,25 @@
 	return fmin(self.bounds.size.width / self.contentSize.width, self.bounds.size.height / self.contentSize.height);
 }
 
+- (void)setContentView:(UIView *)contentView {
+	UIView *view = [self viewWithTag:UICenteredScrollViewTag];
+	if (view == contentView)
+		return;
+
+	[view removeFromSuperview];
+
+	if (contentView == Nil)
+		return;
+
+	contentView.tag = UICenteredScrollViewTag;
+	self.contentSize = contentView.frame.size;
+	[self addSubview:contentView];
+}
+
+- (UIView *)contentView {
+	return [self viewWithTag:UICenteredScrollViewTag];
+}
+
 @end
 
 @implementation UICenteredScrollView

@@ -15,6 +15,8 @@
 @property (assign, nonatomic, readonly) CGFloat fillZoom;
 @property (assign, nonatomic, readonly) CGFloat fitZoom;
 
+@property (strong, nonatomic) UIView *contentView;
+
 @end
 
 @interface UICenteredScrollView : UIScrollView
