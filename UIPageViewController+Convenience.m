@@ -45,9 +45,14 @@
 	if (self.currentPage == currentPage)
 		return;
 
-	[self setViewController:[self viewControllerForIndex:currentPage] direction:self.currentPage < currentPage ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse animated:animated completion:completion];
+	if (currentPage == NSNotFound)
+		currentPage = self.currentPage;
 
-	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
+	__weak UIPageViewController<UIPageViewControllerDelegate> *__self = self;
+	NSArray<UIViewController *> *previousViewControllers = self.viewControllers;
+	[self setViewController:[self viewControllerForIndex:currentPage] direction:self.currentPage < currentPage ? UIPageViewControllerNavigationDirectionForward : UIPageViewControllerNavigationDirectionReverse animated:animated completion:^(BOOL finished) {
+		[__self pageViewController:__self didFinishAnimating:finished previousViewControllers:previousViewControllers transitionCompleted:YES];
+	}];
 }
 
 - (void)setCurrentPage:(NSUInteger)currentPage {
@@ -61,8 +66,9 @@
 	self.dataSource = self;
 	self.delegate = self;
 
-	[self setViewController:[self viewControllerForIndex:[self currentPage]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:Nil];
-	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
+//	[self setViewController:[self viewControllerForIndex:[self currentPage]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:Nil];
+//	[self pageViewController:self didFinishAnimating:YES previousViewControllers:@[ ] transitionCompleted:YES];
+	[self setCurrentPage:NSNotFound animated:NO completion:Nil];
 }
 
 - (void)didReceiveMemoryWarning {
