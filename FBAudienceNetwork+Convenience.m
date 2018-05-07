@@ -62,21 +62,19 @@
 - (void)adViewDidLoad:(FBAdView *)adView {
 	self.adView = Nil;
 
-	if (!self.completion)
-		return;
-
-	self.completion(adView);
-	self.completion = Nil;
+	if (self.completion) {
+		self.completion(adView);
+		self.completion = Nil;
+	}
 }
 
 - (void)adView:(FBAdView *)adView didFailWithError:(NSError *)error {
 	self.adView = Nil;
 
-	if (!self.completion)
-		return;
-
-	self.completion(Nil);
-	self.completion = Nil;
+	if (self.completion) {
+		self.completion(Nil);
+		self.completion = Nil;
+	}
 
 	[error log:@"adView:didFailWithError:"];
 }
