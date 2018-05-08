@@ -73,31 +73,71 @@
 	return self.playbackState == MPMusicPlaybackStatePlaying;
 }
 
-- (void)play:(MPMediaItem *)item startTime:(NSTimeInterval)startTime {
+- (void)playWithCompletionHandler:(void (^)(BOOL))completionHandler {
+	[self prepareToPlayWithCompletionHandler:^(NSError * _Nullable error) {
+		[self play];
+
+		if (completionHandler)
+			completionHandler(error == Nil);
+
+		[error log:@"prepareToPlayWithCompletionHandler:"];
+	}];
+}
+
+- (void)playItem:(MPMediaItem *)item startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime completionHandler:(void (^)(BOOL))completionHandler {
 	if (!item)
 		return;
 
-	[self setQueueWithItemCollection:[MPMediaItemCollection collectionWithItems:@[ item ]]];
-	self.currentPlaybackTime = startTime;
-	[self play];
+	MPMediaItemCollection *collection = [MPMediaItemCollection collectionWithItems:@[ item ]];
+	MPMusicPlayerMediaItemQueueDescriptor *descriptor = [[MPMusicPlayerMediaItemQueueDescriptor alloc] initWithItemCollection:collection];
+	if (startTime)
+		[descriptor setStartTime:startTime forItem:item];
+	if (endTime)
+		[descriptor setEndTime:endTime forItem:item];
+	[self setQueueWithDescriptor:descriptor];
+	[self prepareToPlayWithCompletionHandler:^(NSError * _Nullable error) {
+		self.currentPlaybackTime = startTime;
+
+		[self play];
+
+		if (completionHandler)
+			completionHandler(error == Nil);
+
+		[error log:@"prepareToPlayWithCompletionHandler:"];
+	}];
 }
 
-- (MPMediaItem *)playStoreID:(NSString *)storeID startTime:(NSTimeInterval)startTime {
-	if (!storeID || ![self respondsToSelector:@selector(setQueueWithStoreIDs:)])
-		return Nil;
+- (void)playStoreID:(NSString *)storeID startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime completionHandler:(void (^)(MPMediaItem *))completionHandler {
+	if (!storeID)
+		return;
+/*
+	 self.nowPlayingItem = Nil;
 
-	self.nowPlayingItem = Nil;
+	 [self setQueueWithStoreIDs:@[ storeID ]];
 
-	[self setQueueWithStoreIDs:@[ storeID ]];
+	 [self prepareToPlay];
+	 for (NSUInteger index = 0; index < 10 && !self.nowPlayingItem; index++)
+	 [NSThread sleepForTimeInterval:0.1];
 
-	[self prepareToPlay];
-	for (NSUInteger index = 0; index < 10 && !self.nowPlayingItem; index++)
-		[NSThread sleepForTimeInterval:0.1];
+	 self.currentPlaybackTime = startTime;
+	 [self play];
+*/
+	MPMusicPlayerStoreQueueDescriptor *descriptor = [[MPMusicPlayerStoreQueueDescriptor alloc] initWithStoreIDs:@[ storeID ]];
+	if (startTime)
+		[descriptor setStartTime:startTime forItemWithStoreID:storeID];
+	if (endTime)
+		[descriptor setEndTime:endTime forItemWithStoreID:storeID];
+	[self setQueueWithDescriptor:descriptor];
+	[self prepareToPlayWithCompletionHandler:^(NSError * _Nullable error) {
+		self.currentPlaybackTime = startTime;
 
-	self.currentPlaybackTime = startTime;
-	[self play];
+		[self play];
 
-	return self.nowPlayingItem;
+		if (completionHandler)
+			completionHandler(self.nowPlayingItem);
+
+		[error log:@"prepareToPlayWithCompletionHandler:"];
+	}];
 }
 
 - (void)beginGeneratingPlaybackNotificationsForObserver:(id)observer selector:(SEL)selector {

@@ -40,8 +40,8 @@
 
 @property (assign, nonatomic, readonly) BOOL isPlaying;
 
-- (void)play:(MPMediaItem *)item startTime:(NSTimeInterval)startTime;
-- (MPMediaItem *)playStoreID:(NSString *)storeID startTime:(NSTimeInterval)startTime;
+- (void)playItem:(MPMediaItem *)item startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime completionHandler:(void (^)(BOOL success))completionHandler;
+- (void)playStoreID:(NSString *)storeID startTime:(NSTimeInterval)startTime endTime:(NSTimeInterval)endTime completionHandler:(void (^)(MPMediaItem *nowPlayingItem))completionHandler;
 
 - (void)beginGeneratingPlaybackNotificationsForObserver:(id)observer selector:(SEL)selector;
 - (void)endGeneratingPlaybackNotificationsForObserver:(id)observer;
