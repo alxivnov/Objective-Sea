@@ -8,6 +8,23 @@
 
 #import "PassKit+Convenience.h"
 
+@implementation PKPass (PassKit)
+
++ (instancetype)passWithData:(NSData *)data {
+	if (!data)
+		return Nil;
+
+	NSError *error = Nil;
+
+	PKPass *pass = [[self alloc] initWithData:data error:&error];
+
+	[error log:@"initWithData:"];
+
+	return pass;
+}
+
+@end
+
 @implementation UIViewController (PassKit)
 
 - (PKAddPassesViewController *)presentPasses:(NSArray<PKPass *> *)passes {
@@ -15,7 +32,8 @@
 		return Nil;
 
 	PKAddPassesViewController *vc = [[PKAddPassesViewController alloc] initWithPasses:passes];
-	[self presentViewController:vc animated:YES completion:Nil];
+	if (vc)
+		[self presentViewController:vc animated:YES completion:Nil];
 	return vc;
 }
 
@@ -24,7 +42,8 @@
 		return Nil;
 
 	PKAddPassesViewController *vc = [[PKAddPassesViewController alloc] initWithPass:pass];
-	[self presentViewController:vc animated:YES completion:Nil];
+	if (vc)
+		[self presentViewController:vc animated:YES completion:Nil];
 	return vc;
 }
 

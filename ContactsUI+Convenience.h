@@ -11,6 +11,16 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
+@interface CNContactStore (Convenience)
+
++ (instancetype)defaultStore;
+
+- (void)requestAccess:(void (^)(BOOL granted))completionHandler;
+
+- (BOOL)enumerateContactsWithKeysToFetch:(NSArray <id<CNKeyDescriptor>>*)keysToFetch usingBlock:(BOOL (^)(CNContact *contact))block;
+
+@end
+
 @interface CNContact (Convenience)
 
 @property (strong, nonatomic, readonly) NSString *fullName;

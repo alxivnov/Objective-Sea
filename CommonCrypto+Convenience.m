@@ -7,80 +7,104 @@
 //
 
 #import "CommonCrypto+Convenience.h"
-/*
-@implementation NSData (MD5)
-
-- (NSString *)MD5 {
-	// Create byte array of unsigned chars
-	unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-
-	// Create 16 byte MD5 hash value, store in buffer
-	CC_MD5(self.bytes, (uint) self.length, md5Buffer);
-
-	// Convert unsigned char buffer to NSString of hex values
-	NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-	for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-		[output appendFormat:@"%02x", md5Buffer[i]];
-
-	return output;
-}
-
-@end
-
-@implementation NSString (MD5)
-
-- (NSString *)MD5 {
-	// Create pointer to the string as UTF8
-	const char *ptr = [self UTF8String];
-
-	// Create byte array of unsigned chars
-	unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
-
-	// Create 16 bytes MD5 hash value, store in buffer
-	CC_MD5(ptr, (uint) strlen(ptr), md5Buffer);
-
-	// Convert unsigned char buffer to NSString of hex values
-	NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
-	for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
-		[output appendFormat:@"%02x", md5Buffer[i]];
-
-	return output;
-}
-
-@end
-*/
 
 @implementation NSData (CommonCrypto)
 
-- (NSData *)hash:(COMMON_DIGEST)commonDigest {
++ (instancetype)randomDataWithLength:(NSUInteger)length {
+	NSMutableData *data = [NSMutableData dataWithLength:length];
+
+	arc4random_buf(data.mutableBytes, data.length);
+
+	return data;
+}
+
+- (void)logCryptorStatus:(CCCryptorStatus)status {
+	switch (status) {
+		case kCCParamError:
+			NSLog(@"kCCParamError");
+			break;
+		case kCCBufferTooSmall:
+			NSLog(@"kCCBufferTooSmall");
+			break;
+		case kCCMemoryFailure:
+			NSLog(@"kCCMemoryFailure");
+			break;
+		case kCCAlignmentError:
+			NSLog(@"kCCAlignmentError");
+			break;
+		case kCCDecodeError:
+			NSLog(@"kCCDecodeError");
+			break;
+		case kCCUnimplemented:
+			NSLog(@"kCCUnimplemented");
+			break;
+		case kCCOverflow:
+			NSLog(@"kCCOverflow");
+			break;
+		case kCCRNGFailure:
+			NSLog(@"kCCRNGFailure");
+			break;
+		case kCCUnspecifiedError:
+			NSLog(@"kCCUnspecifiedError");
+			break;
+		case kCCCallSequenceError:
+			NSLog(@"kCCCallSequenceError");
+			break;
+		case kCCKeySizeError:
+			NSLog(@"kCCKeySizeError");
+			break;
+
+		default:
+			break;
+	}
+}
+
+- (NSData *)encrypt:(CCAlgorithm)alg key:(NSData *)key iv:(NSData *)iv options:(CCOptions)options {
+	NSUInteger length = ceil((double)self.length / iv.length) * iv.length;
+	NSMutableData *data = [NSMutableData dataWithLength:length];
+	size_t dataOutMoved = 0;
+	CCCryptorStatus status = CCCrypt(kCCEncrypt, alg, options, key.bytes, key.length, iv.bytes, self.bytes, self.length, data.mutableBytes, data.length, &dataOutMoved);
+	[self logCryptorStatus:status];
+	return status == kCCSuccess ? [data subdataWithRange:NSMakeRange(0, dataOutMoved)] : Nil;
+}
+
+- (NSData *)decrypt:(CCAlgorithm)alg key:(NSData *)key iv:(NSData *)iv options:(CCOptions)options {
+	NSMutableData *data = [NSMutableData dataWithLength:self.length];
+	size_t dataOutMoved = 0;
+	CCCryptorStatus status = CCCrypt(kCCDecrypt, alg, options, key.bytes, key.length, iv.bytes, self.bytes, self.length, data.mutableBytes, data.length, &dataOutMoved);
+	[self logCryptorStatus:status];
+	return status == kCCSuccess ? [data subdataWithRange:NSMakeRange(0, dataOutMoved)] : Nil;
+}
+
+- (instancetype)hash:(COMMON_DIGEST)commonDigest {
 	NSUInteger digestLength = commonDigest == MD2 ? CC_MD2_DIGEST_LENGTH : commonDigest == MD4 ? CC_MD4_DIGEST_LENGTH : commonDigest == MD5 ? CC_MD5_DIGEST_LENGTH : commonDigest == SHA1 ? CC_SHA1_DIGEST_LENGTH : commonDigest == SHA224 ? CC_SHA224_DIGEST_LENGTH : commonDigest == SHA256 ? CC_SHA256_DIGEST_LENGTH : commonDigest == SHA384 ? CC_SHA384_DIGEST_LENGTH : commonDigest == SHA512 ? CC_SHA512_DIGEST_LENGTH : 0;
 
 	if (digestLength == 0)
 		return Nil;
 
-	unsigned char buffer[digestLength];
+	NSMutableData *data = [NSMutableData dataWithLength:digestLength];
 
 	if (commonDigest == MD2)
-		CC_MD2(self.bytes, (CC_LONG)self.length, buffer);
+		CC_MD2(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == MD4)
-		CC_MD4(self.bytes, (CC_LONG)self.length, buffer);
+		CC_MD4(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == MD5)
-		CC_MD5(self.bytes, (CC_LONG)self.length, buffer);
+		CC_MD5(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == SHA1)
-		CC_SHA1(self.bytes, (CC_LONG)self.length, buffer);
+		CC_SHA1(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == SHA224)
-		CC_SHA224(self.bytes, (CC_LONG)self.length, buffer);
+		CC_SHA224(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == SHA256)
-		CC_SHA256(self.bytes, (CC_LONG)self.length, buffer);
+		CC_SHA256(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == SHA384)
-		CC_SHA384(self.bytes, (CC_LONG)self.length, buffer);
+		CC_SHA384(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 	else if (commonDigest == SHA512)
-		CC_SHA512(self.bytes, (CC_LONG)self.length, buffer);
+		CC_SHA512(self.bytes, (CC_LONG)self.length, data.mutableBytes);
 
-	return [NSData dataWithBytes:buffer length:digestLength];
+	return data;
 }
 
-- (NSData *)hmac:(CCHmacAlgorithm)algorithm key:(NSData *)key {
+- (instancetype)hmac:(CCHmacAlgorithm)algorithm key:(NSData *)key {
 	NSMutableData *macOut = [NSMutableData dataWithLength:algorithm == kCCHmacAlgSHA1 ? CC_SHA1_DIGEST_LENGTH : algorithm == kCCHmacAlgMD5 ? CC_MD5_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA256 ? CC_SHA256_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA384 ? CC_SHA384_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA512 ? CC_SHA512_DIGEST_LENGTH : algorithm == kCCHmacAlgSHA224 ? CC_SHA224_DIGEST_LENGTH : 0];
 
 	CCHmac(algorithm, key.bytes, key.length, self.bytes, self.length, macOut.mutableBytes);
@@ -91,6 +115,14 @@
 @end
 
 @implementation NSString (CommonCrypto)
+
+- (NSData *)encrypt:(CCAlgorithm)alg key:(NSData *)key iv:(NSData *)iv options:(CCOptions)options {
+	return [[self dataUsingEncoding:NSUTF8StringEncoding] encrypt:alg key:key iv:iv options:options];
+}
+
+- (NSData *)decrypt:(CCAlgorithm)alg key:(NSData *)key iv:(NSData *)iv options:(CCOptions)options {
+	return [[self dataUsingEncoding:NSUTF8StringEncoding] decrypt:alg key:key iv:iv options:options];
+}
 
 - (NSData *)hash:(COMMON_DIGEST)commonDigest {
 	return [[self dataUsingEncoding:NSUTF8StringEncoding] hash:commonDigest];

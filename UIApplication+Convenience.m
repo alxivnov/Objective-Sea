@@ -8,7 +8,7 @@
 
 #import "UIApplication+Convenience.h"
 
-#define STR_SOUNDS_RINGTONE @"prefs:root=Sounds&path=Ringtone"
+//#define STR_SOUNDS_RINGTONE @"prefs:root=Sounds&path=Ringtone"
 
 @implementation UIApplication (Convenience)
 
@@ -29,11 +29,11 @@
 + (void)openSettings {
 	[self openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
-
+/*
 + (void)openRingtone {
 	[self openURL:[NSURL URLWithString:STR_SOUNDS_RINGTONE]];
 }
-
+*/
 + (void)openURL:(NSURL *)url inApp:(NSString *)app {
 	[self openURL:app ? [NSURL URLWithString:[NSString stringWithFormat:@"%@%@app=%@", url.absoluteString, [url.absoluteString containsString:@"?"] ? @"&" : @"?", app]] : url options:Nil completionHandler:Nil];
 }

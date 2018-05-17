@@ -11,6 +11,12 @@
 #import "NSURLSession+Convenience.h"
 #import "UIColor+Convenience.h"
 
+@interface PKPass (PassKit)
+
++ (instancetype)passWithData:(NSData *)data;
+
+@end
+
 @interface UIViewController (PassKit)
 
 - (PKAddPassesViewController *)presentPasses:(NSArray<PKPass *> *)passes;

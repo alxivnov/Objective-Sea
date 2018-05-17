@@ -58,15 +58,18 @@
 	if (!dictionary)
 		return self;
 
-	NSMutableString *url = [[self description] mutableCopy];
+	if (!allowedCharacters) {
+		NSMutableCharacterSet *set = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
+		[set removeCharactersInString:@"?&=+"];
+		allowedCharacters = set;
+	}
 
-	NSMutableCharacterSet *urlQueryAllowedCharacterSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
-	[urlQueryAllowedCharacterSet removeCharactersInString:@"?&="];
+	NSMutableString *url = [self.absoluteString mutableCopy];
 
 	NSUInteger index = self.query ? 1 : 0;
 	for (NSString *key in dictionary) {
 		NSString *value = [dictionary[key] description];
-		value = allowedCharacters ? [value stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters] : [[[value stringByReplacingOccurrencesOfString:STR_SPACE withString:STR_PLUS] stringByAddingPercentEncodingWithAllowedCharacters:urlQueryAllowedCharacterSet] stringByReplacingOccurrencesOfString:STR_AMPERSAND withString:STR_AMPERSAND_CODE];
+		value = [value stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 		[url appendFormat:index ? PARAM_1 : PARAM_0, key, value];
 		index++;
 	}

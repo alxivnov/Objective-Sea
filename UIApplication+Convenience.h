@@ -22,7 +22,7 @@
 + (void)openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion;
 + (void)openURL:(NSURL *)url;
 + (void)openSettings;
-+ (void)openRingtone;
+//+ (void)openRingtone;
 + (void)openURL:(NSURL *)url inApp:(NSString *)app;
 
 @property (strong, nonatomic) __kindof UIViewController *rootViewController;

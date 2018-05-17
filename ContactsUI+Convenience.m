@@ -8,6 +8,36 @@
 
 #import "ContactsUI+Convenience.h"
 
+@implementation CNContactStore (Convenience)
+
+__static(CNContactStore *, defaultStore, [[CNContactStore alloc] init])
+
+- (void)requestAccess:(void (^)(BOOL))completionHandler {
+	[self requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+		if (completionHandler)
+			completionHandler(granted);
+
+		[error log:@"requestAccessForEntityType:"];
+	}];
+}
+
+- (BOOL)enumerateContactsWithKeysToFetch:(NSArray <id<CNKeyDescriptor>>*)keysToFetch usingBlock:(BOOL (^)(CNContact *))block {
+	if (!block)
+		return NO;
+
+	CNContactFetchRequest *request = [[CNContactFetchRequest alloc] initWithKeysToFetch:keysToFetch];
+	NSError *error = Nil;
+	BOOL result = [self enumerateContactsWithFetchRequest:request error:&error usingBlock:^(CNContact *contact, BOOL *stop) {
+		BOOL result = block(contact);
+		
+		*stop = result;
+	}];
+	[error log:@"enumerateContactsWithFetchRequest:"];
+	return result;
+}
+
+@end
+
 @implementation CNContact (Convenience)
 
 - (NSString *)fullName {
