@@ -39,6 +39,29 @@
 	[self.accessoryView addSubview:accessoryView];
 }
 
+- (NSArray<UIView *> *)accessoryViews {
+	UIStackView *stack = cls(UIStackView, self.accessoryView);
+	if (stack)
+		return stack.arrangedSubviews;
+
+	return self.accessoryView ? @[ self.accessoryView ] : Nil;
+}
+
+- (void)setAccessoryViews:(NSArray<__kindof UIView *> *)accessoryViews {
+	if (accessoryViews.count) {
+		UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:accessoryViews];
+		stack.axis = UILayoutConstraintAxisHorizontal;
+		stack.frame = CGRectMake(0.0, 0.0, [accessoryViews sum:^NSNumber *(__kindof UIView *obj) {
+			return @(obj.frame.size.width);
+		}], [accessoryViews max:^NSNumber *(__kindof UIView *obj) {
+			return @(obj.frame.size.height);
+		}]);
+		self.accessoryView = stack;
+	} else {
+		self.accessoryView = Nil;
+	}
+}
+
 - (UILabel *)accessoryLabel {
 	UILabel *label = cls(UILabel, self.accessoryView);
 	if (!label) {

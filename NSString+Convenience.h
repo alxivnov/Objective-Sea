@@ -55,4 +55,6 @@
 + (instancetype)stringWithData:(NSData *)data encoding:(NSStringEncoding *)encodingInOut;
 + (instancetype)stringWithData:(NSData *)data;
 
+- (NSAttributedString *)attributedString:(NSDictionary<NSAttributedStringKey, id> *)attrs;
+
 @end

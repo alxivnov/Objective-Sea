@@ -12,6 +12,7 @@
 #import "CoreGraphics+Convenience.h"
 #import "CoreImage+Convenience.h"
 
+#import "Dispatch+Convenience.h"
 #import "NSObject+Convenience.h"
 
 @interface VNImageRequestHandler (Convenience)
@@ -57,7 +58,10 @@
 @interface UIImage (Vision)
 
 - (BOOL)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNTextObservation *> *results))completionHandler;
+- (NSArray<VNTextObservation *> *)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options;
+
 - (BOOL)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNRectangleObservation *> *results))completionHandler;
+- (NSArray<VNRectangleObservation *> *)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options;
 
 - (CGRect)boundsForObservation:(VNDetectedObjectObservation *)observation;
 

@@ -151,7 +151,7 @@
 }
 
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url {
-	return [UIImage imageWithContentsOfURL:url scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : 1.0];
+	return [UIImage imageWithContentsOfURL:url scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : [UIScreen mainScreen].scale/*1.0*/];
 }
 #endif
 

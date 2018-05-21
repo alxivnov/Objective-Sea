@@ -48,7 +48,7 @@
 #define CGRectOffsetX(rect, X) ({ CGFloat __x = (X); CGRectMake(rect.origin.x + __x, rect.origin.y, rect.size.width, rect.size.height); })
 #define CGRectOffsetY(rect, Y) ({ CGFloat __y = (Y); CGRectMake(rect.origin.x, rect.origin.y + __y, rect.size.width, rect.size.height); })
 #define CGRectOffsetWidth(rect, Width) ({ CGFloat __width = (width); CGRectMake(rect.origin.x, rect.origin.y, rect.size.width + __width, rect.size.height); })
-#define CGRectOffsetHeight(rect, Height) ({ CGFloat __height = (height); CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height + __height); })
+#define CGRectOffsetHeight(rect, Height) ({ CGFloat __height = (Height); CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, rect.size.height + __height); })
 
 #define CGSizeCenter(size) CGPointMake(size.width / 2.0, size.height / 2.0)
 #define CGRectCenter(rect) CGPointMake(rect.origin.x + rect.size.width / 2.0, rect.origin.y + rect.size.height / 2.0)

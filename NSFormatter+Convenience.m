@@ -151,6 +151,40 @@ __static(NSDateComponentsFormatter *, ssShortFormatter, [NSDateComponentsFormatt
 	return [self descriptionWithFormat:@"yyyy-MM-dd-HH-mm-ss" calendar:[[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian]];
 }
 
+- (NSString *)descriptionFromNow {
+	NSCalendarUnit units = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute;
+
+	NSDateComponents *components = [[NSCalendar currentCalendar] components:units fromDate:self toDate:[NSDate date] options:0];
+
+	if (components.year > 0)
+		return [NSString stringWithFormat:components.year == 1 ? @"A year ago" : @"%ld years ago", components.year];
+	else if (components.year < 0)
+		return [NSString stringWithFormat:components.year == -1 ? @"In a year" : @"In %ld years", components.year];
+
+	else if (components.month > 0)
+		return [NSString stringWithFormat:components.month == 1 ? @"A month ago" : @"%ld months ago", components.month];
+	else if (components.month < 0)
+		return [NSString stringWithFormat:components.month == -1 ? @"In a month" : @"In %ld months", components.month];
+
+	else if (components.day > 0)
+		return [NSString stringWithFormat:components.day == 1 ? @"A day ago" : @"%ld days ago", components.day];
+	else if (components.day < 0)
+		return [NSString stringWithFormat:components.day == -1 ? @"In a day" : @"In %ld days", components.day];
+
+	else if (components.hour > 0)
+		return [NSString stringWithFormat:components.hour == 1 ? @"A hour ago" : @"%ld hours ago", components.hour];
+	else if (components.hour < 0)
+		return [NSString stringWithFormat:components.hour == -1 ? @"In a hour" : @"In %ld hours", components.hour];
+
+	else if (components.minute > 0)
+		return [NSString stringWithFormat:components.minute == 1 ? @"A minute ago" : @"%ld minutes ago", components.minute];
+	else if (components.minute < 0)
+		return [NSString stringWithFormat:components.minute == -1 ? @"In a minute" : @"In %ld minutes", components.minute];
+
+	return @"Now";
+
+}
+
 @end
 
 @implementation NSDateComponents (NSFormatter)

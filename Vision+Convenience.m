@@ -202,10 +202,38 @@
 	return [handler performRequests:@[ request ]];
 }
 
+- (NSArray<VNTextObservation *> *)detectTextRectanglesWithOptions:(NSDictionary<VNImageOption,id> *)options {
+	__block NSArray *arr = Nil;
+
+	[GCD sync:^(GCD *sema) {
+		[self detectTextRectanglesWithOptions:options completionHandler:^(NSArray<VNTextObservation *> *results) {
+			arr = results;
+
+			[sema signal];
+		}];
+	}];
+
+	return arr;
+}
+
 - (BOOL)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNRectangleObservation *> *results))completionHandler {
 	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage orientation:[self orientation] options:options];
 	VNDetectRectanglesRequest *request = [VNDetectRectanglesRequest requestWithCompletionHandler:completionHandler];
 	return [handler performRequests:@[ request ]];
+}
+
+- (NSArray<VNRectangleObservation *> *)detectRectanglesWithOptions:(NSDictionary<VNImageOption,id> *)options {
+	__block NSArray *arr = Nil;
+
+	[GCD sync:^(GCD *sema) {
+		[self detectRectanglesWithOptions:options completionHandler:^(NSArray<VNRectangleObservation *> *results) {
+			arr = results;
+
+			[sema signal];
+		}];
+	}];
+
+	return arr;
 }
 
 - (CGRect)boundsForObservation:(VNDetectedObjectObservation *)observation {

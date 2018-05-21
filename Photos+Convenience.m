@@ -41,10 +41,20 @@
 @implementation PHAssetCollection (Convenience)
 
 + (PHAssetCollection *)fetchAssetCollectionWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options {
+	if (!options) {
+		options = [[PHFetchOptions alloc] init];
+		options.fetchLimit = 1;
+	}
+
 	return identifier ? [self fetchAssetCollectionsWithLocalIdentifiers:@[ identifier ] options:options].firstObject : Nil;
 }
 
 + (PHAssetCollection *)fetchAssetCollectionsWithALAssetGroupURL:(NSURL *)assetGroupURL options:(PHFetchOptions *)options {
+	if (!options) {
+		options = [[PHFetchOptions alloc] init];
+		options.fetchLimit = 1;
+	}
+
 	return assetGroupURL ? [self fetchAssetCollectionsWithALAssetGroupURLs:@[ assetGroupURL ] options:options].firstObject : Nil;
 }
 
@@ -207,11 +217,8 @@
 
 @implementation UICollectionView (Photos)
 
-- (void)performFetchResultChanges:(PHFetchResultChangeDetails *)changes inSection:(NSUInteger)section {
-	if (!changes)
-		return;
-
-	if (changes.hasIncrementalChanges)
+- (void)performFetchResultChanges:(PHFetchResultChangeDetails *)changes inSection:(NSUInteger)section completion:(void (^)(BOOL finished))completion {
+	if (changes.hasIncrementalChanges) {
 		[self performBatchUpdates:^{
 			NSArray *removedIndexes = [changes.removedIndexes indexPathsInSection:section];
 //			[removedIndexes log:@"removedIndexes:"];
@@ -232,9 +239,16 @@
 				[changes enumerateMovesWithBlock:^(NSUInteger fromIndex, NSUInteger toIndex) {
 					[self moveItemAtIndexPath:[NSIndexPath indexPathForItem:fromIndex inSection:section] toIndexPath:[NSIndexPath indexPathForItem:toIndex inSection:section]];
 				}];
-		} completion:Nil];
-	else
+		} completion:completion];
+	} else if (changes) {
 		[self reloadData];
+
+		if (completion)
+			completion(NO);
+	} else {
+		if (completion)
+			completion(NO);
+	}
 }
 
 @end

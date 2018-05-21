@@ -82,6 +82,6 @@
 
 @interface UICollectionView (Photos)
 
-- (void)performFetchResultChanges:(PHFetchResultChangeDetails *)changes inSection:(NSUInteger)section;
+- (void)performFetchResultChanges:(PHFetchResultChangeDetails *)changes inSection:(NSUInteger)section completion:(void (^)(BOOL finished))completion;
 
 @end

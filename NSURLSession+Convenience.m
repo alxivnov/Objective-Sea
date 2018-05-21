@@ -164,7 +164,7 @@ static id _instance = Nil;
 			handler(url);
 //		}];
 
-	if (download)
+	if (download || read)
 		[self download:url handler:handler];
 }
 
@@ -304,6 +304,9 @@ static id _instance = Nil;
 
 		if (completion)
 			completion(object, response);
+
+		if (!object)
+			[[NSString stringWithData:data] log:@"JSON:"];
 	}];
 }
 

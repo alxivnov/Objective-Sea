@@ -225,7 +225,11 @@
 
 - (BOOL)writeToURL:(NSURL *)url {
 	NSError *error = Nil;
-	BOOL write = [self writeToURL:url error:&error];
+	BOOL write = NO;
+	if (@available(iOS 11.0, *))
+		write = [self writeToURL:url error:&error];
+	else
+		write = [self writeToURL:url atomically:YES];
 	[error log:@"writeToURL:"];
 	return write;
 }
@@ -244,7 +248,11 @@
 
 - (BOOL)writeToURL:(NSURL *)url {
 	NSError *error = Nil;
-	BOOL write = [self writeToURL:url error:&error];
+	BOOL write = NO;
+	if (@available(iOS 11.0, *))
+		write = [self writeToURL:url error:&error];
+	else
+		write = [self writeToURL:url atomically:YES];
 	[error log:@"writeToURL:"];
 	return write;
 }

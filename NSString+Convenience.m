@@ -157,4 +157,8 @@
 	return [self stringWithData:data encoding:Nil];
 }
 
+- (NSAttributedString *)attributedString:(NSDictionary<NSAttributedStringKey, id> *)attrs {
+	return [[NSAttributedString alloc] initWithString:self attributes:attrs];
+}
+
 @end

@@ -54,8 +54,8 @@
 	NSData *vector = [self vector:predicate];
 
 	NSUInteger count = vector.length / sizeof(double);
-	if (count < 5)
-		return Nil;
+//	if (count < 5)
+//		return Nil;
 
 	double *bytes = malloc(vector.length);
 	[vector getBytes:bytes length:vector.length];
@@ -66,15 +66,14 @@
 	NSUInteger q2 = count / 2;
 	NSUInteger q3 = count * 3 / 4;
 
-	double min = bytes[0];
-	double quartile1 = q2 % 2 ? bytes[q1] : ((bytes[q1 - 1] + bytes[q1]) / 2.0);
-	double median = count % 2 ? bytes[q2] : ((bytes[q2 - 1] + bytes[q2]) / 2.0);
-	double quartile3 = q2 % 2 ? bytes[q3] : ((bytes[q3 - 1] + bytes[q3]) / 2.0);
-	double max = bytes[count - 1];
-
+	NSNumber *min = count >= 1 ? @(bytes[0]) : (id)[NSNull null];
+	NSNumber *quartile1 = count >= 4 ? @(q2 % 2 ? bytes[q1] : ((bytes[q1 - 1] + bytes[q1]) / 2.0)) : (id)[NSNull null];
+	NSNumber *median = count >= 2 ? @(count % 2 ? bytes[q2] : ((bytes[q2 - 1] + bytes[q2]) / 2.0)) : (id)[NSNull null];
+	NSNumber *quartile3 = count >= 4 ? @(q2 % 2 ? bytes[q3] : ((bytes[q3 - 1] + bytes[q3]) / 2.0)) : (id)[NSNull null];
+	NSNumber *max = count >= 1 ? @(bytes[count - 1]) : (id)[NSNull null];
 	free(bytes);
 
-	return @[ @(min), @(quartile1), @(median), @(quartile3), @(max) ];
+	return @[ min, quartile1, median, quartile3, max ];
 }
 
 #else
@@ -121,13 +120,13 @@
 	NSUInteger q2 = count / 2;
 	NSUInteger q3 = count * 3 / 4;
 
-	double min = numbers[0].doubleValue;
-	double quartile1 = q2 % 2 ? numbers[q1].doubleValue : ((numbers[q1 - 1].doubleValue + numbers[q1].doubleValue) / 2.0);
-	double median = count % 2 ? numbers[q2].doubleValue : ((numbers[q2 - 1].doubleValue + numbers[q2].doubleValue) / 2.0);
-	double quartile3 = q2 % 2 ? numbers[q3].doubleValue : ((numbers[q3 - 1].doubleValue + numbers[q3].doubleValue) / 2.0);
-	double max = numbers[count - 1].doubleValue;
+	NSNumber *min = count >= 1 ? numbers[0] : (id)[NSNull null];
+	NSNumber *quartile1 = count >= 2 ? (q2 % 2 ? numbers[q1] : @((numbers[q1 - 1].doubleValue + numbers[q1].doubleValue) / 2.0)) : (id)[NSNull null];
+	NSNumber *median = count >= 4 ? (count % 2 ? numbers[q2] : @((numbers[q2 - 1].doubleValue + numbers[q2].doubleValue) / 2.0)) : (id)[NSNull null];
+	NSNumber *quartile3 = count >= 2 ? (q2 % 2 ? numbers[q3] : @((numbers[q3 - 1].doubleValue + numbers[q3].doubleValue) / 2.0)) : (id)[NSNull null];
+	NSNumber *max = count >= 1 ? numbers[count - 1] : (id)[NSNull null];
 
-	return @[ @(min), @(quartile1), @(median), @(quartile3), @(max) ];
+	return @[ min, quartile1, median, quartile3, max ];
 }
 
 #endif
@@ -141,15 +140,18 @@
 }
 
 - (double)min:(NSNumber *(^)(id))predicate {
-	return [self quartiles:predicate].firstObject.doubleValue;
+	id obj = [self quartiles:predicate].firstObject;
+	return [obj isKindOfClass:[NSNumber class]] ? [obj doubleValue] : 0.0;
 }
 
 - (double)med:(NSNumber *(^)(id))predicate {
-	return [self quartiles:predicate][2].doubleValue;
+	id obj = [self quartiles:predicate][2];
+	return [obj isKindOfClass:[NSNumber class]] ? [obj doubleValue] : 0.0;
 }
 
 - (double)max:(NSNumber *(^)(id))predicate {
-	return [self quartiles:predicate].lastObject.doubleValue;
+	id obj = [self quartiles:predicate].lastObject;
+	return [obj isKindOfClass:[NSNumber class]] ? [obj doubleValue] : 0.0;
 }
 
 @end

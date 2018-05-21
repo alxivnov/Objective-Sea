@@ -61,6 +61,8 @@
 - (NSString *)weekdayDescription;
 - (NSString *)timestampDescription;
 
+- (NSString *)descriptionFromNow;
+
 @end
 
 @interface NSDateComponents (NSFormatter)

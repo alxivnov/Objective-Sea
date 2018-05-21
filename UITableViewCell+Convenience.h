@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "Dispatch+Convenience.h"
+#import "Accelerate+Convenience.h"
 #import "NSObject+Convenience.h"
 
 @interface UITableViewCell (Convenience)
@@ -18,6 +19,8 @@
 - (UITableView *)tableView;
 
 - (void)setAccessoryView:(UIView *)accessoryView insets:(UIEdgeInsets)insets;
+
+@property (strong, nonatomic) NSArray<__kindof UIView *> *accessoryViews;
 
 @property (strong, nonatomic, readonly) UILabel *accessoryLabel;
 @property (strong, nonatomic, readonly) UISwitch *accessorySwitch;

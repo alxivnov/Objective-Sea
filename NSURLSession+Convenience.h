@@ -48,7 +48,7 @@
 - (BOOL)download:(NSURL *)url;
 
 - (void)cache:(BOOL)read handler:(void (^)(NSURL *url))handler;
-- (void)cache:(void (^)(NSURL *))handler;
+- (void)cache:(void (^)(NSURL *url))handler;
 - (NSURL *)cache;
 
 @end
