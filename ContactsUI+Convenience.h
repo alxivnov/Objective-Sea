@@ -15,6 +15,8 @@
 
 + (instancetype)defaultStore;
 
++ (CNAuthorizationStatus)authorizationStatus;
+
 - (void)requestAccess:(void (^)(BOOL granted))completionHandler;
 
 - (BOOL)enumerateContactsWithKeysToFetch:(NSArray <id<CNKeyDescriptor>>*)keysToFetch usingBlock:(BOOL (^)(CNContact *contact))block;
@@ -48,6 +50,8 @@
 + (instancetype)flickrProfileWithUsername:(NSString *)username;
 + (instancetype)linkedInProfileWithUsername:(NSString *)username;
 + (instancetype)twitterProfileWithUsername:(NSString *)username;
+
+@property (strong, nonatomic, readonly) NSURL *url;
 
 @end
 

@@ -43,7 +43,7 @@ typedef NS_OPTIONS(NSUInteger, UIPosition) {
 #define UIPositionHorizontal(a) (a & (UIPositionLeft | UIPositionRight))
 #define UIPositionVertical(a) (a & (UIPositionBottom | UIPositionTop))
 
-#define UIViewSubview(cls) ^BOOL(UIView *subview) { return [subview isKindOfClass:[cls class]]; }
+#define UIViewIsKindOfClass(cls) ^BOOL(UIView *view) { return [view isKindOfClass:[cls class]]; }
 
 @interface UIView (Convenience)
 
@@ -52,6 +52,7 @@ typedef NS_OPTIONS(NSUInteger, UIPosition) {
 
 - (__kindof UIView *)rootview;
 
+- (__kindof UIView *)superview:(BOOL (^)(UIView *superview))block;
 - (__kindof UIView *)subview:(BOOL (^)(UIView *subview))block;
 
 - (UIColor *)rootBackgroundColor;

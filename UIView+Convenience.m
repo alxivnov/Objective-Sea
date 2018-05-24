@@ -27,6 +27,10 @@
 	return rootview;
 }
 
+- (__kindof UIView *)superview:(BOOL (^)(UIView *))block {
+	return block && block(self.superview) ? self.superview : [self.superview superview:block];
+}
+
 - (__kindof UIView *)subview:(BOOL (^)(UIView *))block {
 	for (UIView *view in self.subviews) {
 		UIView *subview = block && block(view) ? view : [view subview:block];

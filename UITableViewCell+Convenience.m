@@ -53,9 +53,10 @@
 		stack.axis = UILayoutConstraintAxisHorizontal;
 		stack.frame = CGRectMake(0.0, 0.0, [accessoryViews sum:^NSNumber *(__kindof UIView *obj) {
 			return @(obj.frame.size.width);
-		}], [accessoryViews max:^NSNumber *(__kindof UIView *obj) {
+		}] + (accessoryViews.count - 1) * 8.0, [accessoryViews max:^NSNumber *(__kindof UIView *obj) {
 			return @(obj.frame.size.height);
 		}]);
+		stack.spacing = UIStackViewSpacingUseSystem;
 		self.accessoryView = stack;
 	} else {
 		self.accessoryView = Nil;

@@ -45,6 +45,8 @@
 
 	if (cancelActionTitle/* && [self iPhone]*/)
 		[alert addAction:[UIAlertAction actionWithTitle:cancelActionTitle style:UIAlertActionStyleCancel handler:handler]];
+	
+	alert.preferredAction = alert.actions.firstObject;
 
 	return alert;
 }

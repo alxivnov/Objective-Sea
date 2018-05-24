@@ -12,6 +12,10 @@
 
 __static(CNContactStore *, defaultStore, [[CNContactStore alloc] init])
 
++ (CNAuthorizationStatus)authorizationStatus {
+	return [self authorizationStatusForEntityType:CNEntityTypeContacts];
+}
+
 - (void)requestAccess:(void (^)(BOOL))completionHandler {
 	[self requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
 		if (completionHandler)
@@ -110,6 +114,10 @@ __static(CNContactStore *, defaultStore, [[CNContactStore alloc] init])
 
 + (instancetype)twitterProfileWithUsername:(NSString *)username {
 	return [[CNSocialProfile alloc] initWithUrlString:[NSString stringWithFormat:@"http://twitter.com/%@", username] username:username userIdentifier:Nil service:CNSocialProfileServiceTwitter];
+}
+
+- (NSURL *)url {
+	return [NSURL URLWithString:self.urlString];
 }
 
 @end
