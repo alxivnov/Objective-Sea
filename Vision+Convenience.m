@@ -246,6 +246,9 @@
 }
 
 - (UIImage *)imageWithObservation:(VNDetectedObjectObservation *)observation {
+	if (CGRectIsEmpty(observation.boundingBox))
+		return self;
+
 	CGRect rect = [self boundsForObservation:observation];
 	rect.origin.x *= self.scale;
 	rect.origin.y *= self.scale;
