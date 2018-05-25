@@ -6,8 +6,6 @@
 //  Copyright © 2017 Alexander Ivanov. All rights reserved.
 //
 
-#import <Answers/Answers.h>
-
 #import <Crashlytics/Crashlytics.h>
 
 #import "NSDictionary+Convenience.h"

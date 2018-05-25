@@ -34,7 +34,7 @@
 
 @interface PHAsset (Convenience)
 
-+ (PHFetchResult<PHAsset *> *)fetchAssetsWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options;
++ (PHAsset *)fetchAssetWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options;
 
 @end
 

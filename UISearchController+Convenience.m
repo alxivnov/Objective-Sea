@@ -8,6 +8,25 @@
 
 #import "UISearchController+Convenience.h"
 
+@implementation UIViewController (UISearchController)
+
+- (id<UISearchResultsUpdating>)searchResultsUpdater {
+	return self.navigationItem.searchController.searchResultsUpdater;
+}
+
+- (void)setSearchResultsUpdater:(id<UISearchResultsUpdating>)searchResultsUpdater {
+	if (!self.navigationItem.searchController) {
+		self.navigationItem.searchController = [[UISearchController alloc] initWithSearchResultsController:Nil];
+		self.navigationItem.searchController.dimsBackgroundDuringPresentation = NO;
+		self.navigationItem.searchController.hidesNavigationBarDuringPresentation = NO;
+		self.navigationItem.searchController.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+	}
+
+	self.navigationItem.searchController.searchResultsUpdater = searchResultsUpdater;
+}
+
+@end
+
 @implementation UISearchResultsUpdater
 
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController {

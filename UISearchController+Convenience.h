@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@interface UIViewController (UISearchController)
+
+@property (strong, nonatomic) id <UISearchResultsUpdating> searchResultsUpdater;
+
+@end
+
 @interface UISearchResultsUpdater : UISearchController <UISearchResultsUpdating>
 
 @property (strong, nonatomic) void(^searchResultsHandler)(NSString *text);

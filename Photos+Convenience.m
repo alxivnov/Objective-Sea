@@ -32,8 +32,8 @@
 
 @implementation PHAsset (Convenience)
 
-+ (PHFetchResult<PHAsset *> *)fetchAssetsWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options {
-	return identifier ? [self fetchAssetsWithLocalIdentifiers:@[ identifier ] options:options] : Nil;
++ (PHAsset *)fetchAssetWithLocalIdentifier:(NSString *)identifier options:(PHFetchOptions *)options {
+	return identifier ? [self fetchAssetsWithLocalIdentifiers:@[ identifier ] options:options].firstObject : Nil;
 }
 
 @end
