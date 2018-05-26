@@ -53,6 +53,10 @@
 	return vc ? vc.lastViewController : self;
 }
 
+- (UIViewController *)firstViewControllerRespondingToSelector:(SEL)aSelector next:(UIViewController *(^)(UIViewController *))next {
+	return [self respondsToSelector:aSelector] ? self : next ? [next(self) firstViewControllerRespondingToSelector:aSelector next:next] : Nil;
+}
+
 - (UIViewController *)presentRootViewControllerAnimated:(BOOL)animated {
 	if ([self isKindOfClass:[UINavigationController class]]) {
 		UINavigationController *nav = (UINavigationController *)self;

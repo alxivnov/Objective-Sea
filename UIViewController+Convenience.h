@@ -22,11 +22,13 @@
 @property (assign, nonatomic, readonly) BOOL iPad;
 @property (assign, nonatomic, readonly) BOOL iPhone;
 
-//@property (strong, nonatomic, readonly) __kindof UIViewController *prevViewController;
+@property (strong, nonatomic, readonly) __kindof UIViewController *prevViewController;
 @property (strong, nonatomic, readonly) __kindof UIViewController *containingViewController;
 
 @property (strong, nonatomic, readonly) __kindof UIViewController *nextViewController;
 @property (strong, nonatomic, readonly) __kindof UIViewController *lastViewController;
+
+- (UIViewController *)firstViewControllerRespondingToSelector:(SEL)aSelector next:(UIViewController *(^)(UIViewController *viewController))next;
 
 - (__kindof UIViewController *)presentRootViewControllerAnimated:(BOOL)animated;
 - (__kindof UIViewController *)presentRootViewController;

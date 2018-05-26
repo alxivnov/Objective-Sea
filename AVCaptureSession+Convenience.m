@@ -110,13 +110,13 @@ UIImageOrientation UIImageOrientationForCGImagePropertyOrientation(CGImageProper
 
 @implementation AVCapturePhotoViewController
 
-__synthesize(UIButton *, doneButton, [UIButton buttonWithFrame:CGRectMake(20.0, self.view.bounds.size.height - 44.0 - 30.0, 88.0, 44.0) title:@"Done" target:self action:@selector(done:)])
+__synthesize(UIButton *, doneButton, [UIButton buttonWithFrame:CGRectMake(20.0, self.view.bounds.size.height - 44.0 - 30.0/* - 68.0*/, 88.0, 44.0) title:@"Done" target:self action:@selector(done:)])
 
 - (IBAction)done:(UIButton *)sender {
 	[self.photoOutput capturePhotoWithSettings:[AVCapturePhotoSettings photoSettings] delegate:self];
 }
 
-__synthesize(UIButton *, cancelButton, [UIButton buttonWithFrame:CGRectMake(self.view.bounds.size.width - 88.0 - 20.0, self.view.bounds.size.height - 44.0 - 30.0, 88.0, 44.0) title:@"Cancel" target:self action:@selector(cancel:)])
+__synthesize(UIButton *, cancelButton, [UIButton buttonWithFrame:CGRectMake(self.view.bounds.size.width - 88.0 - 20.0, self.view.bounds.size.height - 44.0 - 30.0/* - 68.0*/, 88.0, 44.0) title:@"Cancel" target:self action:@selector(cancel:)])
 
 - (IBAction)cancel:(UIButton *)sender {
 	[self dismissViewControllerAnimated:YES completion:Nil];
