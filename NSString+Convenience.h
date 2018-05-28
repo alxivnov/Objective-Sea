@@ -29,7 +29,8 @@
 
 - (NSString *)stringByRemovingCharactersInSet:(NSCharacterSet *)set;
 - (NSString *)stringBySelectingCharactersInSet:(NSCharacterSet *)set;
-- (BOOL)isWhitespace;
+@property (strong, nonatomic, readonly) NSString *stringByTrimmingWhitespace;
+@property (assign, nonatomic, readonly) BOOL isWhitespace;
 
 - (NSString *)uppercaseFirstLetter;
 

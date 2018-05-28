@@ -76,12 +76,16 @@
 	return [self stringByRemovingCharactersInSet:[set invertedSet]];
 }
 
+- (NSString *)stringByTrimmingWhitespace {
+	return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
 - (BOOL)isWhitespace {
 	return ![self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length;
 }
 
 - (NSString *)uppercaseFirstLetter {
-	return [[[self substringToIndex:1] uppercaseString] stringByAppendingString:[self substringFromIndex:1]];
+	return self.length ? [[[self substringToIndex:1] uppercaseString] stringByAppendingString:[self substringFromIndex:1]] : self;
 }
 
 #define INDEX(array, index) array.count > index ? array[index] : @""
