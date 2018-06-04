@@ -33,7 +33,7 @@
 
 @end
 
-#if __has_include("UserNotifications+Convenience.h")
+#if __has_include("UserNotifications+Convenience.h") && __has_include(<UserNotifications/UserNotifications.h>)
 
 #import "UserNotifications+Convenience.h"
 

@@ -11,18 +11,23 @@
 @implementation UIViewController (UISearchController)
 
 - (id<UISearchResultsUpdating>)searchResultsUpdater {
-	return self.navigationItem.searchController.searchResultsUpdater;
+	if (@available(iOS 11.0, *))
+		return self.navigationItem.searchController.searchResultsUpdater;
+	else
+		return Nil;
 }
 
 - (void)setSearchResultsUpdater:(id<UISearchResultsUpdating>)searchResultsUpdater {
-	if (!self.navigationItem.searchController) {
-		self.navigationItem.searchController = [[UISearchController alloc] initWithSearchResultsController:Nil];
-		self.navigationItem.searchController.dimsBackgroundDuringPresentation = NO;
-		self.navigationItem.searchController.hidesNavigationBarDuringPresentation = NO;
-		self.navigationItem.searchController.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
-	}
+	if (@available(iOS 11.0, *)) {
+		if (!self.navigationItem.searchController) {
+			self.navigationItem.searchController = [[UISearchController alloc] initWithSearchResultsController:Nil];
+			self.navigationItem.searchController.dimsBackgroundDuringPresentation = NO;
+			self.navigationItem.searchController.hidesNavigationBarDuringPresentation = NO;
+			self.navigationItem.searchController.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+		}
 
-	self.navigationItem.searchController.searchResultsUpdater = searchResultsUpdater;
+		self.navigationItem.searchController.searchResultsUpdater = searchResultsUpdater;
+	}
 }
 
 @end

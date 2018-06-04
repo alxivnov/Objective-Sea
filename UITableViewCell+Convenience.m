@@ -56,7 +56,11 @@
 		}] + (accessoryViews.count - 1) * 8.0, [accessoryViews max:^NSNumber *(__kindof UIView *obj) {
 			return @(obj.frame.size.height);
 		}]);
-		stack.spacing = UIStackViewSpacingUseSystem;
+		
+		if (@available(iOS 11.0, *))
+			stack.spacing = UIStackViewSpacingUseSystem;
+		else
+			stack.spacing = 8.0;
 		self.accessoryView = stack;
 	} else {
 		self.accessoryView = Nil;
@@ -140,7 +144,7 @@ __synthesize(UISwitch *, switchView, [[UISwitch alloc] initWithFrame:CGRectZero]
 
 @end
 
-#if __has_include("UserNotifications+Convenience.h")
+#if __has_include("UserNotifications+Convenience.h") && __has_include(<UserNotifications/UserNotifications.h>)
 
 @implementation UNTableViewCell
 

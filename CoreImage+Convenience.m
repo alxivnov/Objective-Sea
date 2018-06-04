@@ -67,7 +67,13 @@ CGImagePropertyOrientation CGImagePropertyOrientationForUIImageOrientation(UIIma
 		return self;
 
 	NSMutableDictionary *dic = params ? [params mutableCopy] : [NSMutableDictionary dictionaryWithCapacity:1];
-	dic[kCIInputImageKey] = self.CIImage ? self.CIImage : [[CIImage imageWithCGImage:self.CGImage] imageByApplyingCGOrientation:CGImagePropertyOrientationForUIImageOrientation(self.imageOrientation)];
+	CIImage *inputImage = self.CIImage;
+	if (!inputImage) {
+		inputImage = [CIImage imageWithCGImage:self.CGImage];
+		if (@available(iOS 11.0, *))
+			inputImage = [inputImage imageByApplyingCGOrientation:CGImagePropertyOrientationForUIImageOrientation(self.imageOrientation)];
+	}
+	dic[kCIInputImageKey] = inputImage;
 
 	CIFilter *filter = [CIFilter filterWithName:name withInputParameters:dic];
 

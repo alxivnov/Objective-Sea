@@ -157,29 +157,29 @@ __static(NSDateComponentsFormatter *, ssShortFormatter, [NSDateComponentsFormatt
 	NSDateComponents *components = [[NSCalendar currentCalendar] components:units fromDate:self toDate:[NSDate date] options:0];
 
 	if (components.year > 0)
-		return [NSString stringWithFormat:components.year == 1 ? @"A year ago" : @"%ld years ago", components.year];
+		return [NSString stringWithFormat:components.year == 1 ? @"A year ago" : @"%ld years ago", (long)components.year];
 	else if (components.year < 0)
-		return [NSString stringWithFormat:components.year == -1 ? @"In a year" : @"In %ld years", components.year];
+		return [NSString stringWithFormat:components.year == -1 ? @"In a year" : @"In %ld years", (long)components.year];
 
 	else if (components.month > 0)
-		return [NSString stringWithFormat:components.month == 1 ? @"A month ago" : @"%ld months ago", components.month];
+		return [NSString stringWithFormat:components.month == 1 ? @"A month ago" : @"%ld months ago", (long)components.month];
 	else if (components.month < 0)
-		return [NSString stringWithFormat:components.month == -1 ? @"In a month" : @"In %ld months", components.month];
+		return [NSString stringWithFormat:components.month == -1 ? @"In a month" : @"In %ld months", (long)components.month];
 
 	else if (components.day > 0)
-		return [NSString stringWithFormat:components.day == 1 ? @"A day ago" : @"%ld days ago", components.day];
+		return [NSString stringWithFormat:components.day == 1 ? @"A day ago" : @"%ld days ago", (long)components.day];
 	else if (components.day < 0)
-		return [NSString stringWithFormat:components.day == -1 ? @"In a day" : @"In %ld days", components.day];
+		return [NSString stringWithFormat:components.day == -1 ? @"In a day" : @"In %ld days", (long)components.day];
 
 	else if (components.hour > 0)
-		return [NSString stringWithFormat:components.hour == 1 ? @"A hour ago" : @"%ld hours ago", components.hour];
+		return [NSString stringWithFormat:components.hour == 1 ? @"An hour ago" : @"%ld hours ago", (long)components.hour];
 	else if (components.hour < 0)
-		return [NSString stringWithFormat:components.hour == -1 ? @"In a hour" : @"In %ld hours", components.hour];
+		return [NSString stringWithFormat:components.hour == -1 ? @"In an hour" : @"In %ld hours", (long)components.hour];
 
 	else if (components.minute > 0)
-		return [NSString stringWithFormat:components.minute == 1 ? @"A minute ago" : @"%ld minutes ago", components.minute];
+		return [NSString stringWithFormat:components.minute == 1 ? @"A minute ago" : @"%ld minutes ago", (long)components.minute];
 	else if (components.minute < 0)
-		return [NSString stringWithFormat:components.minute == -1 ? @"In a minute" : @"In %ld minutes", components.minute];
+		return [NSString stringWithFormat:components.minute == -1 ? @"In a minute" : @"In %ld minutes", (long)components.minute];
 
 	return @"Now";
 
