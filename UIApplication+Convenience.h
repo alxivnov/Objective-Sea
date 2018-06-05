@@ -17,6 +17,8 @@
 
 #define NSURLWithTel(tel) [NSURL URLWithString:tel ? [NSString stringWithFormat:@"tel:%@", tel] : @"tel"]
 
+#define IOS_10_0 __has_include(<UserNotifications/UNUserNotificationCenter.h>)
+
 @interface UIApplication (Convenience)
 
 + (void)openURL:(NSURL *)url options:(NSDictionary<NSString *, id> *)options completionHandler:(void (^)(BOOL success))completion;

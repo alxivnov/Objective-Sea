@@ -139,6 +139,43 @@ __static(CNContactStore *, defaultStore, [[CNContactStore alloc] init])
 @end
 
 
+@interface CNContactNavigationController : UINavigationController <CNContactViewControllerDelegate>
+@property (strong, nonatomic, readonly) CNContactViewController *contactViewController;
+@end
+
+@implementation CNContactNavigationController
+
+- (CNContactViewController *)contactViewController {
+	return self.viewControllers.firstObject;
+}
+
++ (instancetype)viewControllerForUnknownContact:(CNContact *)contact {
+	CNContactViewController *vc = [CNContactViewController viewControllerForUnknownContact:contact];
+
+	CNContactNavigationController *nav = [[CNContactNavigationController alloc] initWithRootViewController:vc];
+
+	vc.delegate = nav;
+
+	vc.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:nav action:@selector(done:)];
+
+	return nav;
+}
+
+- (IBAction)done:(UIBarButtonItem *)sender {
+	[self dismissViewControllerAnimated:YES completion:Nil];
+}
+
+- (BOOL)contactViewController:(CNContactViewController *)viewController shouldPerformDefaultActionForContactProperty:(CNContactProperty *)property {
+	return YES;
+}
+
+- (void)contactViewController:(CNContactViewController *)viewController didCompleteWithContact:(nullable CNContact *)contact {
+	[viewController.navigationController dismissViewControllerAnimated:YES completion:Nil];
+}
+
+@end
+
+
 @interface CNContactPickerViewControllerEx : CNContactPickerViewController <CNContactPickerDelegate>
 @property void (^completion)(CNContact *);
 @end
@@ -180,6 +217,18 @@ __static(CNContactStore *, defaultStore, [[CNContactStore alloc] init])
 	[self presentViewController:picker animated:YES completion:Nil];
 
 	return picker;
+}
+
+- (CNContactViewController *)presentUnknownContact:(CNContact *)contact store:(CNContactStore *)contactStore {
+	if (!contact)
+		return Nil;
+
+	CNContactNavigationController *vc = [CNContactNavigationController viewControllerForUnknownContact:contact];
+	vc.contactViewController.contactStore = contactStore;
+
+	[self presentViewController:vc animated:YES completion:Nil];
+
+	return vc.contactViewController;
 }
 
 @end

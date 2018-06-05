@@ -8,8 +8,6 @@
 
 #import "UIApplication+Convenience.h"
 
-#define IOS_10_0 __has_include(<UserNotifications/UserNotifications.h>)
-
 //#define STR_SOUNDS_RINGTONE @"prefs:root=Sounds&path=Ringtone"
 
 @implementation UIApplication (Convenience)
@@ -18,17 +16,17 @@
 	if (!url)
 		return;
 
-#if IOS_10_0
-	if (!options)
-		options = @{ };
+	if (@available(iOS 10.0, *)) {
+		if (!options)
+			options = @{ };
 
-	[[self sharedApplication] openURL:url options:options completionHandler:completion];
-#else
-	BOOL success = [[self sharedApplication] openURL:url];
+		[[self sharedApplication] openURL:url options:options completionHandler:completion];
+	} else {
+		BOOL success = [[self sharedApplication] openURL:url];
 
-	if (completion)
-		completion(success);
-#endif
+		if (completion)
+			completion(success);
+	}
 }
 
 + (void)openURL:(NSURL *)url {

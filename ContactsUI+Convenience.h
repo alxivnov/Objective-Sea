@@ -67,4 +67,6 @@
 
 - (CNContactPickerViewController *)presentContactPickerWithCompletion:(void (^)(CNContact *contact))completion;
 
+- (CNContactViewController *)presentUnknownContact:(CNContact *)contact store:(CNContactStore *)contactStore;
+
 @end

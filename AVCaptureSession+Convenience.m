@@ -55,9 +55,28 @@
 @implementation AVCaptureVideoDataOutput (Convenience)
 
 + (instancetype)videoDataOutputWithSampleBufferDelegate:(id<AVCaptureVideoDataOutputSampleBufferDelegate>)sampleBufferDelegate queue:(dispatch_queue_t)sampleBufferCallbackQueue {
-	AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
-	[output setSampleBufferDelegate:sampleBufferDelegate queue:sampleBufferCallbackQueue];
+	AVCaptureVideoDataOutput *output = [[self alloc] init];
+	[output setSampleBufferDelegate:sampleBufferDelegate queue:sampleBufferCallbackQueue ?: dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0)];
 	return output;
+}
+
+@end
+
+@implementation AVCaptureMetadataOutput (Convenience)
+
++ (instancetype)metadataOutputWithMetadataObjectsDelegate:(id<AVCaptureMetadataOutputObjectsDelegate>)objectsDelegate queue:(dispatch_queue_t)objectsCallbackQueue {
+	AVCaptureMetadataOutput *output = [[self alloc] init];
+	[output setMetadataObjectsDelegate:objectsDelegate queue:objectsCallbackQueue ?: dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0)];
+	return output;
+}
+
+- (void)setAvailableMetadataObjectTypes:(NSArray<AVMetadataObjectType> *)metadataObjectTypes {
+	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:metadataObjectTypes.count];
+	for (NSString *type in metadataObjectTypes)
+		if ([self.availableMetadataObjectTypes containsObject:type])
+			[arr addObject:type];
+
+	self.metadataObjectTypes = arr;
 }
 
 @end

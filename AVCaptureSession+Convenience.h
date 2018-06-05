@@ -31,6 +31,14 @@
 
 @end
 
+@interface AVCaptureMetadataOutput (Convenience)
+
++ (instancetype)metadataOutputWithMetadataObjectsDelegate:(id<AVCaptureMetadataOutputObjectsDelegate>)objectsDelegate queue:(dispatch_queue_t)objectsCallbackQueue;
+
+- (void)setAvailableMetadataObjectTypes:(NSArray<AVMetadataObjectType> *)metadataObjectTypes;
+
+@end
+
 #if __has_include(<UIKit/UIKit.h>)
 
 #import <UIKit/UIKit.h>
