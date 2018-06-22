@@ -46,7 +46,7 @@
 	return deviceUniqueID ? [self deviceInputWithDevice:[AVCaptureDevice deviceWithUniqueID:deviceUniqueID]] : Nil;
 }
 
-+ (instancetype)deviceInputWithDeviceType:(AVCaptureDeviceType)deviceType mediaType:(AVMediaType)mediaType position:(AVCaptureDevicePosition)position {
++ (instancetype)deviceInputWithDeviceType:(AVCaptureDeviceType)deviceType mediaType:(AVMediaType)mediaType position:(AVCaptureDevicePosition)position API_AVAILABLE(ios(10.0)) {
 	return deviceType ? [self deviceInputWithDevice:[AVCaptureDevice defaultDeviceWithDeviceType:deviceType mediaType:mediaType position:position]] : Nil;
 }
 
