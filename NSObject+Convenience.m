@@ -131,6 +131,14 @@
 
 @end
 
+@implementation NSNumber (Convenience)
+
+- (BOOL)isNotANumber {
+	return [self isEqualToNumber:[NSDecimalNumber notANumber]];
+}
+
+@end
+
 #define NSMethodReturnTypeChar "c"
 #define NSMethodReturnTypeInt "i"
 #define NSMethodReturnTypeShort "s"

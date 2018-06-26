@@ -127,6 +127,12 @@
 
 @end
 
+@interface NSNumber (Convenience)
+
+@property (assign, nonatomic, readonly) BOOL isNotANumber;
+
+@end
+
 @interface NSMethodSignature (Convenience)
 
 - (BOOL)methodReturnTypeIs:(char *)methodReturnType;

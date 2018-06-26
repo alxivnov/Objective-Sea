@@ -66,11 +66,11 @@
 	NSUInteger q2 = count / 2;
 	NSUInteger q3 = count * 3 / 4;
 
-	NSNumber *min = count >= 1 ? @(bytes[0]) : (id)[NSNull null];
-	NSNumber *quartile1 = count >= 4 ? @(q2 % 2 ? bytes[q1] : ((bytes[q1 - 1] + bytes[q1]) / 2.0)) : (id)[NSNull null];
-	NSNumber *median = count >= 2 ? @(count % 2 ? bytes[q2] : ((bytes[q2 - 1] + bytes[q2]) / 2.0)) : (id)[NSNull null];
-	NSNumber *quartile3 = count >= 4 ? @(q2 % 2 ? bytes[q3] : ((bytes[q3 - 1] + bytes[q3]) / 2.0)) : (id)[NSNull null];
-	NSNumber *max = count >= 1 ? @(bytes[count - 1]) : (id)[NSNull null];
+	NSNumber *min = count >= 1 ? @(bytes[0]) : [NSDecimalNumber notANumber];
+	NSNumber *quartile1 = count >= 4 ? @(q2 % 2 ? bytes[q1] : ((bytes[q1 - 1] + bytes[q1]) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *median = count >= 2 ? @(count % 2 ? bytes[q2] : ((bytes[q2 - 1] + bytes[q2]) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *quartile3 = count >= 4 ? @(q2 % 2 ? bytes[q3] : ((bytes[q3 - 1] + bytes[q3]) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *max = count >= 1 ? @(bytes[count - 1]) : [NSDecimalNumber notANumber];
 	free(bytes);
 
 	return @[ min, quartile1, median, quartile3, max ];
@@ -120,11 +120,11 @@
 	NSUInteger q2 = count / 2;
 	NSUInteger q3 = count * 3 / 4;
 
-	NSNumber *min = count >= 1 ? numbers[0] : (id)[NSNull null];
-	NSNumber *quartile1 = count >= 2 ? (q2 % 2 ? numbers[q1] : @((numbers[q1 - 1].doubleValue + numbers[q1].doubleValue) / 2.0)) : (id)[NSNull null];
-	NSNumber *median = count >= 4 ? (count % 2 ? numbers[q2] : @((numbers[q2 - 1].doubleValue + numbers[q2].doubleValue) / 2.0)) : (id)[NSNull null];
-	NSNumber *quartile3 = count >= 2 ? (q2 % 2 ? numbers[q3] : @((numbers[q3 - 1].doubleValue + numbers[q3].doubleValue) / 2.0)) : (id)[NSNull null];
-	NSNumber *max = count >= 1 ? numbers[count - 1] : (id)[NSNull null];
+	NSNumber *min = count >= 1 ? numbers[0] : [NSDecimalNumber notANumber];
+	NSNumber *quartile1 = count >= 2 ? (q2 % 2 ? numbers[q1] : @((numbers[q1 - 1].doubleValue + numbers[q1].doubleValue) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *median = count >= 4 ? (count % 2 ? numbers[q2] : @((numbers[q2 - 1].doubleValue + numbers[q2].doubleValue) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *quartile3 = count >= 2 ? (q2 % 2 ? numbers[q3] : @((numbers[q3 - 1].doubleValue + numbers[q3].doubleValue) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *max = count >= 1 ? numbers[count - 1] : [NSDecimalNumber notANumber];
 
 	return @[ min, quartile1, median, quartile3, max ];
 }
@@ -140,18 +140,18 @@
 }
 
 - (double)min:(NSNumber *(^)(id))predicate {
-	id obj = [self quartiles:predicate].firstObject;
-	return [obj isKindOfClass:[NSNumber class]] ? [obj doubleValue] : 0.0;
+	NSNumber *obj = [self quartiles:predicate].firstObject;
+	return [obj isEqualToNumber:[NSDecimalNumber notANumber]] ? 0.0 : obj.doubleValue;
 }
 
 - (double)med:(NSNumber *(^)(id))predicate {
-	id obj = [self quartiles:predicate][2];
-	return [obj isKindOfClass:[NSNumber class]] ? [obj doubleValue] : 0.0;
+	NSNumber *obj = [self quartiles:predicate][2];
+	return [obj isEqualToNumber:[NSDecimalNumber notANumber]] ? 0.0 : obj.doubleValue;
 }
 
 - (double)max:(NSNumber *(^)(id))predicate {
-	id obj = [self quartiles:predicate].lastObject;
-	return [obj isKindOfClass:[NSNumber class]] ? [obj doubleValue] : 0.0;
+	NSNumber *obj = [self quartiles:predicate].lastObject;
+	return [obj isEqualToNumber:[NSDecimalNumber notANumber]] ? 0.0 : obj.doubleValue;
 }
 
 @end
