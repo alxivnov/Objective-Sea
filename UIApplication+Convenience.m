@@ -16,17 +16,20 @@
 	if (!url)
 		return;
 
-	if (@available(iOS 10.0, *)) {
+#if __has_include(<UserNotifications/UserNotifications.h>)
+//	if (@available(iOS 10.0, *)) {
 		if (!options)
 			options = @{ };
 
 		[[self sharedApplication] openURL:url options:options completionHandler:completion];
-	} else {
+#else
+//	} else {
 		BOOL success = [[self sharedApplication] openURL:url];
 
 		if (completion)
 			completion(success);
-	}
+#endif
+//	}
 }
 
 + (void)openURL:(NSURL *)url {

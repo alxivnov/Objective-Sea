@@ -66,6 +66,7 @@
 
 + (instancetype)metadataOutputWithMetadataObjectsDelegate:(id<AVCaptureMetadataOutputObjectsDelegate>)objectsDelegate queue:(dispatch_queue_t)objectsCallbackQueue {
 	AVCaptureMetadataOutput *output = [[self alloc] init];
+	output.metadataObjectTypes = output.availableMetadataObjectTypes;
 	[output setMetadataObjectsDelegate:objectsDelegate queue:objectsCallbackQueue ?: dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0)];
 	return output;
 }
@@ -156,14 +157,14 @@ __synthesize(AVCaptureVideoPreviewLayer *, previewLayer, ({
 	[super viewDidLoad];
 	// Do any additional setup after loading the view.
 
-	[self.view addSubview:self.doneButton];
-	[self.view addSubview:self.cancelButton];
-
 	[self.session addInput:self.deviceInput];
 	[self.session addOutput:self.photoOutput];
 	[self.session startRunning];
 
-	[self.view.layer addSublayer:self.previewLayer];
+	[self.view.layer insertSublayer:self.previewLayer atIndex:0];
+
+	[self.view addSubview:self.doneButton];
+	[self.view addSubview:self.cancelButton];
 }
 
 - (void)didReceiveMemoryWarning {

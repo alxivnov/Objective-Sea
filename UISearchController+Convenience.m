@@ -22,7 +22,7 @@
 		if (!self.navigationItem.searchController) {
 			self.navigationItem.searchController = [[UISearchController alloc] initWithSearchResultsController:Nil];
 			self.navigationItem.searchController.dimsBackgroundDuringPresentation = NO;
-			self.navigationItem.searchController.hidesNavigationBarDuringPresentation = NO;
+//			self.navigationItem.searchController.hidesNavigationBarDuringPresentation = NO;
 			self.navigationItem.searchController.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
 		}
 
