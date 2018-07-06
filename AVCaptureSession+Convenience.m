@@ -66,7 +66,6 @@
 
 + (instancetype)metadataOutputWithMetadataObjectsDelegate:(id<AVCaptureMetadataOutputObjectsDelegate>)objectsDelegate queue:(dispatch_queue_t)objectsCallbackQueue {
 	AVCaptureMetadataOutput *output = [[self alloc] init];
-	output.metadataObjectTypes = output.availableMetadataObjectTypes;
 	[output setMetadataObjectsDelegate:objectsDelegate queue:objectsCallbackQueue ?: dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0)];
 	return output;
 }
