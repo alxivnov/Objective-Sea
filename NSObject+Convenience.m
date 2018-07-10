@@ -137,6 +137,10 @@
 	return [self isEqualToNumber:[NSDecimalNumber notANumber]];
 }
 
+- (NSDecimalNumber *)decimalNumber {
+	return [[NSDecimalNumber alloc] initWithDouble:self.doubleValue];
+}
+
 @end
 
 #define NSMethodReturnTypeChar "c"

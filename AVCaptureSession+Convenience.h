@@ -61,3 +61,15 @@
 @end
 
 #endif
+
+#if __has_include("UIApplication+Convenience.h")
+
+#import "UIApplication+Convenience.h"
+
+@interface AVCaptureDevice (Convenience)
+
++ (void)requestAccessIfNeededForMediaType:(AVMediaType)mediaType completionHandler:(void (^)(BOOL granted))handler;
+
+@end
+
+#endif

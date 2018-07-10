@@ -14,6 +14,7 @@
 @interface SKProduct (Convenience)
 
 @property (strong, nonatomic, readonly) NSString *localizedPrice;
+@property (strong, nonatomic, readonly) NSString *currencyCode;
 
 - (SKPayment *)queuePayment:(NSInteger)quantity;
 - (SKPayment *)queuePayment;
@@ -23,8 +24,8 @@
 
 @interface SKProductsRequest (Convenience)
 
-+ (instancetype)requestWithProductIdentifiers:(NSArray<NSString *> *)productIdentifiers;
-+ (instancetype)requestWithProductIdentifier:(NSString *)productIdentifier;
++ (instancetype)startRequestWithProductIdentifiers:(NSArray<NSString *> *)productIdentifiers delegate:(id <SKProductsRequestDelegate>)delegate;
++ (instancetype)startRequestWithProductIdentifier:(NSString *)productIdentifier delegate:(id <SKProductsRequestDelegate>)delegate;
 
 @end
 
@@ -32,6 +33,13 @@
 @interface SKPaymentTransaction	(Convenience)
 
 - (void)finishTransaction;
+
+@end
+
+
+@interface SKPaymentQueue (Convenience)
+
+- (void)addPaymentWithProduct:(SKProduct *)product;
 
 @end
 
@@ -56,5 +64,11 @@
 @interface NSError (StoreKit)
 
 @property (strong, nonatomic, readonly) NSString *shortDescription;
+
+@end
+
+@interface NSBundle (StoreKit)
+
+@property (strong, nonatomic, readonly) NSData *appStoreReceipt;
 
 @end

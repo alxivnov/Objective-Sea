@@ -130,6 +130,7 @@
 @interface NSNumber (Convenience)
 
 @property (assign, nonatomic, readonly) BOOL isNotANumber;
+@property (strong, nonatomic, readonly) NSDecimalNumber *decimalNumber;
 
 @end
 

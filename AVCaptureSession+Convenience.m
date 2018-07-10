@@ -185,3 +185,27 @@ __synthesize(AVCaptureVideoPreviewLayer *, previewLayer, ({
 @end
 
 #endif
+
+#if __has_include("UIApplication+Convenience.h")
+
+@implementation AVCaptureDevice (Convenience)
+
++ (void)requestAccessIfNeededForMediaType:(AVMediaType)mediaType completionHandler:(void (^)(BOOL))handler {
+	AVAuthorizationStatus status = [self authorizationStatusForMediaType:mediaType];
+
+	if (status == AVAuthorizationStatusAuthorized) {
+		if (handler)
+			handler(YES);
+	} else if (status == AVAuthorizationStatusDenied || status == AVAuthorizationStatusRestricted) {
+		[UIApplication openSettings];
+
+		if (handler)
+			handler(NO);
+	} else {
+		[AVCaptureDevice requestAccessForMediaType:mediaType completionHandler:handler];
+	}
+}
+
+@end
+
+#endif

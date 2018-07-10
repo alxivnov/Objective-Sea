@@ -17,6 +17,13 @@
 	return [formatter stringFromNumber:self.price];
 }
 
+- (NSString *)currencyCode {
+	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+	[formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+	[formatter setLocale:self.priceLocale];
+	return formatter.currencyCode;
+}
+
 - (SKPayment *)queuePayment:(NSInteger)quantity {
 	SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:self];
 	if (quantity > 0)
@@ -36,12 +43,26 @@
 
 @implementation SKProductsRequest (Convenience)
 
-+ (instancetype)requestWithProductIdentifiers:(NSArray<NSString *> *)productIdentifiers {
-	return productIdentifiers ? [[self alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]] : Nil;
++ (instancetype)startRequestWithProductIdentifiers:(NSArray<NSString *> *)productIdentifiers delegate:(id <SKProductsRequestDelegate>)delegate {
+	if (!productIdentifiers)
+		return Nil;
+
+	SKProductsRequest *request = [[self alloc] initWithProductIdentifiers:[NSSet setWithArray:productIdentifiers]];
+	request.delegate = delegate;
+	[request start];
+
+	return request;
 }
 
-+ (instancetype)requestWithProductIdentifier:(NSString *)productIdentifier {
-	return productIdentifier ? [[self alloc] initWithProductIdentifiers:[NSSet setWithObject:productIdentifier]] : Nil;
++ (instancetype)startRequestWithProductIdentifier:(NSString *)productIdentifier delegate:(id <SKProductsRequestDelegate>)delegate {
+	if (!productIdentifier)
+		return Nil;
+
+	SKProductsRequest *request = [[self alloc] initWithProductIdentifiers:[NSSet setWithObject:productIdentifier]];
+	request.delegate = delegate;
+	[request start];
+
+	return request;
 }
 
 @end
@@ -57,6 +78,15 @@
 
 - (NSString *)debugDescription {
 	return [NSString stringWithFormat:@"<SKPaymentTransaction productIdentifier=%@, transactionState=%ld, error=%@>", self.payment.productIdentifier, self.transactionState, [self.error debugDescription]];
+}
+
+@end
+
+
+@implementation SKPaymentQueue (Convenience)
+
+- (void)addPaymentWithProduct:(SKProduct *)product {
+	[self addPayment:[SKPayment paymentWithProduct:product]];
 }
 
 @end
@@ -151,6 +181,14 @@
 	}
 
 	return [NSString stringWithFormat:@"%@ %ld", self.domain, (long)self.code];
+}
+
+@end
+
+@implementation NSBundle (StoreKit)
+
+- (NSData *)appStoreReceipt {
+	return self.appStoreReceiptURL ? [NSData dataWithContentsOfURL:self.appStoreReceiptURL] : Nil;
 }
 
 @end

@@ -16,6 +16,22 @@
 #define VAL_MEDIA_TYPE_BOOK 11
 #define URL_MEDIA_TYPE_APP @"https://itunes.apple.com/app/apple-store/id"
 
+#define KEY_WRAPPER_TYPE @"wrapperType"
+#define KEY_EXPLICITNESS @"Explicitness"			// *
+#define KEY_KIND @"kind"
+#define KEY_TRACK_ID @"trackId"
+#define KEY_ARTIST_ID @"artistId"
+#define KEY_COLLECTION_ID @"collectionId"
+#define KEY_TRACK_NAME @"trackName"
+#define KEY_ARTIST_NAME @"artistName"
+#define KEY_COLLECTION_NAME @"collectionName"
+#define KEY_CENSORED_NAME @"CensoredName"			// *
+#define KEY_ARTWORK_URL_100 @"artworkUrl100"
+#define KEY_ARTWORK_URL_60 @"artworkUrl60"
+#define KEY_VIEW_URL @"ViewUrl"						// *
+#define KEY_PREVIEW_URL @"previewUrl"
+#define KEY_TRACK_TIME_MILLIS @"trackTimeMillis"
+
 @implementation NSDictionary (Affiliates)
 
 + (instancetype)dictionaryWithProvider:(NSString *)provider affiliate:(NSString *)affiliate campaign:(NSString *)campaign {
@@ -35,6 +51,76 @@
 	return [self dictionaryWithProvider:provider affiliate:affiliate campaign:[NSBundle bundleDisplayName]];
 }
 
+- (NSString *)wrapperType {
+	return self[KEY_WRAPPER_TYPE];
+}
+
+- (NSString *)explicitness {
+	NSString *key = [self.wrapperType stringByAppendingString:KEY_EXPLICITNESS];
+
+	return key ? self[key] : Nil;
+}
+
+- (NSString *)kind {
+	return self[KEY_KIND];
+}
+
+- (NSNumber *)trackId {
+	return self[KEY_TRACK_ID];
+}
+
+- (NSNumber *)artistId {
+	return self[KEY_ARTIST_ID];
+}
+
+- (NSNumber *)collectionId {
+	return self[KEY_COLLECTION_ID];
+}
+
+- (NSString *)trackName {
+	return self[KEY_TRACK_NAME];
+}
+
+- (NSString *)artistName {
+	return self[KEY_ARTIST_NAME];
+}
+
+- (NSString *)collectionName {
+	return self[KEY_COLLECTION_NAME];
+}
+
+- (NSString *)censoredName {
+	NSString *key = [self.wrapperType stringByAppendingString:KEY_CENSORED_NAME];
+
+	return key ? self[key] : Nil;
+}
+
+- (NSURL *)artworkUrl100 {
+	return self[KEY_ARTWORK_URL_100] ? [NSURL URLWithString:self[KEY_ARTWORK_URL_100]] : Nil;
+}
+
+- (NSURL *)artworkUrl60 {
+	return self[KEY_ARTWORK_URL_60] ? [NSURL URLWithString:self[KEY_ARTWORK_URL_60]] : Nil;
+}
+
+- (NSURL *)viewUrl {
+	NSString *key = [self.wrapperType stringByAppendingString:KEY_VIEW_URL];
+
+	return self[key] ? [NSURL URLWithString:self[key]] : Nil;
+}
+
+- (NSURL *)previewUrl {
+	return self[KEY_PREVIEW_URL] ? [NSURL URLWithString:self[KEY_PREVIEW_URL]] : Nil;
+}
+
+- (NSTimeInterval)trackTime {
+	return [self[KEY_TRACK_TIME_MILLIS] longValue] / 1000.0;
+}
+
+- (NSArray *)genres {
+	return self[@"genres"];
+}
+
 @end
 
 @implementation NSURL (Affiliates)
@@ -52,22 +138,6 @@
 
 @end
 
-#define KEY_WRAPPER_TYPE @"wrapperType"
-#define KEY_EXPLICITNESS @"Explicitness"			// *
-#define KEY_KIND @"kind"
-#define KEY_TRACK_ID @"trackId"
-#define KEY_ARTIST_ID @"artistId"
-#define KEY_COLLECTION_ID @"collectionId"
-#define KEY_TRACK_NAME @"trackName"
-#define KEY_ARTIST_NAME @"artistName"
-#define KEY_COLLECTION_NAME @"collectionName"
-#define KEY_CENSORED_NAME @"CensoredName"			// *
-#define KEY_ARTWORK_URL_100 @"artworkUrl100"
-#define KEY_ARTWORK_URL_60 @"artworkUrl60"
-#define KEY_VIEW_URL @"ViewUrl"						// *
-#define KEY_PREVIEW_URL @"previewUrl"
-#define KEY_TRACK_TIME_MILLIS @"trackTimeMillis"
-
 @interface AFMediaItem ()
 @property (strong, nonatomic) NSDictionary *dictionary;
 @end
@@ -84,63 +154,63 @@
 }
 
 - (NSString *)wrapperType {
-	return self.dictionary[KEY_WRAPPER_TYPE];
+	return self.dictionary.wrapperType;
 }
 
 - (NSString *)explicitness {
-	return self.dictionary[[self.wrapperType stringByAppendingString:KEY_EXPLICITNESS]];
+	return self.dictionary.explicitness;
 }
 
 - (NSString *)kind {
-	return self.dictionary[KEY_KIND];
+	return self.dictionary.kind;
 }
 
 - (NSNumber *)trackId {
-	return self.dictionary[KEY_TRACK_ID];
+	return self.dictionary.trackId;
 }
 
 - (NSNumber *)artistId {
-	return self.dictionary[KEY_ARTIST_ID];
+	return self.dictionary.artistId;
 }
 
 - (NSNumber *)collectionId {
-	return self.dictionary[KEY_COLLECTION_ID];
+	return self.dictionary.collectionId;
 }
 
 - (NSString *)trackName {
-	return self.dictionary[KEY_TRACK_NAME];
+	return self.dictionary.trackName;
 }
 
 - (NSString *)artistName {
-	return self.dictionary[KEY_ARTIST_NAME];
+	return self.dictionary.artistName;
 }
 
 - (NSString *)collectionName {
-	return self.dictionary[KEY_COLLECTION_NAME];
+	return self.dictionary.collectionName;
 }
 
 - (NSString *)censoredName {
-	return self.dictionary[[self.wrapperType stringByAppendingString:KEY_CENSORED_NAME]];
+	return self.dictionary.censoredName;
 }
 
 - (NSURL *)artworkUrl100 {
-	return [NSURL URLWithString:self.dictionary[KEY_ARTWORK_URL_100]];
+	return self.dictionary.artworkUrl100;
 }
 
 - (NSURL *)artworkUrl60 {
-	return [NSURL URLWithString:self.dictionary[KEY_ARTWORK_URL_60]];
+	return self.dictionary.artworkUrl60;
 }
 
 - (NSURL *)viewUrl {
-	return [NSURL URLWithString:self.dictionary[[self.wrapperType stringByAppendingString:KEY_VIEW_URL]]];
+	return self.dictionary.viewUrl;
 }
 
 - (NSURL *)previewUrl {
-	return [NSURL URLWithString:self.dictionary[KEY_PREVIEW_URL]];
+	return self.dictionary.previewUrl;
 }
 
 - (NSTimeInterval)trackTime {
-	return [self.dictionary[KEY_TRACK_TIME_MILLIS] longValue] / 1000.0;
+	return self.dictionary.trackTime;
 }
 
 - (BOOL)isTrack {

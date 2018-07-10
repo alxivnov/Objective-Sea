@@ -130,10 +130,7 @@ static RMAppReceipt *_receipt;
 - (SKProductsRequest *)requestProduct:(void(^)(SKProduct *, NSError *))handler {
 	self.productRequestHandler = handler;
 
-	SKProductsRequest *request = [SKProductsRequest requestWithProductIdentifier:self.productIdentifier];
-	request.delegate = self;
-	[request start];
-	return request;
+	return [SKProductsRequest startRequestWithProductIdentifier:self.productIdentifier delegate:self];
 }
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {

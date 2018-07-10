@@ -22,6 +22,24 @@
 + (instancetype)dictionaryWithProvider:(NSString *)provider affiliate:(NSString *)affiliate campaign:(NSString *)campaign;
 + (instancetype)dictionaryWithProvider:(NSString *)provider affiliate:(NSString *)affiliate;
 
+@property (strong, nonatomic, readonly) NSString *wrapperType;
+@property (strong, nonatomic, readonly) NSString *explicitness;
+@property (strong, nonatomic, readonly) NSString *kind;
+@property (strong, nonatomic, readonly) NSNumber *trackId;
+@property (strong, nonatomic, readonly) NSNumber *artistId;
+@property (strong, nonatomic, readonly) NSNumber *collectionId;
+@property (strong, nonatomic, readonly) NSString *trackName;
+@property (strong, nonatomic, readonly) NSString *artistName;
+@property (strong, nonatomic, readonly) NSString *collectionName;
+@property (strong, nonatomic, readonly) NSString *censoredName;
+@property (strong, nonatomic, readonly) NSURL *artworkUrl100;
+@property (strong, nonatomic, readonly) NSURL *artworkUrl60;
+@property (strong, nonatomic, readonly) NSURL *viewUrl;
+@property (strong, nonatomic, readonly) NSURL *previewUrl;
+@property (assign, nonatomic, readonly) NSTimeInterval trackTime;
+
+@property (strong, nonatomic, readonly) NSArray *genres;
+
 @end
 
 @interface NSURL (Affiliates)
