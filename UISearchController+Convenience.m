@@ -24,6 +24,9 @@
 			self.navigationItem.searchController.dimsBackgroundDuringPresentation = NO;
 //			self.navigationItem.searchController.hidesNavigationBarDuringPresentation = NO;
 			self.navigationItem.searchController.searchBar.tintColor = self.navigationController.navigationBar.tintColor;
+
+			if (self.navigationController.navigationBar.barStyle > 0)
+				self.navigationItem.searchController.searchBar.keyboardAppearance = UIKeyboardAppearanceDark;
 		}
 
 		self.navigationItem.searchController.searchResultsUpdater = searchResultsUpdater;

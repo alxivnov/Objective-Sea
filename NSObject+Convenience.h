@@ -13,7 +13,7 @@
 #define arr_(obj) ({ __typeof__(obj) __obj = (obj); __obj ? @[ __obj ] : Nil; })
 #define arr__(obj0, obj1) ({ __typeof__(obj0) __obj0 = (obj0); __typeof__(obj1) __obj1 = (obj1); __obj0 && __obj1 ? @[ __obj0, __obj1 ] : __obj0 ? @[ __obj0 ] : __obj1 ? @[ __obj1 ] : Nil; })
 //#define arr___(obj0, obj1, obj2) ({ __typeof__(obj0) __obj0 = (obj0); __typeof__(obj1) __obj1 = (obj1); __typeof__(obj2) __obj2 = (obj2); !__obj0 ? arr__(__obj1, __obj2) : !__obj1 ? arr__(__obj0, __obj2) : !__obj2 ? arr__(__obj0, __obj1) : @[ __obj0, __obj1, __obj2 ]; })
-#define idx(arr, idx) ({ __typeof__(arr) __arr = (arr); NSUInteger __idx = (idx); __idx < [__arr count] ? [__arr objectAtIndex:__idx] : Nil; })
+#define idx(arr, idx) ({ __typeof__(arr) __arr = (arr); NSUInteger __len = [__arr count]; NSInteger __idx = (idx); __idx >= 0 && __idx < __len ? [__arr objectAtIndex:__idx] : __idx < 0 && -__idx <= __len ? [__arr objectAtIndex:__len + __idx] : Nil; })
 
 #define dic_(key0, val0) ({ __typeof__(key0) __key0 = (key0); __typeof__(val0) __val0 = (val0); __key0 && __val0 ? @{ __key0 : __val0 } : Nil; })
 #define dic__(key0, val0, key1, val1) ({ __typeof__(key0) __key0 = (key0); __typeof__(val0) __val0 = (val0); __typeof__(key1) __key1 = (key1); __typeof__(val1) __val1 = (val1); __key0 && __val0 && __key1 && __val1 ? @{ __key0 : __val0, __key1 : __val1 } : __key0 && __val0 ? @{ __key0 : __val0 } : __key1 && __val1 ? @{ __key1 : __val1 } : Nil; })
