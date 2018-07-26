@@ -122,22 +122,24 @@
 	 self.currentPlaybackTime = startTime;
 	 [self play];
 */
-	MPMusicPlayerStoreQueueDescriptor *descriptor = [[MPMusicPlayerStoreQueueDescriptor alloc] initWithStoreIDs:@[ storeID ]];
-	if (startTime)
-		[descriptor setStartTime:startTime forItemWithStoreID:storeID];
-	if (endTime)
-		[descriptor setEndTime:endTime forItemWithStoreID:storeID];
-	[self setQueueWithDescriptor:descriptor];
-	[self prepareToPlayWithCompletionHandler:^(NSError * _Nullable error) {
-		self.currentPlaybackTime = startTime;
+	if (@available(iOS 10.1, *)) {
+		MPMusicPlayerStoreQueueDescriptor *descriptor = [[MPMusicPlayerStoreQueueDescriptor alloc] initWithStoreIDs:@[ storeID ]];
+		if (startTime)
+			[descriptor setStartTime:startTime forItemWithStoreID:storeID];
+		if (endTime)
+			[descriptor setEndTime:endTime forItemWithStoreID:storeID];
+		[self setQueueWithDescriptor:descriptor];
+		[self prepareToPlayWithCompletionHandler:^(NSError * _Nullable error) {
+			self.currentPlaybackTime = startTime;
 
-		[self play];
+			[self play];
 
-		if (completionHandler)
-			completionHandler(self.nowPlayingItem);
+			if (completionHandler)
+				completionHandler(self.nowPlayingItem);
 
-		[error log:@"prepareToPlayWithCompletionHandler:"];
-	}];
+			[error log:@"prepareToPlayWithCompletionHandler:"];
+		}];
+	}
 }
 
 - (void)beginGeneratingPlaybackNotificationsForObserver:(id)observer selector:(SEL)selector {
