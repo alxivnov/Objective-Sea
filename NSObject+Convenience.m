@@ -131,6 +131,27 @@
 
 @end
 
+@implementation NSArray (Array)
+
++ (instancetype)arrayWithObject:(id)obj0 withObject:(id)obj1 withObject:(id)obj2 {
+	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:3];
+
+	if (obj0)
+		[arr addObject:obj0];
+	if (obj1)
+		[arr addObject:obj1];
+	if (obj2)
+		[arr addObject:obj2];
+
+	return arr;
+}
+
+- (id)valueAtIndex:(NSInteger)index {
+	return index >= 0 && index < self.count ? self[index] : index < 0 && index >= -self.count ? self[self.count + index] : Nil;
+}
+
+@end
+
 @implementation NSNumber (Convenience)
 
 - (BOOL)isNotANumber {

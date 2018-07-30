@@ -85,6 +85,7 @@ __static(NSDateComponentsFormatter *, hhmmFormatter, [self dateComponentsFormatt
 __static(NSDateComponentsFormatter *, hhmmssFormatter, [self dateComponentsFormatterWithAllowedUnits:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond])
 __static(NSDateComponentsFormatter *, mmssFormatter, [self dateComponentsFormatterWithAllowedUnits:NSCalendarUnitMinute | NSCalendarUnitSecond])
 
+__static(NSDateComponentsFormatter *, hhmmFullFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitHour | NSCalendarUnitMinute unitsStyle:NSDateComponentsFormatterUnitsStyleFull])
 __static(NSDateComponentsFormatter *, mmssAbbreviatedFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitMinute | NSCalendarUnitSecond unitsStyle:NSDateComponentsFormatterUnitsStyleAbbreviated])
 __static(NSDateComponentsFormatter *, mmShortFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitMinute unitsStyle:NSDateComponentsFormatterUnitsStyleShort])
 __static(NSDateComponentsFormatter *, ssShortFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitSecond unitsStyle:NSDateComponentsFormatterUnitsStyleShort])

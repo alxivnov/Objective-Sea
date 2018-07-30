@@ -34,6 +34,7 @@
 + (instancetype)hhmmssFormatter;
 + (instancetype)mmssFormatter;
 
++ (instancetype)hhmmFullFormatter;
 + (instancetype)mmssAbbreviatedFormatter;
 + (instancetype)mmShortFormatter;
 + (instancetype)ssShortFormatter;
