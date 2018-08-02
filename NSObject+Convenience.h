@@ -10,21 +10,18 @@
 
 #define cls(cls, obj) ((cls *)[obj cast:[cls class]])
 
-#define arr_(obj) ([NSArray arrayWithObject:obj withObject:Nil withObject:Nil])
-#define arr__(obj0, obj1) ([NSArray arrayWithObject:obj0 withObject:obj1 withObject:Nil])
-#define arr___(obj0, obj1, obj2) ([NSArray arrayWithObject:obj0 withObject:obj1 withObject:obj2])
-#define idx(arr, idx) ([arr valueAtIndex:idx])
+#define arr_(obj) [NSArray arrayWithObject:obj withObject:Nil withObject:Nil]
+#define arr__(obj0, obj1) [NSArray arrayWithObject:obj0 withObject:obj1 withObject:Nil]
+#define arr___(obj0, obj1, obj2) [NSArray arrayWithObject:obj0 withObject:obj1 withObject:obj2]
+#define idx(arr, idx) [arr valueAtIndex:idx]
 
-#define dic_(key0, val0) ({ __typeof__(key0) __key0 = (key0); __typeof__(val0) __val0 = (val0); __key0 && __val0 ? @{ __key0 : __val0 } : Nil; })
-#define dic__(key0, val0, key1, val1) ({ __typeof__(key0) __key0 = (key0); __typeof__(val0) __val0 = (val0); __typeof__(key1) __key1 = (key1); __typeof__(val1) __val1 = (val1); __key0 && __val0 && __key1 && __val1 ? @{ __key0 : __val0, __key1 : __val1 } : __key0 && __val0 ? @{ __key0 : __val0 } : __key1 && __val1 ? @{ __key1 : __val1 } : Nil; })
+#define dic_(key0, val0) [NSDictionary dictionaryWithObject:val0 forKey:key0 withObject:Nil forKey:Nil withObject:Nil forKey:Nil]
+#define dic__(key0, val0, key1, val1) [NSDictionary dictionaryWithObject:val0 forKey:key0 withObject:val1 forKey:key1 withObject:Nil forKey:Nil]
+#define dic___(key0, val0, key1, val1, key2, val2) [NSDictionary dictionaryWithObject:val0 forKey:key0 withObject:val1 forKey:key1 withObject:val2 forKey:key2]
 
-#define ret(obj, sel) ({ id __obj = (obj); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel)] : Nil; })
-#define ret_(obj, sel, arg) ({ id __obj = (obj); id __arg= (arg); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel) withObject:__arg] : Nil; })
-#define ret__(obj, sel, arg1, arg2) ({ id __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); [__obj respondsToSelector:@selector(sel)] ? [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2] : Nil; })
-
-#define sel(obj, sel) ({ id __obj = (obj); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel)]; } })
-#define sel_(obj, sel, arg) ({ id __obj = (obj); id __arg= (arg); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg]; } })
-#define sel__(obj, sel, arg1, arg2) ({ id __obj = (obj); id __arg1 = (arg1); id __arg2 = (arg2); if ([__obj respondsToSelector:@selector(sel)]) { [__obj performSelector:@selector(sel) withObject:__arg1 withObject:__arg2]; } })
+#define sel(obj, sel) [obj forwardSelector:@selector(sel)]
+#define sel_(obj, sel, arg) [obj forwardSelector:@selector(sel) withObject:arg]
+#define sel__(obj, sel, arg1, arg2) [obj forwardSelector:@selector(sel) withObject:arg1 withObject:arg2]
 
 #define NOW(var) NSDate *var = [NSDate date]
 
@@ -54,27 +51,17 @@
 #define STR_UNDERSCORE @"_"
 #define STR_VERTICAL_BAR @"|"
 
-#define DIV_FLOOR(a, b) a / b
-#define DIV_CEIL(a, b) (a + b - 1) / b
-#define DIV_ROUND(a, b) (a + b / 2) / b
+#define DIV_FLOOR(a, b) (a / b)
+#define DIV_CEIL(a, b) ((a + b - 1) / b)
+#define DIV_ROUND(a, b) ((a + b / 2) / b)
 
-#define FLT_EQUALS(x, y) ({ float __x = (x); float __y = y; fabsf(__x - __y) < FLT_EPSILON; })
-#define DBL_EQUALS(x, y) ({ double __x = (x); double __y = y; fabs(__x - __y) < DBL_EPSILON; })
+#define FLT_EQUALS(x, y) (fabsf(x - y) < FLT_EPSILON)
+#define DBL_EQUALS(x, y) (fabs(x - y) < DBL_EPSILON)
+
+#define eql(x, y) (x == y || (x && y && [x compare:y] == NSOrderedSame))
+#define cmp(x, y) (x == y ? NSOrderedSame : x == Nil ? NSOrderedAscending : y == Nil ? NSOrderedDescending : [x compare:y])
 
 #define loc(key) NSLocalizedString(key, Nil)
-#define NSLocalizedMethod(method, key) + (NSString *)method { return NSLocalizedString(key, Nil); }
-
-#define NSDateIsEqualToDate(d1, d2) ({ NSDate *__d1 = (d1); NSDate *__d2 = (d2); __d1 == __d2 || (__d2 != Nil && [__d1 isEqualToDate:__d2]); })
-#define NSNumberIsEqualToNumber(n1, n2) ({ NSNumber *__n1 = (n1); NSNumber *__n2 = (n2); __n1 == __n2 || (__n2 != Nil && [__n1 isEqualToNumber:__n2]); })
-#define NSStringIsEqualToString(s1, s2) ({ NSString *__s1 = (s1); NSString *__s2 = (s2); __s1 == __s2 || (__s2 != Nil && [__s1 isEqualToString:__s2]); })
-/*
- #define NSDateEqualToDate(d1, d2) (d1 == d2 || [d1 isEqualToDate:d2])
- #define NSNumberEqualToNumber(n1, n2) (n1 == n2 || [n1 isEqualToNumber:n2])
- #define NSStringEqualToString(s1, s2) (s1 == s2 || [s1 isEqualToString:s2])
- */
-#define NSDateCompareToDate(d1, d2) (d1 == d2 ? NSOrderedSame : d1 == Nil ? NSOrderedAscending : d2 == Nil ? NSOrderedDescending : [d1 compare:d2])
-#define NSNumberCompareToNumber(n1, n2) (n1 == n2 ? NSOrderedSame : n1 == Nil ? NSOrderedAscending : n2 == Nil ? NSOrderedDescending : [n1 compare:n2])
-#define NSStringCompareToString(s1, s2) (s1 == s2 ? NSOrderedSame : s1 == Nil ? NSOrderedAscending : s2 == Nil ? NSOrderedDescending : [s1 compare:s2])
 
 #define MEM_PAGE_SIZE 4096
 
@@ -106,6 +93,10 @@
 - (id)performSelector:(SEL)aSelector withObjects:(NSArray *)objects;
 - (id)performSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 withObject:(id)object3;
 
+- (id)forwardSelector:(SEL)aSelector;
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object;
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2;
+
 - (id)forwardSelector:(SEL)aSelector withObjects:(NSArray *)objects nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 withObject:(id)object3 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 nextTarget:(id(^)(id target, BOOL responds, id returnValue))block;
@@ -125,20 +116,9 @@
 - (id)tryGetValueForKey:(NSString *)key;
 - (BOOL)trySetValue:(id)value forKey:(NSString *)key;
 
-@end
-
-@interface NSArray<ObjectType> (Array)
-
 + (instancetype)arrayWithObject:(id)obj0 withObject:(id)obj1 withObject:(id)obj2;
 
-- (ObjectType)valueAtIndex:(NSInteger)index;
-
-@end
-
-@interface NSNumber (Convenience)
-
-@property (assign, nonatomic, readonly) BOOL isNotANumber;
-@property (strong, nonatomic, readonly) NSDecimalNumber *decimalNumber;
++ (instancetype)dictionaryWithObject:(id)obj0 forKey:(id<NSCopying>)key0 withObject:(id)obj1 forKey:(id<NSCopying>)key1 withObject:(id)obj2 forKey:(id<NSCopying>)key2;
 
 @end
 
@@ -151,5 +131,18 @@
 @interface NSInvocation (Convenience)
 
 - (id)getReturnValue;
+
+@end
+
+@interface NSNumber (Convenience)
+
+@property (assign, nonatomic, readonly) BOOL isNotANumber;
+@property (strong, nonatomic, readonly) NSDecimalNumber *decimalNumber;
+
+@end
+
+@interface NSArray<ObjectType> (Index)
+
+- (ObjectType)valueAtIndex:(NSInteger)index;
 
 @end

@@ -184,13 +184,13 @@
 	return [self.quantity doubleValueForUnit:unit];
 }
 
-static HKUnit *_count;
+static HKUnit *_countUnit;
 
-- (double)count {
-	if (!_count)
-		_count = [HKUnit countUnit];
+- (double)countQuantity {
+	if (!_countUnit)
+		_countUnit = [HKUnit countUnit];
 
-	return [self doubleValueForUnit:_count];
+	return [self doubleValueForUnit:_countUnit];
 }
 
 static HKUnit *_countPerMinute;

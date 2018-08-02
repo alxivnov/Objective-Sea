@@ -53,6 +53,18 @@
 	return target ? [target forwardSelector:aSelector withObjects:objects nextTarget:block] : returnValue;
 }
 
+- (id)forwardSelector:(SEL)aSelector {
+	return [self respondsToSelector:aSelector] ? [self performSelector:aSelector] : Nil;
+}
+
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object1 {
+	return [self respondsToSelector:aSelector] ? [self performSelector:aSelector withObject:object1] : Nil;
+}
+
+- (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 {
+	return [self respondsToSelector:aSelector] ? [self performSelector:aSelector withObject:object1 withObject:object2] : Nil;
+}
+
 #pragma diagnostics pop
 
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 withObject:(id)object3 nextTarget:(id(^)(id, BOOL, id))block {
@@ -129,10 +141,6 @@
 	}
 }
 
-@end
-
-@implementation NSArray (Array)
-
 + (instancetype)arrayWithObject:(id)obj0 withObject:(id)obj1 withObject:(id)obj2 {
 	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:3];
 
@@ -146,20 +154,17 @@
 	return arr;
 }
 
-- (id)valueAtIndex:(NSInteger)index {
-	return index >= 0 && index < self.count ? self[index] : index < 0 && index >= -self.count ? self[self.count + index] : Nil;
-}
++ (instancetype)dictionaryWithObject:(id)obj0 forKey:(id<NSCopying>)key0 withObject:(id)obj1 forKey:(id<NSCopying>)key1 withObject:(id)obj2 forKey:(id<NSCopying>)key2 {
+	NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithCapacity:3];
 
-@end
+	if (key0 && obj0)
+		[dic setObject:obj0 forKey:key0];
+	if (key1 && obj1)
+		[dic setObject:obj1 forKey:key1];
+	if (key2 && obj2)
+		[dic setObject:obj2 forKey:key2];
 
-@implementation NSNumber (Convenience)
-
-- (BOOL)isNotANumber {
-	return [self isEqualToNumber:[NSDecimalNumber notANumber]];
-}
-
-- (NSDecimalNumber *)decimalNumber {
-	return [[NSDecimalNumber alloc] initWithDouble:self.doubleValue];
+	return dic;
 }
 
 @end
@@ -258,6 +263,26 @@
 	}
 
 	return Nil;
+}
+
+@end
+
+@implementation NSNumber (Convenience)
+
+- (BOOL)isNotANumber {
+	return [self isEqualToNumber:[NSDecimalNumber notANumber]];
+}
+
+- (NSDecimalNumber *)decimalNumber {
+	return [[NSDecimalNumber alloc] initWithDouble:self.doubleValue];
+}
+
+@end
+
+@implementation NSArray (Index)
+
+- (id)valueAtIndex:(NSInteger)index {
+	return index >= 0 && index < self.count ? self[index] : index < 0 && index >= -self.count ? self[self.count + index] : Nil;
 }
 
 @end

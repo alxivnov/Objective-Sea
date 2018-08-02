@@ -79,7 +79,7 @@
 
 - (double)doubleValueForUnit:(HKUnit *)unit;
 
-@property (assign, nonatomic, readonly) double count;
+@property (assign, nonatomic, readonly) double countQuantity;
 @property (assign, nonatomic, readonly) double countPerMinute;
 
 @property (assign, nonatomic, readonly) double calorie;

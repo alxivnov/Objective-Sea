@@ -11,7 +11,7 @@
 #import "NSObject+Convenience.h"
 #import "NSURL+Convenience.h"
 
-#define CLLocationIsEqualToLocation(l1, l2) ({ CLLocation *__l1 = (l1); CLLocation *__l2 = (l2); __l1 == __l2 || (__l2 != Nil && fabs(__l1.coordinate.latitude - __l2.coordinate.latitude) < DBL_EPSILON && fabs(__l1.coordinate.longitude - __l2.coordinate.longitude) < DBL_EPSILON); })
+#define CLLocationIsEqualToLocation(l1, l2) (l1 == l2 || (l1 && l2 && fabs(l1.coordinate.latitude - l2.coordinate.latitude) < DBL_EPSILON && fabs(l1.coordinate.longitude - l2.coordinate.longitude) < DBL_EPSILON))
 
 #if TARGET_OS_IOS
 #import "UIApplication+Convenience.h"
