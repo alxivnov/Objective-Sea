@@ -34,20 +34,22 @@ __static(FIRVisionLabelDetector *, labelDetector, [FIRVision vision].labelDetect
 
 @end
 
-@implementation FIRVisionTextDetector (Convenience)
+@implementation FIRVisionTextRecognizer (Convenience)
 
-__static(FIRVisionTextDetector *, textDetector, [FIRVision vision].textDetector)
+__static(FIRVisionTextRecognizer *, onDeviceTextRecognizer, [[FIRVision vision] onDeviceTextRecognizer])
 
-- (NSArray<id<FIRVisionText>> *)detectInImage:(UIImage *)image {
+__static(FIRVisionTextRecognizer *, cloudTextRecognizer, [[FIRVision vision] cloudTextRecognizer])
+
+- (FIRVisionText *)processImage:(UIImage *)image {
 	if (image == Nil)
 		return Nil;
 
-	__block NSArray *result = Nil;
+	__block FIRVisionText *result = Nil;
 
 	FIRVisionImage *firImage = [[FIRVisionImage alloc] initWithImage:image];
 	[GCD sync:^(GCD *sema) {
-		[self detectInImage:firImage completion:^(NSArray<id<FIRVisionText>> * _Nullable texts, NSError * _Nullable error) {
-			result = texts;
+		[self processImage:firImage completion:^(FIRVisionText * _Nullable text, NSError * _Nullable error) {
+			result = text;
 
 			[error log:@"FIRVisionLabelDetector detectInImage:"];
 

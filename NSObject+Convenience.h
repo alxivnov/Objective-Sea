@@ -23,7 +23,7 @@
 #define sel_(obj, sel, arg) [obj forwardSelector:@selector(sel) withObject:arg]
 #define sel__(obj, sel, arg1, arg2) [obj forwardSelector:@selector(sel) withObject:arg1 withObject:arg2]
 
-#define NOW(var) NSDate *var = [NSDate date]
+#define NOW [NSDate date]
 
 #define __property(type, name, init) - (type)name { if (!_##name) { _##name = init; } return _##name; }
 #define __synthesize(type, name, init) @synthesize name = _##name; - (type)name { if (!_##name) { _##name = init; } return _##name; }

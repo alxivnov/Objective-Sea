@@ -19,10 +19,11 @@
 
 @end
 
-@interface FIRVisionTextDetector (Convenience)
+@interface FIRVisionTextRecognizer (Convenience)
 
-+ (instancetype)textDetector;
++ (instancetype)onDeviceTextRecognizer;
++ (instancetype)cloudTextRecognizer;
 
-- (NSArray<id<FIRVisionText>> *)detectInImage:(UIImage *)image;
+- (FIRVisionText *)processImage:(UIImage *)image;
 
 @end
