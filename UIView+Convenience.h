@@ -13,6 +13,7 @@
 #define UISwitchWidth 51.0
 #define UISwitchHeight 31.0
 
+//#import "CoreGraphics+Convenience.h"
 #import "UIImage+Convenience.h"
 
 #define ANIMATION_DURATION 0.6
