@@ -17,6 +17,11 @@
 
 #define UIImage NSImage
 #define UIColor NSColor
+
+#define UIImageRenderingMode NSInteger
+#define UIImageRenderingModeAutomatic 0
+#define UIImageRenderingModeAlwaysOriginal 1
+#define UIImageRenderingModeAlwaysTemplate 2
 #endif
 
 #import "CoreGraphics+Convenience.h"

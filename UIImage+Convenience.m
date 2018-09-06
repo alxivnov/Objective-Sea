@@ -50,11 +50,24 @@
 - (UIImage *)drawImage:(void(^)(CGContextRef context))draw {
 	CGRect rect = CGRectMakeWithSize(self.size);
 
-	return [UIImage imageWithSize:self.size opaque:NO scale:self.scale draw:^(CGContextRef context) {
+#if TARGET_OS_IPHONE
+	CGFloat scale = self.scale;
+#else
+	CGFloat scale = 0.0;
+#endif
+
+	return [UIImage imageWithSize:self.size opaque:NO scale:scale draw:^(CGContextRef context) {
 		[self drawInRect:rect];
 
-		if (draw)
-			draw(UIGraphicsGetCurrentContext());
+		if (draw) {
+#if TARGET_OS_IPHONE
+			CGContextRef scale = UIGraphicsGetCurrentContext();
+#else
+			CGContextRef context = [NSGraphicsContext currentContext].CGContext;
+#endif
+
+			draw(context);
+		}
 	}];
 }
 
@@ -161,6 +174,12 @@
 }
 #endif
 
+#if TARGET_OS_MAC
++ (UIImage *)imageWithContentsOfURL:(NSURL *)url {
+	return url ? [[UIImage alloc] initWithContentsOfURL:url] : Nil;
+}
+#endif
+
 __static(NSMutableDictionary *, images, [NSMutableDictionary new])
 __static(NSMutableDictionary *, originals, [NSMutableDictionary new])
 __static(NSMutableDictionary *, templates, [NSMutableDictionary new])
@@ -176,10 +195,12 @@ __static(NSMutableDictionary *, templates, [NSMutableDictionary new])
 	if (!value) {
 		value = [key isKindOfClass:[NSString class]] ? [UIImage imageNamed:key] : [key isKindOfClass:[NSURL class]] ? [UIImage imageWithContentsOfURL:key] : Nil;
 
+#if TARGET_OS_IPHONE
 		if (renderingMode == UIImageRenderingModeAlwaysOriginal)
 			value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 		else if (renderingMode == UIImageRenderingModeAlwaysTemplate)
 			value = [value imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+#endif
 
 		images[key] = value;
 	}
