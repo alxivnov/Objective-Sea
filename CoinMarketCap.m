@@ -95,6 +95,15 @@ __static(NSDictionary *, symbols, (@{ @"BTC" : @"Bitcoin",
 	}];
 }
 
++ (NSURLSessionDataTask *)tickerWithStart:(NSUInteger)start limit:(NSUInteger)limit handler:(void(^)(NSArray<NSDictionary *> *))handler {
+	NSURL *url = [NSURL URLWithString:@"https://api.coinmarketcap.com/v1/ticker/"];
+	url = [url URLByAppendingQueryDictionary:dic__(@"start", start == NSNotFound ? Nil : @(start), @"limit", limit == NSNotFound ? Nil : @(limit))];
+	return [url sendRequestWithMethod:@"GET" header:Nil json:Nil completion:^(id json, NSURLResponse *response) {
+		if (handler)
+			handler(json);
+	}];
+}
+
 + (NSURLSessionDataTask *)global:(void(^)(NSDictionary *))handler {
 	NSString *url = @"https://api.coinmarketcap.com/v1/global/";
 	return [[NSURL URLWithString:url] sendRequestWithMethod:@"GET" header:Nil json:Nil completion:^(id json, NSURLResponse *response) {

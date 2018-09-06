@@ -10,7 +10,7 @@
 
 @implementation PHFetchResult (Convenience)
 
-- (NSArray<PHAsset *> *)array {
+- (NSArray *)array {
 	NSMutableArray *array = [NSMutableArray arrayWithCapacity:self.count];
 	for (PHAsset *asset in self)
 		[array addObject:asset];

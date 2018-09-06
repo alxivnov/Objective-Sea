@@ -250,7 +250,8 @@ static id _instance = Nil;
 		[request addValue:header[field] forHTTPHeaderField:field];
 	[request setHTTPBody:body];
 
-	NSURLSessionDataTask *task = [[NSURLSessionRedirection instance].defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+	NSURLSession *session = [NSURLSessionRedirection instance].defaultSession;
+	NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
 		if (completion)
 			completion(data, response);
 
@@ -312,16 +313,28 @@ static id _instance = Nil;
 
 #if __has_include("NSXMLDictionary.h")
 // SOAP
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method contract:(NSString *)contract action:(NSString *)action parameters:(NSDictionary *)parameters completion:(void(^)(id, NSURLResponse *))completion {
+- (NSURLSessionDataTask *)sendRequestWithContract:(NSString *)contract action:(NSString *)action parameters:(NSDictionary *)parameters completion:(void(^)(id, NSURLResponse *))completion {
 	NSMutableString *params = [NSMutableString string];
 	for (NSObject *key in parameters)
 		[params appendFormat:@"<%@>%@</%@>", key, parameters[key], key];
 
-	NSString *body = [NSString stringWithFormat:@"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\"><s:Body><%@ xmlns=\"http://tempuri.org/\">%@</%@></s:Body></s:Envelope>", action, params, action];
+	NSString *format = @"<s:Envelope xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+/*		"<s:Header>"
+			"<Action>"
+				"http://tempuri.org/%@/%@"
+			"</Action>"
+		"</s:Header>"
+*/		"<s:Body>"
+			"<%@ xmlns=\"http://tempuri.org/\">"
+				"%@"
+			"</%@>"
+		"</s:Body>"
+	"</s:Envelope>";
+	NSString *body = [NSString stringWithFormat:format, /*contract, action,*/ action, params, action];
 
-	NSDictionary *header = @{ @"soapAction" : [NSString stringWithFormat:@"http://tempuri.org/%@/%@", contract, method], @"Content-Type" : @"text/xml; charset=utf-8", @"Content-Length" : str(body.length) };
+	NSDictionary *header = @{ @"soapAction" : [NSString stringWithFormat:@"http://tempuri.org/%@/%@", contract, action], @"Content-Type" : @"text/xml; charset=utf-8", @"Content-Length" : str(body.length) };
 
-	return [self sendRequestWithMethod:method header:header body:[body dataUsingEncoding:NSUTF8StringEncoding] completion:^(NSData *data, NSURLResponse *response) {
+	return [self sendRequestWithMethod:@"POST" header:header body:[body dataUsingEncoding:NSUTF8StringEncoding] completion:^(NSData *data, NSURLResponse *response) {
 		NSDictionary *dictionary = [NSXMLDictionary parseData:data];
 		NSDictionary *sBody = dictionary[@"s:Body"];
 
@@ -334,6 +347,9 @@ static id _instance = Nil;
 
 		if (completion)
 			completion(sResult, response);
+
+		if (!sResult)
+			[[NSString stringWithData:data] log:@"string:"];
 	}];
 }
 #endif

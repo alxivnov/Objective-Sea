@@ -20,9 +20,9 @@
 #import "UIApplication+Convenience.h"
 #endif
 
-@interface PHFetchResult (Convenience)
+@interface PHFetchResult<ObjectType> (Convenience)
 
-@property (strong, nonatomic, readonly) NSArray<PHAsset *> *array;
+@property (strong, nonatomic, readonly) NSArray<ObjectType> *array;
 
 @end
 

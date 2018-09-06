@@ -84,19 +84,19 @@
 	self.elementName = elementName;
 
 	if (attributeDict.count)
-		self.currentDic[self.elementName] = [NSMutableDictionary dictionaryWithObject:attributeDict forKey:@"attributes"];
+		self.currentDic[self.elementName] = [NSMutableDictionary dictionaryWithObject:attributeDict forKey:@"<attributes>"];
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
 	if (!self.elementName || ![[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] length])
 		return;
 
-	NSMutableString *value = self.currentDic[self.elementName][@"value"];
+	NSMutableString *value = self.currentDic[self.elementName];
 	if (value)
 		[value appendString:string];
 	else
 		value = [NSMutableString stringWithString:string];
-	self.currentDic[self.elementName][@"value"] = value;
+	self.currentDic[self.elementName] = value;
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {

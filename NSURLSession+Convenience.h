@@ -82,6 +82,6 @@
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header body:(NSData *)body completion:(void(^)(NSData *data, NSURLResponse *response))completion;
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *,NSString *> *)header form:(NSDictionary<NSString *,NSString *> *)form completion:(void (^)(NSData *data, NSURLResponse *response))completion; // FORM
 - (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method header:(NSDictionary<NSString *, NSString *> *)header json:(id)json completion:(void(^)(id json, NSURLResponse *response))completion; // JSON
-- (NSURLSessionDataTask *)sendRequestWithMethod:(NSString *)method contract:(NSString *)contract action:(NSString *)action parameters:(NSDictionary *)parameters completion:(void(^)(id data, NSURLResponse *response))completion; // SOAP
+- (NSURLSessionDataTask *)sendRequestWithContract:(NSString *)contract action:(NSString *)action parameters:(NSDictionary *)parameters completion:(void(^)(id data, NSURLResponse *response))completion; // SOAP
 
 @end

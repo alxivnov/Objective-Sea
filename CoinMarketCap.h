@@ -14,6 +14,8 @@
 
 + (NSURLSessionDataTask *)ticker:(NSString *)symbol handler:(void(^)(NSArray<NSDictionary *> *ticker))handler;
 
++ (NSURLSessionDataTask *)tickerWithStart:(NSUInteger)start limit:(NSUInteger)limit handler:(void(^)(NSArray<NSDictionary *> *))handler;
+
 + (NSURLSessionDataTask *)global:(void(^)(NSDictionary *global))handler;
 
 @end
