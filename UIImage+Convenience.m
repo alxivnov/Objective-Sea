@@ -172,9 +172,7 @@
 
 	return [UIImage imageWithContentsOfURL:url scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : defaultScale/*1.0*/];
 }
-#endif
-
-#if TARGET_OS_MAC
+#elif
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url {
 	return url ? [[UIImage alloc] initWithContentsOfURL:url] : Nil;
 }
