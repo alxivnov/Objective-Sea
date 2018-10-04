@@ -24,6 +24,9 @@
 
 @property (strong, nonatomic, readonly) UILabel *accessoryLabel;
 @property (strong, nonatomic, readonly) UISwitch *accessorySwitch;
+@property (strong, nonatomic, readonly) UIStepper *accessoryStepper;
+@property (strong, nonatomic, readonly) UISegmentedControl *accessorySegment;
+@property (strong, nonatomic, readonly) UIButton *accessoryButton;
 
 @end
 

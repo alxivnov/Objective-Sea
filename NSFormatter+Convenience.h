@@ -51,6 +51,12 @@
 
 @end
 
+@interface NSLengthFormatter (Convenience)
+
++ (instancetype)lengthFormatter;
+
+@end
+
 @interface NSDate (NSFormatter)
 
 - (NSString *)descriptionForDate:(NSDateFormatterStyle)dateStyle andTime:(NSDateFormatterStyle)timeStyle;

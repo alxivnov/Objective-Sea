@@ -117,6 +117,12 @@ __static(NSDateComponentsFormatter *, ssShortFormatter, [NSDateComponentsFormatt
 
 @end
 
+@implementation NSLengthFormatter (Convenience)
+
+__static(NSLengthFormatter *, lengthFormatter, [[NSLengthFormatter alloc] init])
+
+@end
+
 @implementation NSDate (NSFormatter)
 
 - (NSString *)descriptionForDate:(NSDateFormatterStyle)dateStyle andTime:(NSDateFormatterStyle)timeStyle {

@@ -68,22 +68,55 @@
 }
 
 - (UILabel *)accessoryLabel {
-	UILabel *label = cls(UILabel, self.accessoryView);
-	if (!label) {
-		label = [[UILabel alloc] init];
-		label.backgroundColor = self.textLabel.backgroundColor;
-		label.font = [UIFont monospacedDigitSystemFontOfSize:self.textLabel.font.pointSize weight:UIFontWeightRegular];
-		label.opaque = self.textLabel.opaque;
-		label.textColor = self.textLabel.textColor;
-		self.accessoryView = label;
+	UILabel *view = cls(UILabel, self.accessoryView);
+	if (!view) {
+		view = [[UILabel alloc] init];
+		view.font = [UIFont monospacedDigitSystemFontOfSize:self.textLabel.font.pointSize weight:UIFontWeightRegular];
+		view.textColor = self.textLabel.textColor;
+		view.backgroundColor = self.textLabel.backgroundColor;
+		view.opaque = self.textLabel.opaque;
+		self.accessoryView = view;
 	}
-	return label;
+	return view;
 }
 
 - (UISwitch *)accessorySwitch {
 	UISwitch *view = cls(UISwitch, self.accessoryView);
 	if (!view) {
 		view = [[UISwitch alloc] init];
+		view.backgroundColor = self.textLabel.backgroundColor;
+		view.opaque = self.textLabel.opaque;
+		self.accessoryView = view;
+	}
+	return view;
+}
+
+- (UIStepper *)accessoryStepper {
+	UIStepper *view = cls(UIStepper, self.accessoryView);
+	if (!view) {
+		view = [[UIStepper alloc] init];
+		view.backgroundColor = self.textLabel.backgroundColor;
+		view.opaque = self.textLabel.opaque;
+		self.accessoryView = view;
+	}
+	return view;
+}
+
+- (UISegmentedControl *)accessorySegment {
+	UISegmentedControl *view = cls(UISegmentedControl, self.accessoryView);
+	if (!view) {
+		view = [[UISegmentedControl alloc] init];
+		view.backgroundColor = self.textLabel.backgroundColor;
+		view.opaque = self.textLabel.opaque;
+		self.accessoryView = view;
+	}
+	return view;
+}
+
+- (UIButton *)accessoryButton {
+	UIButton *view = cls(UIButton, self.accessoryView);
+	if (!view) {
+		view = [[UIButton alloc] init];
 		view.backgroundColor = self.textLabel.backgroundColor;
 		view.opaque = self.textLabel.opaque;
 		self.accessoryView = view;
