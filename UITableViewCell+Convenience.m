@@ -92,12 +92,19 @@
 }
 
 - (UIStepper *)accessoryStepper {
-	UIStepper *view = cls(UIStepper, self.accessoryView);
+	UIStepper *view = cls(UIStepper, self.accessoryView.subviews.firstObject);
 	if (!view) {
 		view = [[UIStepper alloc] init];
 		view.backgroundColor = self.textLabel.backgroundColor;
 		view.opaque = self.textLabel.opaque;
-		self.accessoryView = view;
+		_set(view.frame, origin.x, 8.0);
+
+		UIView *temp = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, view.frame.origin.x + view.frame.size.width, view.frame.size.height)];
+		temp.backgroundColor = self.textLabel.backgroundColor;
+		temp.opaque = self.textLabel.opaque;
+		[temp addSubview:view];
+
+		self.accessoryView = temp;
 	}
 	return view;
 }

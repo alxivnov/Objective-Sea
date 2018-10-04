@@ -61,7 +61,7 @@
 
 		if (draw) {
 #if TARGET_OS_IPHONE
-			CGContextRef scale = UIGraphicsGetCurrentContext();
+			CGContextRef context = UIGraphicsGetCurrentContext();
 #else
 			CGContextRef context = [NSGraphicsContext currentContext].CGContext;
 #endif
