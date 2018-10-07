@@ -25,6 +25,14 @@ __static(NSDateFormatter *, RFC3339Formatter, ({
 	formatter;
 }))
 
+__static(NSDateFormatter *, sqlFormatter, ({
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setLocale:[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"]];
+	[formatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss"];
+	[formatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+	formatter;
+}))
+
 __static(NSDateFormatter *, GMTDateFormatter, ({
 	NSDateFormatter *formatter = [NSDateFormatter new];
 	formatter.dateStyle = NSDateFormatterShortStyle;

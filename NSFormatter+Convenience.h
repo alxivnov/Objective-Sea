@@ -14,6 +14,7 @@
 
 + (NSDateFormatter *)defaultFormatter;
 + (NSDateFormatter *)RFC3339Formatter;
++ (NSDateFormatter *)sqlFormatter;
 + (NSDateFormatter *)GMTDateFormatter;
 + (NSDateFormatter *)GMTTimeFormatter;
 
