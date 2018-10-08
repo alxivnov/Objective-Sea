@@ -66,6 +66,10 @@ __static(CLLocationManager *, defaultManager, [self new])
 	return CLLocationCoordinate2DString(self.coordinate);
 }
 
+- (NSString *)locationDescription {
+	return CLLocationCoordinate2DDescription(self.coordinate);
+}
+
 + (CLLocation *)locationFromString:(NSString *)string {
 	NSArray<NSString *> *coordinates = [string componentsSeparatedByString:@","];
 	if (coordinates.count != 2)

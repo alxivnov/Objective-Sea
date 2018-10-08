@@ -40,6 +40,7 @@
 @property (assign, nonatomic, readonly) BOOL isValid;
 
 @property (strong, nonatomic, readonly) NSString *locationString;
+@property (strong, nonatomic, readonly) NSString *locationDescription;
 
 + (CLLocation *)locationFromString:(NSString *)string;
 
