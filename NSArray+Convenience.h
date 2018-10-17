@@ -44,6 +44,7 @@
 
 - (BOOL)all:(BOOL (^)(ObjectType obj))predicate;
 - (BOOL)any:(BOOL (^)(ObjectType obj))predicate;
+- (ObjectType)one:(BOOL (^)(ObjectType one, ObjectType obj))predicate;
 
 - (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(ObjectType obj))keyPredicate value:(id(^)(ObjectType obj, id<NSCopying> key, id val))valPredicate;
 - (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(ObjectType obj))keyPredicate;

@@ -116,7 +116,7 @@ __synthesize(CGFloat, margin, self.iPad ? GUI_MARGIN_REGULAR : GUI_MARGIN_COMPAC
 	if (!_pane) {
 		_pane = [[UIView alloc] init];
 		_pane.backgroundColor = self.backgroundColor;
-		_pane.frame = CGRectMake(0.0, self.parent.bounds.size.height - cls(UITableView, self.parent).contentInset.top, self.parent.bounds.size.width, self.datePicker.frame.size.height + self.doneButton.frame.size.height);
+		_pane.frame = CGRectMake(0.0, self.parent.bounds.size.height - cls(UITableView, self.parent).contentInset.top, self.parent.bounds.size.width, self.datePicker.frame.size.height + self.doneButton.frame.size.height + self.parent.safeAreaInsets.bottom);
 		_pane.hidden = YES;
 
 		[self.pane addSubview:self.datePicker];

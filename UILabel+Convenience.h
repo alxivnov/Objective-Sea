@@ -16,6 +16,10 @@
 - (BOOL)autoSize:(CGSize)plus;
 - (BOOL)autoSize;
 
+@property (strong, nonatomic, readonly) UIFont *systemFont;
+@property (strong, nonatomic, readonly) UIFont *boldSystemFont;
+@property (strong, nonatomic, readonly) UIFont *italicSystemFont;
+
 @end
 
 typedef enum : NSUInteger {

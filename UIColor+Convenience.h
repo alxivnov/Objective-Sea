@@ -33,6 +33,10 @@
 #define HEX_NCS_RED 0xC40233
 #define HEX_NCS_YELLOW 0xFFD300
 
+#define HEX_DARKEST_BLACK 0x0D0D0D
+#define HEX_DARKER_BLACK 0x171717
+#define HEX_DARK_BLACK 0x333333
+
 // https://www.competethemes.com/blog/social-media-colors/
 #define HEX_FB_BLUE 0x3b5998
 #define HEX_TW_BLUE 0x00aced

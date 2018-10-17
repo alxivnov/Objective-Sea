@@ -44,6 +44,18 @@
 	return [self autoSize:CGSizeMake(0.0, 0.0)];
 }
 
+- (UIFont *)systemFont {
+	return [UIFont systemFontOfSize:self.font.pointSize];
+}
+
+- (UIFont *)boldSystemFont {
+	return [UIFont boldSystemFontOfSize:self.font.pointSize];
+}
+
+- (UIFont *)italicSystemFont {
+	return [UIFont italicSystemFontOfSize:self.font.pointSize];
+}
+
 @end
 
 @implementation NSAttributedString (UILabel)

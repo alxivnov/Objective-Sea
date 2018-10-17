@@ -165,6 +165,16 @@
 	return NO;
 }
 
+- (id)one:(BOOL (^)(id, id))predicate {
+	id one = Nil;
+
+	for (id obj in self)
+		if (predicate && predicate(one, obj))
+			one = obj;
+
+	return one;
+}
+
 - (NSDictionary *)dictionaryWithKey:(id<NSCopying>(^)(id))keyPredicate value:(id(^)(id, id<NSCopying>, id))valPredicate  {
 	NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:self.count];
 

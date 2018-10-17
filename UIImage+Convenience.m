@@ -126,6 +126,15 @@
 	}];
 }
 
+#if TARGET_OS_IOS
+- (UIImageView *)imageView:(UIViewContentMode)contentMode {
+	UIImageView *imageView = [[UIImageView alloc] initWithImage:self];
+	if (contentMode != NSNotFound)
+		imageView.contentMode = contentMode;
+	return imageView;
+}
+#endif
+
 #if TARGET_OS_IPHONE
 - (NSData *)jpegRepresentation:(CGFloat)quality {
 	quality = fmax(quality, 0.0);

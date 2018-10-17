@@ -52,6 +52,10 @@ typedef enum : NSUInteger {
 
 + (UIImage *)imageWithImages:(NSArray<UIImage *> *)images;
 
+#if TARGET_OS_IOS
+- (UIImageView *)imageView:(UIViewContentMode)contentMode;
+#endif
+
 #if TARGET_OS_IPHONE
 - (NSData *)jpegRepresentation:(CGFloat)quality;
 - (NSData *)jpegRepresentation;
