@@ -23,6 +23,7 @@
 
 #define UISubviewKindOfClass(cls) ^BOOL(UIView *__subview) { return [__subview isKindOfClass:[cls class]]; }
 #define UISubviewMemberOfClass(cls) ^BOOL(UIView *__subview) { return [__subview isMemberOfClass:[cls class]]; }
+#define UISubviewFirstResponder ^BOOL(UIView *__subview) { return __subview.isFirstResponder; }
 
 typedef NS_OPTIONS(NSUInteger, UIDirection) {
 	UIDirectionDown = (1 << 0),
