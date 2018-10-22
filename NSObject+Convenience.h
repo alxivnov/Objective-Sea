@@ -23,7 +23,7 @@
 #define sel_(obj, sel, arg) [obj forwardSelector:@selector(sel) withObject:arg]
 #define sel__(obj, sel, arg1, arg2) [obj forwardSelector:@selector(sel) withObject:arg1 withObject:arg2]
 
-#define _set(struct, field, value) __typeof(struct) tmp = struct; tmp.field = value; struct = tmp;
+#define _set(struct, field, value) { __typeof(struct) tmp = struct; tmp.field = value; struct = tmp; }
 
 #define NOW [NSDate date]
 #define now(name) NSDate *name = [NSDate date]

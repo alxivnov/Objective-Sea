@@ -15,7 +15,7 @@
 
 #define UIApplicationStateString(applicationState) ((applicationState) == UIApplicationStateActive ? @"Active" : (applicationState) == UIApplicationStateInactive ? @"Inactive" : (applicationState) == UIApplicationStateBackground ? @"Background" : @"")
 
-#define NSURLWithTel(tel) [NSURL URLWithString:tel ? [NSString stringWithFormat:@"tel:%@", tel] : @"tel"]
+#define NSURLWithTel(tel) [NSURL URLWithString:tel ? [NSString stringWithFormat:@"tel:%@", [[tel componentsSeparatedByCharactersInSet:[[NSCharacterSet characterSetWithCharactersInString:@"1234567890+"] invertedSet]] componentsJoinedByString:@""]] : @"tel"]
 
 #define IOS_10_0 __has_include(<UserNotifications/UNUserNotificationCenter.h>)
 

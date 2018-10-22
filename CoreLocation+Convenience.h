@@ -69,9 +69,22 @@
 
 + (NSURL *)URLWithLocation:(CLLocation *)location query:(NSString *)query;
 
-+ (NSURL *)URLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr;
-+ (NSURL *)URLWithDirectionsToLocation:(CLLocation *)daddr fromLocation:(CLLocation *)saddr;
-
 + (NSURL *)URLWithSize:(CGSize)size scale:(CGFloat)scale markers:(NSDictionary<NSURL *, NSArray<CLLocation *> *> *)markers;
+
+#define AppleMapsTransportTypeDriving @"d"
+#define AppleMapsTransportTypeWalking @"w"
+#define AppleMapsTransportTypeTransit @"r"
++ (NSURL *)URLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr transport:(NSString *)dirflg;
+
+#define GoogleMapsTransportTypeDriving @"driving"
+#define GoogleMapsTransportTypeWalking @"walking"
+#define GoogleMapsTransportTypeCycling @"bicycling"
+#define GoogleMapsTransportTypeTransit @"transit"
++ (NSURL *)googleMapsURLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr transport:(NSString *)dirflg;
+
+#define YandexMapsTransportTypeDriving @"auto"
+#define YandexMapsTransportTypeTransit @"mt"
+#define YandexMapsTransportTypeWalking @"pd"
++ (NSURL *)yandexMapsURLWithDirectionsTo:(NSString *)daddr from:(NSString *)saddr transport:(NSString *)dirflg;
 
 @end
