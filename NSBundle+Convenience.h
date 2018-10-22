@@ -10,6 +10,7 @@
 
 #import "NSArray+Convenience.h"
 
+#define CFBundleDisplayName @"CFBundleDisplayName"
 #define CFBundleShortVersionString @"CFBundleShortVersionString"
 #define CFBundleVersion (NSString *)kCFBundleVersionKey
 
