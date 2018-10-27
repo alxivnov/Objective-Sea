@@ -20,7 +20,7 @@
 + (void)requestAuthorizationToShare:(BOOL)share andRead:(BOOL)read;
 
 + (HKSampleQuery *)querySamplesWithPredicate:(NSPredicate *)predicate limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort completion:(void(^)(NSArray<__kindof HKSample *> *samples))completion;
-+ (HKSampleQuery *)querySamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate options:(HKQueryOptions)options limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort completion:(void (^)(NSArray<__kindof HKSample *> *))completion;
++ (HKSampleQuery *)querySamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate options:(HKQueryOptions)options limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort completion:(void (^)(NSArray<__kindof HKSample *> *samples))completion;
 + (HKSampleQuery *)querySamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate completion:(void(^)(NSArray<__kindof HKSample *> *samples))completion;
 + (HKSampleQuery *)querySampleWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate completion:(void(^)(__kindof HKSample *sample))completion;
 
@@ -28,9 +28,9 @@
 //+ (HKObserverQuery *)observeSamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate updateHandler:(void(^)(HKObserverQuery *query, HKObserverQueryCompletionHandler completionHandler, NSError *error))updateHandler;
 
 + (HKObserverQuery *)observeSamplesWithPredicate:(NSPredicate *)predicate limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort updateHandler:(void(^)(NSArray<__kindof HKSample *> *samples))updateHandler;
-+ (HKObserverQuery *)observeSamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate options:(HKQueryOptions)options limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort updateHandler:(void (^)(NSArray<__kindof HKSample *> *))updateHandler;
-+ (HKObserverQuery *)observeSamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate updateHandler:(void (^)(NSArray<__kindof HKSample *> *))updateHandler;
-+ (HKObserverQuery *)observeSampleWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate updateHandler:(void (^)(__kindof HKSample *))updateHandler;
++ (HKObserverQuery *)observeSamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate options:(HKQueryOptions)options limit:(NSUInteger)limit sort:(NSDictionary<NSString *, NSNumber *> *)sort updateHandler:(void (^)(NSArray<__kindof HKSample *> *samples))updateHandler;
++ (HKObserverQuery *)observeSamplesWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate updateHandler:(void (^)(NSArray<__kindof HKSample *> *samples))updateHandler;
++ (HKObserverQuery *)observeSampleWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate updateHandler:(void (^)(__kindof HKSample *sample))updateHandler;
 
 @end
 

@@ -45,7 +45,7 @@
 }
 
 + (NSString *)bundleDisplayName {
-	return [[self mainBundle] objectForInfoDictionaryKey:CFBundleDisplayName];//(NSString *)kCFBundleNameKey];
+	return [[self mainBundle] objectForInfoDictionaryKey:CFBundleDisplayName] ?: [[self mainBundle] objectForInfoDictionaryKey:(NSString *)kCFBundleNameKey];
 }
 
 + (NSString *)bundleShortVersionString {

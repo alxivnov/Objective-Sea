@@ -100,7 +100,7 @@
 }
 
 - (NSUInteger)unsignedIntegerForKey:(NSString *)key {
-	return [self[key] unsignedIntegerValue];
+	return [self[key] integerValue];
 }
 
 @end

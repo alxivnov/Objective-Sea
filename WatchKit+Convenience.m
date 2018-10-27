@@ -14,7 +14,7 @@
 	NSMutableArray *array = [NSMutableArray array];
 
 	for (NSString *key in dictionary) {
-		NSUInteger count = dictionary[key].unsignedIntegerValue;
+		NSUInteger count = dictionary[key].integerValue;
 
 		for (NSUInteger index = 0; index < count; index++)
 			[array addObject:key];
