@@ -61,13 +61,13 @@
 @implementation NSAttributedString (UILabel)
 
 - (UILabel *)labelWithSize:(CGSize)size options:(NSSizeOptions)flag {
-	UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, size.width, size.height)];
 
 	label.attributedText = self;
 
-	//	label.text = self.string;
+//	label.text = self.string;
 	CGSize autoSize = [label.attributedText size];
-	//	label.attributedText = self;
+//	label.attributedText = self;
 	if (size.width <= 0.0 || (flag == NSSizeLessThan && size.width > autoSize.width) || (flag == NSSizeGreaterThan && size.width < autoSize.width))
 		size.width = autoSize.width;
 	if (size.height <= 0.0 || (flag == NSSizeLessThan && size.height > autoSize.height) || (flag == NSSizeGreaterThan && size.height < autoSize.height))
@@ -76,7 +76,7 @@
 
 	label.lineBreakMode = NSLineBreakByClipping;
 
-	//	[label autoSize];
+//	[label autoSize];
 
 	return label;
 }

@@ -11,7 +11,7 @@
 @implementation NSBundle (Convenience)
 
 - (NSURL *)URLForResource:(NSString *)name {
-	return [self URLForResource:name.stringByDeletingPathExtension withExtension:name.pathExtension];
+	return [self URLForResource:name.lastPathComponent.stringByDeletingPathExtension withExtension:name.pathExtension subdirectory:name.stringByDeletingLastPathComponent];
 }
 
 + (NSURL *)URLForResource:(NSString *)name {

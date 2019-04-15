@@ -97,6 +97,7 @@ __static(NSDateComponentsFormatter *, hhmmFullFormatter, [NSDateComponentsFormat
 __static(NSDateComponentsFormatter *, mmssAbbreviatedFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitMinute | NSCalendarUnitSecond unitsStyle:NSDateComponentsFormatterUnitsStyleAbbreviated])
 __static(NSDateComponentsFormatter *, mmShortFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitMinute unitsStyle:NSDateComponentsFormatterUnitsStyleShort])
 __static(NSDateComponentsFormatter *, ssShortFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitSecond unitsStyle:NSDateComponentsFormatterUnitsStyleShort])
+__static(NSDateComponentsFormatter *, ssFullFormatter, [NSDateComponentsFormatter dateComponentsFormatterWithAllowedUnits:NSCalendarUnitSecond unitsStyle:NSDateComponentsFormatterUnitsStyleFull])
 
 - (NSString *)stringFromValue:(NSDate *)startDate toValue:(NSDate *)endDate {
 	return startDate && endDate ? [self stringFromDate:startDate toDate:endDate] : Nil;

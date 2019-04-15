@@ -10,7 +10,7 @@
 
 #import "Dispatch+Convenience.h"
 #import "NSObject+Convenience.h"
-
+/*
 @interface FIRVisionLabelDetector (Convenience)
 
 + (instancetype)labelDetector;
@@ -18,7 +18,7 @@
 - (NSArray<FIRVisionLabel *> *)detectInImage:(UIImage *)image;
 
 @end
-
+*/
 @interface FIRVisionTextRecognizer (Convenience)
 
 + (instancetype)onDeviceTextRecognizer;

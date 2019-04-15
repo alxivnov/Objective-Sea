@@ -7,7 +7,7 @@
 //
 
 #import "FIRVision+Convenience.h"
-
+/*
 @implementation FIRVisionLabelDetector (Convenience)
 
 __static(FIRVisionLabelDetector *, labelDetector, [FIRVision vision].labelDetector)
@@ -33,7 +33,7 @@ __static(FIRVisionLabelDetector *, labelDetector, [FIRVision vision].labelDetect
 }
 
 @end
-
+*/
 @implementation FIRVisionTextRecognizer (Convenience)
 
 __static(FIRVisionTextRecognizer *, onDeviceTextRecognizer, [[FIRVision vision] onDeviceTextRecognizer])
