@@ -104,7 +104,7 @@ __synthesize(CGFloat, margin, self.iPad ? GUI_MARGIN_REGULAR : GUI_MARGIN_COMPAC
 		[_doneButton setTitleColor:self.buttonColor forState:UIControlStateNormal];
 
 		CGSize size = [_doneButton.titleLabel.attributedText size];
-		_doneButton.frame = CGRectMake(self.parent.bounds.size.width - size.width - self.margin, 0.0, size.width, 2.0 * self.margin);
+		_doneButton.frame = CGRectMake(self.parent.bounds.size.width - size.width - self.margin, 0.0, size.width + 1.0, 2.0 * self.margin);
 
 		[_doneButton addTarget:self action:@selector(buttonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
 	}
