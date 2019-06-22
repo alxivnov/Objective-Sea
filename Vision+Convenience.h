@@ -13,6 +13,7 @@
 #import "CoreImage+Convenience.h"
 
 #import "Dispatch+Convenience.h"
+#import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
 @interface VNImageRequestHandler (Convenience)
@@ -46,6 +47,12 @@
 
 @end
 
+@interface VNRecognizeTextRequest (Convenience)
+
++ (NSArray<NSString *> *)supportedRecognitionLanguagesForTextRecognitionLevel:(VNRequestTextRecognitionLevel)recognitionLevel revision:(NSUInteger)requestRevision;
+
+@end
+
 @interface VNDetectedObjectObservation (Convenience)
 
 @property (assign, nonatomic, readonly) CGRect bounds;
@@ -62,6 +69,9 @@
 
 - (BOOL)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNRectangleObservation *> *results))completionHandler;
 - (NSArray<VNRectangleObservation *> *)detectRectanglesWithOptions:(NSDictionary<VNImageOption, id> *)options;
+
+- (BOOL)recognizeTextWithOptions:(NSDictionary<VNImageOption, id> *)options completionHandler:(void(^)(NSArray<VNRecognizedTextObservation *> *results))completionHandler;
+- (NSArray<VNRecognizedTextObservation *> *)recognizeTextWithOptions:(NSDictionary<VNImageOption, id> *)options;
 
 - (CGRect)boundsForObservation:(VNDetectedObjectObservation *)observation;
 

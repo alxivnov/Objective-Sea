@@ -58,6 +58,9 @@
 		self.activationDidComplete(activationState);
 }
 
+#if TARGET_OS_WATCH
+
+#else
 - (void)sessionDidBecomeInactive:(WCSession *)session {
 	if (self.activationDidComplete)
 		self.activationDidComplete(session.activationState);
@@ -68,6 +71,11 @@
 	if (self.activationDidComplete)
 		self.activationDidComplete(session.activationState);
 	
+}
+#endif
+
+- (void)sessionReachabilityDidChange:(WCSession *)session {
+	NSLog(@"%i", session.reachable);
 }
 
 

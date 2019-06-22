@@ -167,6 +167,48 @@
 
 @end
 
+@implementation VNRecognizeTextRequest (Convenience)
+
++ (NSArray<NSString *> *)supportedRecognitionLanguagesForTextRecognitionLevel:(VNRequestTextRecognitionLevel)recognitionLevel revision:(NSUInteger)requestRevision {
+	NSError *error = Nil;
+
+	NSArray *languages = [self supportedRecognitionLanguagesForTextRecognitionLevel:recognitionLevel revision:requestRevision error:&error];
+
+	[error log:@"supportedRecognitionLanguagesForTextRecognitionLevel:"];
+
+	return languages;
+}
+
+- (void)setupRecognitionLanguages:(NSArray<NSString *> *)recognitionLanguages {
+	NSArray *supportedLanguages = [[self class] supportedRecognitionLanguagesForTextRecognitionLevel:self.recognitionLevel revision:self.revision];
+
+	recognitionLanguages = [recognitionLanguages map:^id(NSString *obj) {
+		NSRange range = [obj rangeOfString:@"-"];
+		NSString *language = range.location == NSNotFound
+			? obj
+			: [obj substringToIndex:range.location + 1];
+		return [supportedLanguages firstObject:^BOOL(NSString *obj) {
+			return [obj hasPrefix:language];
+		}];
+	}];
+
+	self.recognitionLanguages = recognitionLanguages;
+}
+
+- (void)setupRecognitionLevel:(VNRequestTextRecognitionLevel)recognitionLevel {
+	self.recognitionLevel = recognitionLevel;
+
+	[self setupRecognitionLanguages:self.recognitionLanguages];
+}
+
+- (void)setupRevision:(NSUInteger)revision {
+	self.revision = revision;
+
+	[self setupRecognitionLanguages:self.recognitionLanguages];
+}
+
+@end
+
 @implementation UIImage (Vision)
 
 - (CGImagePropertyOrientation)orientation {
@@ -227,6 +269,31 @@
 
 	[GCD sync:^(GCD *sema) {
 		[self detectRectanglesWithOptions:options completionHandler:^(NSArray<VNRectangleObservation *> *results) {
+			arr = results;
+
+			[sema signal];
+		}];
+	}];
+
+	return arr;
+}
+
+- (BOOL)recognizeTextWithOptions:(NSDictionary<VNImageOption,id> *)options completionHandler:(void (^)(NSArray<VNRecognizedTextObservation *> *))completionHandler {
+	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage orientation:[self orientation] options:options];
+	VNRecognizeTextRequest *request = [VNRecognizeTextRequest requestWithCompletionHandler:completionHandler];
+	request.minimumTextHeight = 5.0 / fmin(self.size.height, self.size.width);
+	request.recognitionLevel = VNRequestTextRecognitionLevelAccurate;
+//	[request setupRecognitionLanguages:[NSLocale preferredLanguages]];
+//	request.usesLanguageCorrection = YES;
+
+	return [handler performRequests:@[ request ]];
+}
+
+- (NSArray<VNRecognizedTextObservation *> *)recognizeTextWithOptions:(NSDictionary<VNImageOption,id> *)options {
+	__block NSArray *arr = Nil;
+
+	[GCD sync:^(GCD *sema) {
+		[self recognizeTextWithOptions:options completionHandler:^(NSArray<VNRecognizedTextObservation *> *results) {
 			arr = results;
 
 			[sema signal];
