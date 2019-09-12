@@ -15,7 +15,11 @@
 }
 
 - (void)log:(NSString *)message {
-	NSLog(message ? [message stringByAppendingString:@" %@"] : self.debugDescription, self.debugDescription);
+	NSString *description = [self forwardSelector:@selector(componentsJoinedByString:) withObject:@", "];
+	if (!description)
+		description = self.debugDescription;
+
+	NSLog(message ? [message stringByAppendingString:@" %@"] : description, description);
 }
 
 - (id)performSelector:(SEL)aSelector withObjects:(NSArray *)objects {
