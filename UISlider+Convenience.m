@@ -26,7 +26,7 @@
 }
 
 - (void)hideTrack {
-	[self setTrackImage:[UIImage alloc] forState:UIControlStateNormal];
+	[self setTrackImage:[[UIImage alloc] init] forState:UIControlStateNormal];
 }
 
 - (void)showTrack {
