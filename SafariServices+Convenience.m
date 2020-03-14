@@ -13,11 +13,19 @@
 - (SFSafariViewController *)presentSafariWithURL:(NSURL *)url entersReaderIfAvailable:(BOOL)entersReaderIfAvailable animated:(BOOL)flag completion:(void (^)(void))completion {
 	if (!url)
 		return Nil;
+	
+	SFSafariViewController *safari = Nil;
+	
 
-	SFSafariViewControllerConfiguration *cfg = [[SFSafariViewControllerConfiguration alloc] init];
-	cfg.entersReaderIfAvailable = entersReaderIfAvailable;
+	if (@available(iOS 11.0, *)) {
+		SFSafariViewControllerConfiguration *cfg = [[SFSafariViewControllerConfiguration alloc] init];
+		cfg.entersReaderIfAvailable = entersReaderIfAvailable;
+		
+		safari = [[SFSafariViewController alloc] initWithURL:url configuration:cfg];
+	} else {
+		safari = [[SFSafariViewController alloc] initWithURL:url];
+	}
 
-	SFSafariViewController *safari = [[SFSafariViewController alloc] initWithURL:url configuration:cfg];
 //	safari.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
 	safari.modalPresentationStyle = UIModalPresentationPageSheet;
 
