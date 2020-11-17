@@ -6,7 +6,8 @@
 //  Copyright © 2018 Alexander Ivanov. All rights reserved.
 //
 
-#import <FirebaseMLVision/FirebaseMLVision.h>
+#import <MLKitVision/MLKitVision.h>
+#import <MLKitTextRecognition/MLKitTextRecognition.h>
 
 #import "Dispatch+Convenience.h"
 #import "NSObject+Convenience.h"
@@ -19,11 +20,8 @@
 
 @end
 */
-@interface FIRVisionTextRecognizer (Convenience)
+@interface MLKTextRecognizer (Convenience)
 
-+ (instancetype)onDeviceTextRecognizer;
-+ (instancetype)cloudTextRecognizer;
-
-- (FIRVisionText *)processImage:(UIImage *)image;
+- (MLKText *)processImage:(UIImage *)image;
 
 @end

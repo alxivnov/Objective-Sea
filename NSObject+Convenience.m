@@ -171,6 +171,20 @@
 	return dic;
 }
 
+- (id)valueForPath:(NSArray *)path {
+	id obj = self;
+	
+	for (id component in path) {
+		if ([component isKindOfClass:[NSString class]] && ([obj isKindOfClass:[NSDictionary class]] || [obj isKindOfClass:[NSMutableDictionary class]])) {
+			obj = [obj objectForKey:component];
+		} else if ([component isKindOfClass:[NSNumber class]] && ([obj isKindOfClass:[NSArray class]] || [obj isKindOfClass:[NSMutableArray class]])) {
+			obj = [obj valueAtIndex:[component integerValue]];
+		}
+	}
+	
+	return obj;
+}
+
 @end
 
 #define NSMethodReturnTypeChar "c"

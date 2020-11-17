@@ -32,6 +32,7 @@
 #define __synthesize(type, name, init) @synthesize name = _##name; - (type)name { if (!_##name) { _##name = init; } return _##name; }
 #define __static(type, name, init) static type _##name; + (type)name { @synchronized(self) { if (!_##name) _##name = init; } return _##name; }
 
+#define __defaults(type, get, set) - (type)get { return [NSUserDefaults.standardUserDefaults objectForKey:@#get]; } - (void)set:(type)obj { [NSUserDefaults.standardUserDefaults setObject:obj forKey:@#get]; }
 #define __class(type, get, set) static type _##get; + (type)get { return _##get; } + (void)set:(type)get { _##get = get; }
 
 #define LNG_RU @"ru"
@@ -122,6 +123,8 @@
 + (instancetype)arrayWithObject:(id)obj0 withObject:(id)obj1 withObject:(id)obj2;
 
 + (instancetype)dictionaryWithObject:(id)obj0 forKey:(id<NSCopying>)key0 withObject:(id)obj1 forKey:(id<NSCopying>)key1 withObject:(id)obj2 forKey:(id<NSCopying>)key2;
+
+- (id)valueForPath:(NSArray *)path;
 
 @end
 

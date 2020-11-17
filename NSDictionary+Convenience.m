@@ -46,6 +46,15 @@
 	return dictionary;
 }
 
+- (instancetype)dictionaryWithEntriesFromDictionary:(NSDictionary *)otherDictionary {
+	NSMutableDictionary *dictionary = [self mutableCopy];
+	
+	if (otherDictionary)
+		[dictionary addEntriesFromDictionary:otherDictionary];
+	
+	return dictionary;
+}
+
 - (NSDictionary *)mapKeys:(id (^)(id))keyBlock values:(id (^)(id))valBlock {
 	NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
 

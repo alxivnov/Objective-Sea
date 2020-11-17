@@ -24,9 +24,10 @@ typedef enum : NSUInteger {
 - (void)setText:(CLKTextProvider *)value;
 - (void)setRing:(CLKComplicationRingStyle)value;
 - (void)setFill:(float)value;
-- (void)setImage:(CLKImageProvider *)value;
+- (void)setImage:(UIImage *)value;
 
 - (void)setText:(NSString *)value shortText:(NSString *)text;
+- (void)setFill:(float)value tintColor:(UIColor *)color;
 - (void)setImage:(UIImage *)value tintColor:(UIColor *)color;
 
 + (CLKComplicationTemplate *)createWithFamily:(CLKComplicationFamily)family member:(CLKComplicationFamilyMember)member;

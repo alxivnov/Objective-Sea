@@ -17,6 +17,8 @@
 - (instancetype)dictionaryWithObject:(ObjectType)object forKey:(KeyType)key;
 - (instancetype)dictionaryWithObjects:(NSArray<ObjectType> *)objects forKeys:(NSArray<KeyType> *)keys;
 
+- (instancetype)dictionaryWithEntriesFromDictionary:(NSDictionary *)otherDictionary;
+
 - (NSDictionary *)mapKeys:(id (^)(KeyType key))keyBlock values:(id (^)(ObjectType val))valBlock;
 - (NSDictionary *)mapKeys:(id (^)(KeyType key))block;
 - (NSDictionary *)mapValues:(id (^)(ObjectType val))block;

@@ -6,7 +6,7 @@
 //  Copyright © 2018 Alexander Ivanov. All rights reserved.
 //
 
-#import "FIRVision+Convenience.h"
+#import "GoogleMLKit+Convenience.h"
 /*
 @implementation FIRVisionLabelDetector (Convenience)
 
@@ -34,24 +34,20 @@ __static(FIRVisionLabelDetector *, labelDetector, [FIRVision vision].labelDetect
 
 @end
 */
-@implementation FIRVisionTextRecognizer (Convenience)
+@implementation MLKTextRecognizer (Convenience)
 
-__static(FIRVisionTextRecognizer *, onDeviceTextRecognizer, [[FIRVision vision] onDeviceTextRecognizer])
-
-__static(FIRVisionTextRecognizer *, cloudTextRecognizer, [[FIRVision vision] cloudTextRecognizer])
-
-- (FIRVisionText *)processImage:(UIImage *)image {
+- (MLKText *)processImage:(UIImage *)image {
 	if (image == Nil)
 		return Nil;
 
-	__block FIRVisionText *result = Nil;
+	__block MLKText *result = Nil;
 
-	FIRVisionImage *firImage = [[FIRVisionImage alloc] initWithImage:image];
+	MLKVisionImage *firImage = [[MLKVisionImage alloc] initWithImage:image];
 	[GCD sync:^(GCD *sema) {
-		[self processImage:firImage completion:^(FIRVisionText * _Nullable text, NSError * _Nullable error) {
+		[self processImage:firImage completion:^(MLKText * _Nullable text, NSError * _Nullable error) {
 			result = text;
 
-			[error log:@"FIRVisionLabelDetector detectInImage:"];
+			[error log:@"MLKTextRecognizer detectInImage:"];
 
 			[sema signal];
 		}];

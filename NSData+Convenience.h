@@ -10,6 +10,8 @@
 
 @interface NSData (Convenience)
 
++ (NSData *)dataWithBase64EncodedString:(NSString *)base64String;
+
 + (NSData *)dataFromHexString:(NSString *)hexString;
 - (NSString *)hexString;
 

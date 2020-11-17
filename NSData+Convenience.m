@@ -12,6 +12,10 @@
 
 @implementation NSData (Convenience)
 
++ (NSData *)dataWithBase64EncodedString:(NSString *)base64String {
+	return base64String ? [[NSData alloc] initWithBase64EncodedString:base64String options:NSDataBase64DecodingIgnoreUnknownCharacters] : Nil;
+}
+
 + (NSData *)dataFromHexString:(NSString *)hexString {
 	NSUInteger length = [hexString length] / 2;
 
