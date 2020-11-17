@@ -29,6 +29,8 @@
 @property (assign, nonatomic, readonly) BOOL isWebAddress;
 @property (assign, nonatomic, readonly) BOOL isMediaItem;
 
+@property (strong, nonatomic, readonly) NSURL *root;
+
 - (NSString *)lastPathComponentWithoutExtension;
 - (NSURL *)URLByAppendingPathComponents:(NSArray<NSString *> *)pathComponents;
 - (NSURL *)URLByChangingPathExtension:(NSString *)extension;

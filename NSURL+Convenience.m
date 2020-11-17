@@ -89,6 +89,13 @@
 	return [self.scheme isEqualToString:URL_SCHEME_IPOD_LIBRARY];
 }
 
+- (NSURL *)root {
+	NSURLComponents *comps = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:YES];
+	NSString *root = [self.absoluteString substringWithRange:NSMakeRange(comps.rangeOfScheme.location, comps.rangeOfHost.location + comps.rangeOfHost.length)];
+	NSURL *url = [NSURL URLWithString:root];
+	return url;
+}
+
 - (NSString *)lastPathComponentWithoutExtension {
 	NSString *lastPathComponent = self.lastPathComponent;
 	if (self.pathExtension.length)
