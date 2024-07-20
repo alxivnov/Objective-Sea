@@ -21,7 +21,7 @@
 	if (body)
 		[instance setMessageBody:body isHTML:NO];
 	for (NSString *name in attachments.allKeys)
-		[instance addAttachmentData:attachments[name] mimeType:[UTType mimeTypeFromFilenameExtension:name.pathExtension] ?: @"application/octet-stream" fileName:name];
+		[instance addAttachmentData:attachments[name] mimeType:[UTUniformType mimeTypeFromFilenameExtension:name.pathExtension] ?: @"application/octet-stream" fileName:name];
 
 	return instance;
 }

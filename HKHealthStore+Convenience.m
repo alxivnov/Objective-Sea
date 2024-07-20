@@ -8,6 +8,72 @@
 
 #import "HKHealthStore+Convenience.h"
 
+@implementation HKObjectType (Convenience)
+
++ (HKObjectType *)typeForIdentifier:(NSString *)identifier {
+	return [identifier hasPrefix:@"HKQuantityTypeIdentifier"] ? [HKObjectType quantityTypeForIdentifier:identifier]
+		: [identifier hasPrefix:@"HKCategoryTypeIdentifier"] ? [HKObjectType categoryTypeForIdentifier:identifier]
+		: [identifier hasPrefix:@"HKCharacteristicTypeIdentifier"] ? [HKObjectType characteristicTypeForIdentifier:identifier]
+		: [identifier hasPrefix:@"HKCorrelationTypeIdentifier"] ? [HKObjectType correlationTypeForIdentifier:identifier]
+		: [identifier hasPrefix:@"HKDocumentTypeIdentifier"] ? [HKObjectType documentTypeForIdentifier:identifier]
+		: [identifier isEqualToString:HKWorkoutRouteTypeIdentifier] || [identifier isEqualToString:HKDataTypeIdentifierHeartbeatSeries] ? [HKObjectType seriesTypeForIdentifier:identifier]
+	: /*[identifier hasPrefix:@"HKWorkoutTypeIdentifier"] ?*/ [HKObjectType workoutType];
+//		: [identifier hasPrefix:@""] ? [HKObjectType activitySummaryType]
+//		: [identifier hasPrefix:@""] ? [HKObjectType audiogramSampleType]
+//		: [identifier hasPrefix:@""] ? [HKObjectType electrocardiogramType]
+//		: Nil;
+}
+
+@end
+
+@implementation HKHeartbeatSeriesSample (Convenience)
+
+- (HKHeartbeatSeriesQuery *)queryHeartbeats:(void (^)(NSArray *))completion {
+	__block NSMutableArray *beats = [[NSMutableArray alloc] initWithCapacity:self.count];
+	__block NSTimeInterval previousBeat = 0.0;
+	HKHeartbeatSeriesQuery* query = [[HKHeartbeatSeriesQuery alloc] initWithHeartbeatSeries:self dataHandler:^(HKHeartbeatSeriesQuery * _Nonnull query, NSTimeInterval timeSinceSeriesStart, BOOL precededByGap, BOOL done, NSError * _Nullable error) {
+		[error log:@"initWithHeartbeatSeries"];
+
+		NSTimeInterval beat = timeSinceSeriesStart - previousBeat;
+		[beats addObject:@(precededByGap ? -beat : beat)];
+
+		previousBeat = timeSinceSeriesStart;
+
+		if (done)
+			if (completion)
+				completion(beats);
+	}];
+	[[HKHealthStore defaultStore] executeQuery:query];
+	return query;
+}
+
+- (HKHeartbeatSeriesQuery *)queryRMSSD:(void (^)(double))completion {
+	return [self queryHeartbeats:^(NSArray *heartbeats) {
+		double sum = 0.0;
+		double len = 0.0;
+
+		for (NSUInteger index = 1; index < heartbeats.count; index++) {
+			double prev = [heartbeats[index - 1] doubleValue] * 1000.0;
+			double curr = [heartbeats[index] doubleValue] * 1000.0;
+
+			// Skip calculating differences with beats preceded by gap
+			if (prev < 0.0 || curr < 0.0)
+				continue;
+
+			sum += pow(prev - curr, 2.0);
+			len += 1.0;
+		}
+
+		// RMSSD
+		double rmssd = sqrt(sum / len);
+
+		if (completion)
+			completion(rmssd);
+	}];
+}
+
+@end
+
 @implementation HKHealthStore (Convenience)
 
 __static(HKHealthStore *, defaultStore, [HKHealthStore isHealthDataAvailable] ? [HKHealthStore new] : Nil)
@@ -68,35 +134,8 @@ __static(HKHealthStore *, defaultStore, [HKHealthStore isHealthDataAvailable] ? 
 	return YES;
 }
 
-static NSMutableDictionary *_types;
-
-+ (NSMutableDictionary *)types {
-	if (!_types)
-		_types = [NSMutableDictionary new];
-	
-	return _types;
-}
-
-+ (HKObjectType *)typeForIdentifier:(NSString *)identifier {
-	NSMutableDictionary *types = [self types];
-	
-	HKObjectType *type = types[identifier];
-	
-	if (!type) {
-		type = [identifier hasPrefix:@"HKQuantityTypeIdentifier"] ? [HKQuantityType quantityTypeForIdentifier:identifier]
-			: [identifier hasPrefix:@"HKCategoryTypeIdentifier"] ? [HKCategoryType categoryTypeForIdentifier:identifier]
-//			: [identifier hasPrefix:@"HKCharacteristicTypeIdentifier"] ? [HKCharacteristicType characteristicTypeForIdentifier:identifier]
-			: [identifier hasPrefix:@"HKCorrelationTypeIdentifier"] ? [HKCorrelationType correlationTypeForIdentifier:identifier]
-			: [HKWorkoutType workoutType];
-
-		types[identifier] = type;
-	}
-	
-	return type;
-}
-
 - (HKAuthorizationStatus)authorizationStatusForIdentifier:(NSString *)identifier {
-	id type = [[self class] typeForIdentifier:identifier];
+	id type = [HKObjectType typeForIdentifier:identifier];
 
 	return [self authorizationStatusForType:type];
 }
@@ -115,10 +154,10 @@ static NSMutableDictionary *_types;
 
 - (void)requestAuthorizationToShare:(NSArray<NSString *> *)shareIdentifiers read:(NSArray<NSString *> *)readIdentifiers completion:(void (^)(BOOL))completion {
 	NSSet *share = shareIdentifiers ? [NSSet setWithArray:[shareIdentifiers map:^id(NSString *obj) {
-		return [[self class] typeForIdentifier:obj];
+		return [HKObjectType typeForIdentifier:obj];
 	}]] : Nil;
 	NSSet *read = readIdentifiers ? [NSSet setWithArray:[readIdentifiers map:^id(NSString *obj) {
-		return [[self class] typeForIdentifier:obj];
+		return [HKObjectType typeForIdentifier:obj];
 	}]] : Nil;
 
 	[self requestAuthorizationToShareTypes:share readTypes:read completion:^(BOOL success, NSError *error) {
@@ -137,7 +176,7 @@ static NSMutableDictionary *_types;
 	if (!startDate || !endDate)
 		return Nil;
 
-	id type = [[self class] typeForIdentifier:identifier];
+	id type = [HKObjectType typeForIdentifier:identifier];
 
 	BOOL reverse = startDate.timeIntervalSinceReferenceDate > endDate.timeIntervalSinceReferenceDate;
 	HKCategorySample *sample = [HKCategorySample categorySampleWithType:type value:value startDate:reverse ? endDate : startDate endDate:reverse ? startDate : endDate metadata:metadata];
@@ -149,7 +188,7 @@ static NSMutableDictionary *_types;
 	if (!startDate || !endDate)
 		return Nil;
 
-	id type = [[self class] typeForIdentifier:identifier];
+	id type = [HKObjectType typeForIdentifier:identifier];
 
 	BOOL reverse = startDate.timeIntervalSinceReferenceDate > endDate.timeIntervalSinceReferenceDate;
 	HKQuantitySample *sample = [HKQuantitySample quantitySampleWithType:type quantity:quantity startDate:reverse ? endDate : startDate endDate:reverse ? startDate : endDate metadata:metadata];
@@ -173,7 +212,7 @@ static NSMutableDictionary *_types;
 	if (!completion)
 		return Nil;
 
-	id type = [[self class] typeForIdentifier:identifier];
+	id type = [HKObjectType typeForIdentifier:identifier];
 
 	NSMutableArray<NSSortDescriptor *> *sortDescriptors = [NSMutableArray arrayWithCapacity:sort.count];
 	for (NSString *key in sort.allKeys)
@@ -203,7 +242,7 @@ static NSMutableDictionary *_types;
 }
 
 - (HKObserverQuery *)observeSamplesWithIdentifier:(NSString *)identifier predicate:(NSPredicate *)predicate updateHandler:(void(^)(HKObserverQuery *, HKObserverQueryCompletionHandler, NSError *))updateHandler {
-	id type = [[self class] typeForIdentifier:identifier];
+	id type = [HKObjectType typeForIdentifier:identifier];
 	
 	HKObserverQuery *query = [[HKObserverQuery alloc] initWithSampleType:type predicate:predicate updateHandler:updateHandler];
 //	[[[self class] defaultStore] executeQuery:query];

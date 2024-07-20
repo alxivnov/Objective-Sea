@@ -27,7 +27,7 @@
 	return data;
 }
 
-- (double)sum:(NSNumber *(^)(id))predicate {
+- (double)vSum:(NSNumber *(^)(id))predicate {
 	NSData *vector = [self vector:predicate];
 
 	double sum = 0.0;
@@ -54,26 +54,24 @@
 	NSData *vector = [self vector:predicate];
 
 	NSUInteger count = vector.length / sizeof(double);
-//	if (count < 5)
-//		return Nil;
 
 	double *bytes = malloc(vector.length);
 	[vector getBytes:bytes length:vector.length];
 
 	vDSP_vsortD(bytes, count, 1);
 
-	NSUInteger q1 = count / 4;
-	NSUInteger q2 = count / 2;
-	NSUInteger q3 = count * 3 / 4;
+	NSUInteger i1 = count * 0.25;
+	NSUInteger i2 = count * 0.5;
+	NSUInteger i3 = count * 0.75;
 
 	NSNumber *min = count >= 1 ? @(bytes[0]) : [NSDecimalNumber notANumber];
-	NSNumber *quartile1 = count >= 4 ? @(q2 % 2 ? bytes[q1] : ((bytes[q1 - 1] + bytes[q1]) / 2.0)) : [NSDecimalNumber notANumber];
-	NSNumber *median = count >= 2 ? @(count % 2 ? bytes[q2] : ((bytes[q2 - 1] + bytes[q2]) / 2.0)) : [NSDecimalNumber notANumber];
-	NSNumber *quartile3 = count >= 4 ? @(q2 % 2 ? bytes[q3] : ((bytes[q3 - 1] + bytes[q3]) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *q1 = count >= 3 ? @(i2 % 2 ? bytes[i1] : ((bytes[i1 - 1] + bytes[i1]) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *q2 = count >= 2 ? @(count % 2 ? bytes[i2] : ((bytes[i2 - 1] + bytes[i2]) / 2.0)) : [NSDecimalNumber notANumber];
+	NSNumber *q3 = count >= 3 ? @(i2 % 2 ? bytes[i3] : ((bytes[i3 - 1] + bytes[i3]) / 2.0)) : [NSDecimalNumber notANumber];
 	NSNumber *max = count >= 1 ? @(bytes[count - 1]) : [NSDecimalNumber notANumber];
 	free(bytes);
 
-	return @[ min, quartile1, median, quartile3, max ];
+	return @[ min, q1, q2, q3, max ];
 }
 
 #else
@@ -85,7 +83,7 @@
 	return val;
 }
 
-- (double)sum:(NSNumber *(^)(id))predicate {
+- (double)vSum:(NSNumber *(^)(id))predicate {
 	NSArray *numbers = [self map:predicate];
 	return [numbers aggregate:^double(double val, double obj) {
 		return val + obj;
@@ -131,25 +129,25 @@
 
 #endif
 
-- (double)avg:(NSNumber *(^)(id))predicate {
+- (double)vAvg:(NSNumber *(^)(id))predicate {
 	return [self meanAndStandardDeviation:predicate].firstObject.doubleValue;
 }
 
-- (double)dev:(NSNumber *(^)(id))predicate {
+- (double)vDev:(NSNumber *(^)(id))predicate {
 	return [self meanAndStandardDeviation:predicate].lastObject.doubleValue;
 }
 
-- (double)min:(NSNumber *(^)(id))predicate {
+- (double)vMin:(NSNumber *(^)(id))predicate {
 	NSNumber *obj = [self quartiles:predicate].firstObject;
 	return [obj isEqualToNumber:[NSDecimalNumber notANumber]] ? 0.0 : obj.doubleValue;
 }
 
-- (double)med:(NSNumber *(^)(id))predicate {
+- (double)vMed:(NSNumber *(^)(id))predicate {
 	NSNumber *obj = [self quartiles:predicate][2];
 	return [obj isEqualToNumber:[NSDecimalNumber notANumber]] ? 0.0 : obj.doubleValue;
 }
 
-- (double)max:(NSNumber *(^)(id))predicate {
+- (double)vMax:(NSNumber *(^)(id))predicate {
 	NSNumber *obj = [self quartiles:predicate].lastObject;
 	return [obj isEqualToNumber:[NSDecimalNumber notANumber]] ? 0.0 : obj.doubleValue;
 }

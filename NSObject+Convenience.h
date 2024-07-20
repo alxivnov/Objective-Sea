@@ -19,7 +19,8 @@
 #define dic__(key0, val0, key1, val1) [NSDictionary dictionaryWithObject:val0 forKey:key0 withObject:val1 forKey:key1 withObject:Nil forKey:Nil]
 #define dic___(key0, val0, key1, val1, key2, val2) [NSDictionary dictionaryWithObject:val0 forKey:key0 withObject:val1 forKey:key1 withObject:val2 forKey:key2]
 
-#define sel(obj, sel) [obj forwardSelector:@selector(sel)]
+#define sel(obj, sel) ([obj respondsToSelector:@selector(sel)] ? [obj performSelector:@selector(sel)] : Nil)
+//#define sel(obj, sel) [obj forwardSelector:@selector(sel)]
 #define sel_(obj, sel, arg) [obj forwardSelector:@selector(sel) withObject:arg]
 #define sel__(obj, sel, arg1, arg2) [obj forwardSelector:@selector(sel) withObject:arg1 withObject:arg2]
 

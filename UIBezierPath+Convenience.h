@@ -26,7 +26,8 @@
 @property (assign, nonatomic, readonly) CGRect boundingBox;
 @property (assign, nonatomic, readonly) CGRect pathBoundingBox;
 
-#if __has_include(<QuartzCore/QuartzCore.h>)
+//#if __has_include(<QuartzCore/QuartzCore.h>)
+#if TARGET_OS_IOS
 
 - (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor lineWidth:(CGFloat)lineWidth;
 - (CAShapeLayer *)layerWithStrokeColors:(NSArray<UIColor *> *)strokeColors fillColor:(UIColor *)fillColor;

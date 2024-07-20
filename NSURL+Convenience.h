@@ -15,6 +15,17 @@
 
 #define URL_SCHEME_IPOD_LIBRARY @"ipod-library"
 
+typedef enum : NSUInteger {
+	NSURLComponentScheme,
+	NSURLComponentUser,
+	NSURLComponentPassword,
+	NSURLComponentHost,
+	NSURLComponentPort,
+	NSURLComponentPath,
+	NSURLComponentQuery,
+	NSURLComponentFragment,
+} NSURLComponent;
+
 @interface NSURL (Convenience)
 
 + (instancetype)URLWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1, 2);
@@ -29,7 +40,7 @@
 @property (assign, nonatomic, readonly) BOOL isWebAddress;
 @property (assign, nonatomic, readonly) BOOL isMediaItem;
 
-@property (strong, nonatomic, readonly) NSURL *root;
+- (NSURL *)urlToComponent:(NSURLComponent)comp;
 
 - (NSString *)lastPathComponentWithoutExtension;
 - (NSURL *)URLByAppendingPathComponents:(NSArray<NSString *> *)pathComponents;

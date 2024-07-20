@@ -62,7 +62,10 @@
 }
 
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 {
-	return [self respondsToSelector:aSelector] ? [self performSelector:aSelector withObject:object1] : Nil;
+	id result = Nil;
+	if ([self respondsToSelector:aSelector])
+		result = [self performSelector:aSelector withObjects:@[ object1 ]];
+	return result;
 }
 
 - (id)forwardSelector:(SEL)aSelector withObject:(id)object1 withObject:(id)object2 {

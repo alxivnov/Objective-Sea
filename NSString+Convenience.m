@@ -121,6 +121,13 @@
 	return [self stringByReplacingMatches:pattern options:0 range:NSMakeRange(0, self.length)  withTemplate:templ];
 }
 
+- (NSString *)stringByReplacingDictionary:(NSDictionary *)dic {
+	NSString *str = self;
+	for (NSString *key in dic.allKeys)
+		str = [str stringByReplacingOccurrencesOfString:key withString:dic[key]];
+	return str;
+}
+
 - (NSString *)fileSystemString {
 	return [[self stringByReplacingOccurrencesOfString:STR_COLON withString:STR_HYPHEN] stringByReplacingOccurrencesOfString:STR_SLASH withString:STR_UNDERSCORE];
 }

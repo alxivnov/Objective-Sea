@@ -281,10 +281,11 @@
 - (BOOL)recognizeTextWithOptions:(NSDictionary<VNImageOption,id> *)options completionHandler:(void (^)(NSArray<VNRecognizedTextObservation *> *))completionHandler {
 	VNImageRequestHandler *handler = [[VNImageRequestHandler alloc] initWithCGImage:self.CGImage orientation:[self orientation] options:options];
 	VNRecognizeTextRequest *request = [VNRecognizeTextRequest requestWithCompletionHandler:completionHandler];
+//	request.automaticallyDetectsLanguage = YES;
 	request.minimumTextHeight = 5.0 / fmin(self.size.height, self.size.width);
 	request.recognitionLevel = VNRequestTextRecognitionLevelAccurate;
-//	[request setupRecognitionLanguages:[NSLocale preferredLanguages]];
-//	request.usesLanguageCorrection = YES;
+	[request setupRecognitionLanguages:[NSLocale preferredLanguages]];
+	request.usesLanguageCorrection = YES;
 
 	return [handler performRequests:@[ request ]];
 }

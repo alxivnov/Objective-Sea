@@ -32,7 +32,7 @@
 + (void)setNotificationCategories:(NSArray<UNNotificationCategory *> *)categories;
 + (void)getNotificationCategories:(void (^)(NSArray<UNNotificationCategory *> *))completionHandler;
 
-+ (void)getNotificationSettings:(void (^)(UNNotificationSettings *settings))completionHandler;
++ (void)getCurrentNotificationSettings:(void (^)(UNNotificationSettings *settings))completionHandler;
 
 + (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger completion:(void (^)(BOOL success))completion;
 + (void)addNotificationRequestWithIdentifier:(NSString *)identifier content:(UNNotificationContent *)content trigger:(UNNotificationTrigger *)trigger;

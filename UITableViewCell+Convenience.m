@@ -51,9 +51,9 @@
 	if (accessoryViews.count) {
 		UIStackView *stack = [[UIStackView alloc] initWithArrangedSubviews:accessoryViews];
 		stack.axis = UILayoutConstraintAxisHorizontal;
-		stack.frame = CGRectMake(0.0, 0.0, [accessoryViews sum:^NSNumber *(__kindof UIView *obj) {
+		stack.frame = CGRectMake(0.0, 0.0, [accessoryViews vSum:^NSNumber *(__kindof UIView *obj) {
 			return @(obj.frame.size.width);
-		}] + (accessoryViews.count - 1) * 8.0, [accessoryViews max:^NSNumber *(__kindof UIView *obj) {
+		}] + (accessoryViews.count - 1) * 8.0, [accessoryViews vMax:^NSNumber *(__kindof UIView *obj) {
 			return @(obj.frame.size.height);
 		}]);
 		
@@ -193,7 +193,7 @@ __synthesize(UNAuthorizationOptions, authorizationOptions, UNAuthorizationOption
 - (void)setupSwitch {
 	[super setupSwitch];
 
-	[UNUserNotificationCenter getNotificationSettings:^(UNNotificationSettings *settings) {
+	[UNUserNotificationCenter getCurrentNotificationSettings:^(UNNotificationSettings *settings) {
 		[GCD main:^{
 			[self.switchView setOn:settings.authorization.boolValue animated:YES];
 		}];

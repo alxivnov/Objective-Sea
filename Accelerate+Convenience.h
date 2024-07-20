@@ -21,13 +21,13 @@
 - (NSArray<NSNumber *> *)meanAndStandardDeviation:(NSNumber *(^)(ObjectType obj))predicate;
 - (NSArray<NSNumber *> *)quartiles:(NSNumber *(^)(ObjectType obj))predicate;
 
-- (double)sum:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)vSum:(NSNumber *(^)(ObjectType obj))predicate;
 
-- (double)avg:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)dev:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)vAvg:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)vDev:(NSNumber *(^)(ObjectType obj))predicate;
 
-- (double)min:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)med:(NSNumber *(^)(ObjectType obj))predicate;
-- (double)max:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)vMin:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)vMed:(NSNumber *(^)(ObjectType obj))predicate;
+- (double)vMax:(NSNumber *(^)(ObjectType obj))predicate;
 
 @end

@@ -11,6 +11,15 @@
 #import "NSArray+Convenience.h"
 #import "NSObject+Convenience.h"
 
+#define CategoryValueSleepAnalysisInBed					0
+#define CategoryValueSleepAnalysisAsleepUnspecified		1
+#define CategoryValueSleepAnalysisAsleep				1
+#define CategoryValueSleepAnalysisAwake   				2
+#define CategoryValueSleepAnalysisAsleepCore			3
+#define CategoryValueSleepAnalysisAsleepDeep			4
+#define CategoryValueSleepAnalysisAsleepREM				5
+#define IS_ASLEEP(value) (value == 1 || value == 3 || value == 4 || value == 5)
+
 @interface HKHealthStore (Convenience)
 
 + (HKHealthStore *)defaultStore;
@@ -38,5 +47,18 @@
 - (HKSampleQuery *)querySamplesWithIdentifier:(NSString *)identifier predicate:(NSPredicate *)predicate completion:(void(^)(NSArray *samples))completion;
 
 - (HKObserverQuery *)observeSamplesWithIdentifier:(NSString *)identifier predicate:(NSPredicate *)predicate updateHandler:(void(^)(HKObserverQuery *query, HKObserverQueryCompletionHandler completionHandler, NSError * error))updateHandler;
+
+@end
+
+@interface HKObjectType (Convenience)
+
++ (HKObjectType *)typeForIdentifier:(NSString *)identifier;
+
+@end
+
+@interface HKHeartbeatSeriesSample (Convenience)
+
+- (HKHeartbeatSeriesQuery *)queryHeartbeats:(void (^)(NSArray *heartbeats))completion;
+- (HKHeartbeatSeriesQuery *)queryRMSSD:(void (^)(double rmssd))completion;
 
 @end

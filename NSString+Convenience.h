@@ -43,6 +43,8 @@
 - (NSString *)stringByReplacingMatches:(NSString *)pattern options:(NSRegularExpressionOptions)options withTemplate:(NSString *)templ;
 - (NSString *)stringByReplacingMatches:(NSString *)pattern withTemplate:(NSString *)templ;
 
+- (NSString *)stringByReplacingDictionary:(NSDictionary *)dic;
+
 - (NSString *)fileSystemString;
 
 - (NSString *)stringByAppendingExtension:(NSString *)extension;

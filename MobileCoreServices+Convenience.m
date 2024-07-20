@@ -8,7 +8,7 @@
 
 #import "MobileCoreServices+Convenience.h"
 
-@implementation UTType
+@implementation UTUniformType
 
 + (NSString *)preferredTagWithClass:(CFStringRef)outTagClass fromTag:(NSString *)inTag withClass:(CFStringRef)inTagClass {
 	CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(inTagClass, (__bridge CFStringRef)inTag, NULL);

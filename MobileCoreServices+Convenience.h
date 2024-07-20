@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-@interface UTType : NSObject
+@interface UTUniformType : NSObject
 
 + (NSString *)mimeTypeFromFilenameExtension:(NSString *)filenameExtension;
 

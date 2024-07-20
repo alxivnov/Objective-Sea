@@ -60,7 +60,8 @@
 	return CGPathGetPathBoundingBox(self.CGPath);
 }
 
-#if __has_include(<QuartzCore/QuartzCore.h>)
+//#if __has_include(<QuartzCore/QuartzCore.h>)
+#if TARGET_OS_IOS
 
 - (NSString *)layerLineCap {
 	return self.lineCapStyle == kCGLineCapRound ? kCALineCapRound : self.lineCapStyle == kCGLineCapSquare ? kCALineCapSquare : kCALineCapButt;

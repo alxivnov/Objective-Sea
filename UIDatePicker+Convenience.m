@@ -71,6 +71,8 @@ __synthesize(CGFloat, margin, self.iPad ? GUI_MARGIN_REGULAR : GUI_MARGIN_COMPAC
 		_datePicker = [[UIDatePicker alloc] init];
 		_datePicker.backgroundColor = self.backgroundColor;
 		_datePicker.frame = CGRectMake(0.0, 2.0 * self.margin, self.parent.bounds.size.width, _datePicker.frame.size.height);
+        
+        _datePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
 
 		[_datePicker addTarget:self action:@selector(pickerValueChanged:) forControlEvents:UIControlEventValueChanged];
 
@@ -132,7 +134,7 @@ __synthesize(CGFloat, margin, self.iPad ? GUI_MARGIN_REGULAR : GUI_MARGIN_COMPAC
 @synthesize identifier = _identifier;
 
 - (id)identifier {
-	return self.pane.hidden || !self.pane.tag ? Nil : _identifier;
+	return !_pane || self.pane.hidden || !self.pane.tag ? Nil : _identifier;
 }
 
 - (void)setIdentifier:(id)identifier {

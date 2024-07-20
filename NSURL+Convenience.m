@@ -10,6 +10,8 @@
 
 #define PARAM_0 @"?%@=%@"
 #define PARAM_1 @"&%@=%@"
+#define EMPTY_0 @"?%@"
+#define EMPTY_1 @"&%@"
 
 #define STR_AMPERSAND_CODE @"%26"
 #define STR_SPACE_CODE @"%20"
@@ -70,7 +72,10 @@
 	for (NSString *key in dictionary) {
 		NSString *value = [dictionary[key] description];
 		value = [value stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
-		[url appendFormat:index ? PARAM_1 : PARAM_0, key, value];
+		if (dictionary[key] == [NSNull null])
+			[url appendFormat:index ? EMPTY_1 : EMPTY_0, key];
+		else
+			[url appendFormat:index ? PARAM_1 : PARAM_0, key, value];
 		index++;
 	}
 
@@ -89,10 +94,29 @@
 	return [self.scheme isEqualToString:URL_SCHEME_IPOD_LIBRARY];
 }
 
-- (NSURL *)root {
+- (NSURL *)urlToComponent:(NSURLComponent)comp {
 	NSURLComponents *comps = [NSURLComponents componentsWithURL:self resolvingAgainstBaseURL:YES];
-	NSString *root = [self.absoluteString substringWithRange:NSMakeRange(comps.rangeOfScheme.location, comps.rangeOfHost.location + comps.rangeOfHost.length)];
-	NSURL *url = [NSURL URLWithString:root];
+
+	NSUInteger len = 0;
+	if (comp >= NSURLComponentScheme && comps.rangeOfScheme.length > 0)
+		len = comps.rangeOfScheme.location + comps.rangeOfScheme.length;
+	if (comp >= NSURLComponentUser && comps.rangeOfUser.length > 0)
+		len = comps.rangeOfUser.location + comps.rangeOfUser.length;
+	if (comp >= NSURLComponentPassword && comps.rangeOfPassword.length > 0)
+		len = comps.rangeOfPassword.location + comps.rangeOfPassword.length;
+	if (comp >= NSURLComponentHost && comps.rangeOfHost.length > 0)
+		len = comps.rangeOfHost.location + comps.rangeOfHost.length;
+	if (comp >= NSURLComponentPort && comps.rangeOfPort.length > 0)
+		len = comps.rangeOfPort.location + comps.rangeOfPort.length;
+	if (comp >= NSURLComponentPath && comps.rangeOfPath.length > 0)
+		len = comps.rangeOfPath.location + comps.rangeOfPath.length;
+	if (comp >= NSURLComponentQuery && comps.rangeOfQuery.length > 0)
+		len = comps.rangeOfQuery.location + comps.rangeOfQuery.length;
+	if (comp >= NSURLComponentFragment && comps.rangeOfFragment.length > 0)
+		len = comps.rangeOfFragment.location + comps.rangeOfFragment.length;
+
+	NSString *str = [self.absoluteString substringWithRange:NSMakeRange(comps.rangeOfScheme.location, len)];
+	NSURL *url = [NSURL URLWithString:str];
 	return url;
 }
 
