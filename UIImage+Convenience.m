@@ -181,7 +181,7 @@
 
 	return [UIImage imageWithContentsOfURL:url scale:[url.lastPathComponentWithoutExtension hasSuffix:@"@3x"] ? 3.0 : [url.lastPathComponentWithoutExtension hasSuffix:@"@2x"] ? 2.0 : defaultScale/*1.0*/];
 }
-#elif
+#elif TARGET_OS_MAC
 + (UIImage *)imageWithContentsOfURL:(NSURL *)url {
 	return url ? [[UIImage alloc] initWithContentsOfURL:url] : Nil;
 }
@@ -263,7 +263,7 @@ __static(NSMutableDictionary *, templates, [NSMutableDictionary new])
 
 @end
 
-#if __has_include("UIImageEffects.h")
+#if TARGET_OS_IOS && __has_include("UIImageEffects.h")
 
 #import "UIImageEffects.h"
 

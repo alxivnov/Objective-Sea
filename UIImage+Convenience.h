@@ -83,7 +83,7 @@ typedef enum : NSUInteger {
 
 @end
 
-#if __has_include("UIImageEffects.h")
+#if TARGET_OS_IOS && __has_include("UIImageEffects.h")
 
 @interface UIImage (UIImageEffects)
 

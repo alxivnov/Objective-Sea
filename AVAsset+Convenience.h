@@ -15,8 +15,8 @@
 #define UIImage NSImage
 #endif
 
-#define AVAudioSettingsLinearPCMMono @{ AVFormatIDKey : @(kAudioFormatLinearPCM), AVLinearPCMBitDepthKey : @(16), AVLinearPCMIsFloatKey : @NO, AVNumberOfChannelsKey : @(1) }
-#define AVAudioSettingsLinearPCMStereo @{ AVFormatIDKey : @(kAudioFormatLinearPCM), AVLinearPCMBitDepthKey : @(16), AVLinearPCMIsFloatKey : @NO, AVNumberOfChannelsKey : @(2) }
+#define AVAudioSettingsLinearPCMMono @{ AVFormatIDKey : @(kAudioFormatLinearPCM), AVLinearPCMBitDepthKey : @(32), AVLinearPCMIsFloatKey : @YES, AVNumberOfChannelsKey : @(1) }
+#define AVAudioSettingsLinearPCMStereo @{ AVFormatIDKey : @(kAudioFormatLinearPCM), AVLinearPCMBitDepthKey : @(32), AVLinearPCMIsFloatKey : @YES, AVNumberOfChannelsKey : @(2) }
 #define AVAudioSettingsMPEG4AACMono @{ AVFormatIDKey : @(kAudioFormatMPEG4AAC), AVSampleRateKey : @(44100), AVNumberOfChannelsKey : @(1) }
 #define AVAudioSettingsMPEG4AACStereo @{ AVFormatIDKey : @(kAudioFormatMPEG4AAC), AVSampleRateKey : @(44100), AVNumberOfChannelsKey : @(2) }
 #define AVAudioSettingsMPEG4Layer3Mono @{ AVFormatIDKey : @(kAudioFormatMPEGLayer3), AVSampleRateKey : @(44100), AVNumberOfChannelsKey : @(1) }

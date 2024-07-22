@@ -20,23 +20,23 @@
 }
 
 - (void)startOperation:(CKOperation *)operation allowsCellularAccess:(BOOL)allowsCellularAccess {
-	operation.allowsCellularAccess = allowsCellularAccess;
-	operation.container = self;
+//	operation.allowsCellularAccess = allowsCellularAccess;
+//	operation.container = self;
 	[operation start];
 }
 
-- (CKModifyBadgeOperation *)modifyBadge:(NSUInteger)badgeValue completionHandler:(void (^)(BOOL success))completionHandler {
-	CKModifyBadgeOperation *operation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:badgeValue];
-	operation.modifyBadgeCompletionBlock = ^(NSError *operationError) {
-		if (completionHandler)
-			completionHandler(operationError == Nil);
-
-		[operationError log:@"modifyBadge:"];
-	};
-	[self startOperation:operation allowsCellularAccess:YES];
-
-	return operation;
-}
+//- (CKModifyBadgeOperation *)modifyBadge:(NSUInteger)badgeValue completionHandler:(void (^)(BOOL success))completionHandler {
+//	CKModifyBadgeOperation *operation = [[CKModifyBadgeOperation alloc] initWithBadgeValue:badgeValue];
+//	operation.modifyBadgeCompletionBlock = ^(NSError *operationError) {
+//		if (completionHandler)
+//			completionHandler(operationError == Nil);
+//
+//		[operationError log:@"modifyBadge:"];
+//	};
+//	[self startOperation:operation allowsCellularAccess:YES];
+//
+//	return operation;
+//}
 
 - (CKFetchRecordsOperation *)fetchCurrentUserRecord:(void(^)(CKRecord *record))completionHandler {
 	CKFetchRecordsOperation *operation = [CKFetchRecordsOperation fetchCurrentUserRecordOperation];

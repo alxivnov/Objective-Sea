@@ -18,7 +18,7 @@
 
 - (void)fetchUserRecordID:(void (^)(CKRecordID *recordID))completionHandler;
 
-- (CKModifyBadgeOperation *)modifyBadge:(NSUInteger)badgeValue completionHandler:(void (^)(BOOL success))completionHandler;
+//- (CKModifyBadgeOperation *)modifyBadge:(NSUInteger)badgeValue completionHandler:(void (^)(BOOL success))completionHandler;
 
 - (CKFetchRecordsOperation *)fetchCurrentUserRecord:(void(^)(CKRecord *record))completionHandler;
 
